@@ -1,0 +1,36 @@
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.246.243.248:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 114-560-397
+127.0.0.1 - - [18/Jun/2026 10:52:35] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:52:37] "GET /api/admin/dashboard-stats HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:52:37] "GET /api/admin/dashboard-stats HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:05] "GET /api/admin/users HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:05] "GET /api/admin/users HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:05] "GET /api/admin/users?role=student HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:05] "GET /api/admin/users?role=student HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:10] "GET /api/admin/academics HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:10] "GET /api/admin/academics HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:16] "GET /api/tests HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:17] "GET /api/tests HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:21] "GET /api/admin/finance/revenue HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:21] "GET /api/admin/finance/revenue HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:26] "GET /api/teacher/announcements HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:26] "GET /api/teacher/announcements HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:31] "GET /api/admin/analytics/enrollment HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:31] "GET /api/admin/analytics/attendance HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:31] "GET /api/admin/performance/trends HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:31] "GET /api/admin/analytics/attendance HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:31] "GET /api/admin/performance/trends HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:31] "GET /api/admin/analytics/enrollment HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:38] "GET /api/admin/system/health HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:38] "GET /api/admin/system/health HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:53] "GET /api/admin/dashboard-stats HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:53] "GET /api/admin/dashboard-stats HTTP/1.1" 200 -
+127.0.0.1 - - [18/Jun/2026 10:53:55] "POST /api/auth/logout HTTP/1.1" 200 -

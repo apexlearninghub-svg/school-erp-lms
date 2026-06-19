@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* ─── Color Palette ─────────────────────────────────────── */
+  --color-primary: #0EA5A4;
+  --color-primary-dark: #0d9190;
+  --color-primary-light: #e0f7f7;
+  --color-secondary: #14B8A6;
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-text-light: #94A3B8;
+  --color-border: #E2E8F0;
+  --color-success: #22C55E;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-info: #3B82F6;
+  
+  /* Dark mode */
+  --color-dark-bg: #0F172A;
+  --color-dark-surface: #1E293B;
+  --color-dark-border: #334155;
+  --color-dark-text: #F1F5F9;
+  --color-dark-muted: #94A3B8;
+
+  /* ─── Typography ────────────────────────────────────────── */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+
+  /* ─── Radius ────────────────────────────────────────────── */
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+
+  /* ─── Shadows ───────────────────────────────────────────── */
+  --shadow-glow: 0 0 0 3px rgba(14, 165, 164, 0.2);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-primary: 0 4px 20px rgba(14, 165, 164, 0.4);
+}
+
+
+/* ─── Global Reset ───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dark mode body */
+.dark body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text);
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* ─── Glassmorphism Utilities ────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Input Focus Glow ───────────────────────────────────── */
+.input-focus-glow:focus {
+  box-shadow: var(--shadow-glow);
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* ─── Auth Background ────────────────────────────────────── */
+.auth-bg {
+  background: linear-gradient(135deg, #f0fdfd 0%, #e6f9f9 30%, #f8fafc 60%, #f0f9ff 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-bg::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(14, 165, 164, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.auth-bg::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Dark auth background */
+.dark .auth-bg {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+
+.dark .auth-bg::before {
+  background: radial-gradient(circle, rgba(14, 165, 164, 0.08) 0%, transparent 70%);
+}
+
+/* ─── Password Strength Colors ───────────────────────────── */
+.strength-weak { background-color: #EF4444; }
+.strength-fair { background-color: #F59E0B; }
+.strength-good { background-color: #3B82F6; }
+.strength-strong { background-color: #22C55E; }
+
+/* ─── OTP Input ──────────────────────────────────────────── */
+.otp-input {
+  width: 52px;
+  height: 60px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.otp-input:focus {
+  border-color: #0EA5A4;
+  box-shadow: 0 0 0 3px rgba(14, 165, 164, 0.2);
+  outline: none;
+}
+
+.dark .otp-input {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+
+/* ─── Gradient Text ──────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #0EA5A4, #14B8A6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Role Button Active ─────────────────────────────────── */
+.role-btn-active {
+  background: linear-gradient(135deg, #0EA5A4, #14B8A6);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(14, 165, 164, 0.4);
+}
+
+/* ─── Animated Gradient Button ───────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #0EA5A4, #14B8A6);
+  color: white;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 24px rgba(14, 165, 164, 0.5);
+  transform: translateY(-1px);
+}
+
+/* ─── Success Checkmark Animation ────────────────────────── */
+@keyframes checkmark {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.checkmark-path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: checkmark 0.5s ease-in-out forwards;
+}
+
+/* ─── Floating Label ─────────────────────────────────────── */
+.floating-label {
+  transition: all 0.2s ease;
+}
