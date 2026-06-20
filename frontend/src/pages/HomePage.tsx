@@ -5,7 +5,7 @@ import {
   GraduationCap, Shield, BookOpen, Users,
   ArrowRight, CheckCircle, Award, Sparkles,
   Phone, Mail, MapPin, Send, Star, CheckSquare,
-  MessageCircle
+  MessageCircle, Menu, X
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { useTheme } from '@/context/ThemeContext';
@@ -16,6 +16,7 @@ export default function HomePage() {
   const { isDark } = useTheme();
   const { isAuthenticated, user } = useAuth();
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,10 +100,10 @@ export default function HomePage() {
         transition={{ duration: 0.5 }}
         className="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-[#0F172A]/70 border-b border-[#E2E8F0] dark:border-[#334155]"
       >
-        <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <img src="/logo.png" alt="Apex Learning Hub Logo" className="w-10 h-10 rounded-xl object-contain shadow-md shadow-[#0EA5A4]/20 bg-white" />
-            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] bg-clip-text text-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <img src="/logo.png" alt="Apex Learning Hub Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain shadow-md shadow-[#0EA5A4]/20 bg-white flex-shrink-0" />
+            <span className="font-extrabold text-base sm:text-xl tracking-tight bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] bg-clip-text text-transparent leading-tight hidden min-[360px]:block whitespace-nowrap">
               Apex Learning Hub
             </span>
           </div>
@@ -115,40 +116,63 @@ export default function HomePage() {
             <Link to="/login" className="hover:text-[#0EA5A4] transition-colors">ERP Connect</Link>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
             <ThemeToggle />
             {isAuthenticated ? (
               <Link
                 to={`/${user?.role}/dashboard`}
-                className="text-sm font-semibold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] px-4 py-2 rounded-xl shadow-lg shadow-[#0EA5A4]/15 transition-all flex items-center gap-2"
+                className="text-xs sm:text-sm font-semibold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl shadow-lg shadow-[#0EA5A4]/15 transition-all flex items-center gap-2 whitespace-nowrap"
               >
                 {user?.avatar ? (
-                  <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-md object-cover" />
+                  <img src={user.avatar} alt="Profile" className="w-5 h-5 sm:w-6 sm:h-6 rounded-md object-cover" />
                 ) : (
-                  <div className="w-6 h-6 rounded-md flex items-center justify-center text-white text-[10px] font-bold bg-white/20">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md flex items-center justify-center text-white text-[9px] sm:text-[10px] font-bold bg-white/20">
                     {user?.full_name?.charAt(0).toUpperCase()}
                   </div>
                 )}
-                <span>{user?.full_name?.split(' ')[0]}'s Dashboard</span>
+                <span className="hidden sm:inline">{user?.full_name?.split(' ')[0]}'s Dashboard</span>
+                <span className="sm:hidden">Dashboard</span>
               </Link>
             ) : (
               <>
                 <Link
                   to="/login"
-                  className="text-sm font-semibold hover:text-[#0EA5A4] transition-colors px-3 py-2"
+                  className="text-xs sm:text-sm font-semibold hover:text-[#0EA5A4] transition-colors px-2 py-1.5 sm:px-3 sm:py-2 whitespace-nowrap"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-semibold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] px-5 py-2.5 rounded-xl shadow-lg shadow-[#0EA5A4]/15 transition-all"
+                  className="text-xs sm:text-sm font-semibold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl shadow-lg shadow-[#0EA5A4]/15 transition-all whitespace-nowrap"
                 >
                   Apply Online
                 </Link>
               </>
             )}
+            
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
+
+        {/* ── Mobile Navigation Menu ── */}
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="md:hidden border-t border-[#E2E8F0] dark:border-[#334155] bg-white dark:bg-[#0F172A] px-6 py-4 space-y-4 shadow-xl"
+          >
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">Home</Link>
+            <Link to="/courses" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">Courses</Link>
+            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">About Us</Link>
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">Contact</Link>
+            <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">ERP Connect</Link>
+          </motion.div>
+        )}
       </motion.header>
 
       {/* ── Hero Section ── */}
@@ -393,15 +417,15 @@ export default function HomePage() {
             <div className="space-y-4 text-sm font-semibold">
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#0EA5A4]" />
-                <span>+1 (555) 234-5678</span>
+                <span>+919421554793</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#0EA5A4]" />
-                <span>support@apexhub.edu</span>
+                <span>apexlearninghub2020@gmail.com</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-[#0EA5A4]" />
-                <span>123 Academic Way, Cityville</span>
+                <span>2nd Floor, 'Guru mauli',<br />Near HP Petrol Pump, Meri - Rasbihari link Road<br />Nashik 422003</span>
               </div>
             </div>
           </div>
