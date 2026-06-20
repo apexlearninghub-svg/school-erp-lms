@@ -37,9 +37,14 @@ def create_app(config_name: str = None):
     migrate.init_app(app, db)
     limiter.init_app(app)
 
+    import re
     # CORS
+    cors_origins = app.config["CORS_ORIGINS"]
+    if isinstance(cors_origins, list):
+        cors_origins.append(re.compile(r"https://.*\.vercel\.app"))
+        
     CORS(app, 
-         origins=app.config["CORS_ORIGINS"],
+         origins=cors_origins,
          supports_credentials=True,
          allow_headers=["Content-Type", "Authorization", "X-CSRF-TOKEN"],
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
