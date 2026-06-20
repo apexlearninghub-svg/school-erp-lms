@@ -151,7 +151,7 @@ export default function LoginPage() {
             <p className="text-xs font-semibold text-[#64748B] dark:text-[#94A3B8] uppercase tracking-widest mb-3">
               Sign in as
             </p>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {ROLES.map((role) => (
                 <motion.button
                   key={role.id}

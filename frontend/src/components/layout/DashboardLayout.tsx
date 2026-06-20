@@ -99,13 +99,13 @@ export function DashboardLayout({ children, title, subtitle }: DashboardLayoutPr
             </button>
 
             {/* Logo */}
-            <div className="flex items-center gap-2.5">
+            <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
               <img src="/logo.png" alt="Apex Learning Hub Logo" className="w-8 h-8 rounded-xl object-contain shrink-0" />
               <span className="font-bold text-[#0F172A] dark:text-white hidden sm:block">Apex Learning Hub</span>
-            </div>
+            </Link>
 
             {/* Role Badge */}
-            <div className={`ml-2 flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-gradient-to-r ${rc.gradient} text-white`}>
+            <div className={`ml-2 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-gradient-to-r ${rc.gradient} text-white`}>
               {rc.icon}
               {rc.label}
             </div>
@@ -124,16 +124,6 @@ export function DashboardLayout({ children, title, subtitle }: DashboardLayoutPr
                   className={`pl-9 pr-4 py-1.5 text-sm rounded-full border transition-colors outline-none focus:ring-2 focus:ring-[#0EA5A4] w-64 ${isDark ? 'bg-[#0F172A] border-[#334155] text-white focus:bg-[#1E293B]' : 'bg-[#F8FAFC] border-[#E2E8F0] focus:bg-white'}`}
                 />
               </div>
-
-              {/* Home Button */}
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={() => navigate('/')}
-                className={`p-2 rounded-xl border transition-all ${isDark ? 'bg-[#1E293B] border-[#334155] hover:border-[#0EA5A4]' : 'bg-white border-[#E2E8F0] hover:border-[#0EA5A4]'}`}
-                title="Back to Home Page"
-              >
-                <Home className="w-4 h-4 text-[#0EA5A4]" />
-              </motion.button>
 
               {/* Theme Toggle */}
               <motion.button
