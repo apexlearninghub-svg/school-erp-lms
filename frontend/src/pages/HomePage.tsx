@@ -202,7 +202,6 @@ export default function HomePage() {
             >
               Smart School System{' '}
               <span className="bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] bg-clip-text text-transparent">
-                Powered by AI
               </span>
             </motion.h1>
 
