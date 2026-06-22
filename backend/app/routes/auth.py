@@ -127,7 +127,7 @@ def register():
         }), 201
     except Exception as e:
         import traceback
-        return jsonify({"error": "CRASH", "traceback": traceback.format_exc()}), 500
+        return jsonify({"error": "CRASH", "traceback": traceback.format_exc()}), 400
 
 
 # ─── Helper for OTP Generation ───────────────────────────────────────────────
