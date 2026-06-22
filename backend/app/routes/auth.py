@@ -115,15 +115,19 @@ def register():
     db.session.add(ev)
     db.session.commit()
     
-    send_otp_email(user.email, otp, user.full_name, "email_verification")
+    try:
+        send_otp_email(user.email, otp, user.full_name, "email_verification")
 
-    log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
+        log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
 
-    return jsonify({
-        "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
-        "user_id": user.id,
-        "email": email
-    }), 201
+        return jsonify({
+            "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
+            "user_id": user.id,
+            "email": email
+        }), 201
+    except Exception as e:
+        import traceback
+        return jsonify({"error": "CRASH", "traceback": traceback.format_exc()}), 500
 
 
 # ─── Helper for OTP Generation ───────────────────────────────────────────────
