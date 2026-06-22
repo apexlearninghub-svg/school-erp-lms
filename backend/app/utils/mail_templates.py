@@ -180,8 +180,19 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
         sender=sender
     )
     
+    import socket
+    
+    mail_password = current_app.config.get("MAIL_PASSWORD")
+    if not mail_password:
+        print(f"SKIPPING EMAIL SEND to {recipient_email} (No MAIL_PASSWORD set). OTP CODE IS: {otp_code}", flush=True)
+        return True
+
     try:
+        # Prevent Render's SMTP block from hanging the server and getting killed by Gunicorn
+        old_timeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(5.0)
         mail.send(msg)
+        socket.setdefaulttimeout(old_timeout)
         print(f"OTP email sent successfully to {recipient_email}. Code: {otp_code}", flush=True)
         return True
     except Exception as e:
