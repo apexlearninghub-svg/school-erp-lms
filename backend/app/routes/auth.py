@@ -116,7 +116,9 @@ def register():
     db.session.commit()
     
     try:
-        send_otp_email(user.email, otp, user.full_name, "email_verification")
+        success, err_msg = send_otp_email(user.email, otp, user.full_name, "email_verification")
+        if not success:
+            raise Exception(err_msg)
 
         log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
 
@@ -127,7 +129,7 @@ def register():
         }), 201
     except Exception as e:
         import traceback
-        return jsonify({"error": "CRASH", "traceback": traceback.format_exc()}), 400
+        return jsonify({"error": f"Email Delivery Failed: {str(e)}", "traceback": traceback.format_exc()}), 400
 
 
 # ─── Helper for OTP Generation ───────────────────────────────────────────────
@@ -157,7 +159,10 @@ def create_otp_token(user, purpose="email_verification"):
     db.session.add(ev)
     db.session.commit()
     
-    send_otp_email(user.email, otp, user.full_name, purpose)
+    success, err_msg = send_otp_email(user.email, otp, user.full_name, purpose)
+    if not success:
+        raise Exception(f"Failed to send email: {err_msg}")
+        
     return otp
 
 
@@ -536,8 +541,11 @@ def resend_otp_route():
     if not user:
         return jsonify({"error": "User not found."}), 404
     
-    otp = create_otp_token(user, purpose="email_verification")
-    return jsonify({"message": "A new OTP code has been sent to your email address.", "dev_otp": otp}), 200
+    try:
+        otp = create_otp_token(user, purpose="email_verification")
+        return jsonify({"message": "A new OTP code has been sent to your email address.", "dev_otp": otp}), 200
+    except Exception as e:
+        return jsonify({"error": f"Email Delivery Failed: {str(e)}"}), 400
 
 # Trigger reload for SMTP env updates
 

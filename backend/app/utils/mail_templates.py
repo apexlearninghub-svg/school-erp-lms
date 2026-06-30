@@ -162,7 +162,7 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
     </html>
     """
 
-def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification") -> bool:
+def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification"):
     """Send generated OTP code to recipient email address using Brevo API."""
     subject = "Verify Your Apex Learning Hub Email" if purpose == "email_verification" else "Reset Your Apex Learning Hub Password"
     html_content = get_otp_html_template(full_name, otp_code, purpose)
@@ -171,11 +171,13 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
     sender_email = current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com")
     
     import requests
+    import os
+    from flask import current_app
     
     brevo_api_key = current_app.config.get("BREVO_API_KEY") or os.environ.get("BREVO_API_KEY")
     if not brevo_api_key:
         print(f"SKIPPING EMAIL SEND to {recipient_email} (No BREVO_API_KEY set). OTP CODE IS: {otp_code}", flush=True)
-        return True
+        return False, "BREVO_API_KEY is not set on the server"
 
     url = "https://api.brevo.com/v3/smtp/email"
     headers = {
@@ -194,8 +196,10 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
         response = requests.post(url, json=payload, headers=headers, timeout=10)
         response.raise_for_status()
         print(f"OTP email sent successfully to {recipient_email} via Brevo. Code: {otp_code}", flush=True)
-        return True
+        return True, ""
     except Exception as e:
-        print(f"FAILED TO SEND EMAIL to {recipient_email} via Brevo: {e}. DEVELOPMENT FALLBACK - OTP CODE IS: {otp_code}", flush=True)
-        # Always return True in development or fallback to server logging so users don't get blocked
-        return True
+        error_msg = str(e)
+        if hasattr(e, 'response') and e.response is not None:
+            error_msg += f" - Response: {e.response.text}"
+        print(f"FAILED TO SEND EMAIL to {recipient_email} via Brevo: {error_msg}. DEVELOPMENT FALLBACK - OTP CODE IS: {otp_code}", flush=True)
+        return False, error_msg
