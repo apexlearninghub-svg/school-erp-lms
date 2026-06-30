@@ -163,39 +163,33 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
     """
 
 def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification") -> bool:
-    """Send generated OTP code to recipient email address."""
+    """Send generated OTP code to recipient email address using Resend API."""
     subject = "Verify Your Apex Learning Hub Email" if purpose == "email_verification" else "Reset Your Apex Learning Hub Password"
     html_content = get_otp_html_template(full_name, otp_code, purpose)
     
-    sender = current_app.config.get("MAIL_DEFAULT_SENDER", "vishalnishad8585@gmail.com")
+    # Resend requires a verified domain to send FROM, but for testing you can use:
+    # onboarding@resend.dev (Note: this only allows sending TO your own email address)
+    sender = "onboarding@resend.dev"
     
-    # Ensure default sender is set correctly
-    if not sender or sender == "noreply@apexhub.edu":
-        sender = "vishalnishad8585@gmail.com"
-        
-    msg = Message(
-        subject=subject,
-        recipients=[recipient_email],
-        html=html_content,
-        sender=sender
-    )
+    import resend
     
-    import socket
-    
-    mail_password = current_app.config.get("MAIL_PASSWORD")
-    if not mail_password:
-        print(f"SKIPPING EMAIL SEND to {recipient_email} (No MAIL_PASSWORD set). OTP CODE IS: {otp_code}", flush=True)
+    resend_api_key = current_app.config.get("RESEND_API_KEY") or os.environ.get("RESEND_API_KEY")
+    if not resend_api_key:
+        print(f"SKIPPING EMAIL SEND to {recipient_email} (No RESEND_API_KEY set). OTP CODE IS: {otp_code}", flush=True)
         return True
 
+    resend.api_key = resend_api_key
+
     try:
-        # Prevent Render's SMTP block from hanging the server and getting killed by Gunicorn
-        old_timeout = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(5.0)  # 5 second timeout
-        mail.send(msg)
-        socket.setdefaulttimeout(old_timeout)
-        print(f"OTP email sent successfully to {recipient_email}. Code: {otp_code}", flush=True)
+        r = resend.Emails.send({
+            "from": sender,
+            "to": recipient_email,
+            "subject": subject,
+            "html": html_content
+        })
+        print(f"OTP email sent successfully to {recipient_email} via Resend. Code: {otp_code}. Response: {r}", flush=True)
         return True
     except Exception as e:
-        print(f"FAILED TO SEND EMAIL to {recipient_email}: {e}. DEVELOPMENT FALLBACK - OTP CODE IS: {otp_code}", flush=True)
+        print(f"FAILED TO SEND EMAIL to {recipient_email} via Resend: {e}. DEVELOPMENT FALLBACK - OTP CODE IS: {otp_code}", flush=True)
         # Always return True in development or fallback to server logging so users don't get blocked
         return True
