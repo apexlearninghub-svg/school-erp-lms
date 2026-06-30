@@ -164,15 +164,15 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
 
 def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification"):
     """Send generated OTP code to recipient email address using Brevo API."""
+    import requests
+    import os
+    from flask import current_app
+
     subject = "Verify Your Apex Learning Hub Email" if purpose == "email_verification" else "Reset Your Apex Learning Hub Password"
     html_content = get_otp_html_template(full_name, otp_code, purpose)
     
     # Brevo allows sending from the email you registered with
     sender_email = current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com")
-    
-    import requests
-    import os
-    from flask import current_app
     
     brevo_api_key = current_app.config.get("BREVO_API_KEY") or os.environ.get("BREVO_API_KEY")
     if not brevo_api_key:
