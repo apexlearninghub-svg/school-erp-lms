@@ -55,7 +55,7 @@ class Config:
     # Rate limiting
     RATELIMIT_DEFAULT = "10000 per hour"
     RATELIMIT_STORAGE_URI = os.environ.get("REDIS_URL", "memory://")
-    RATELIMIT_ENABLED = True
+    RATELIMIT_ENABLED = False
 
     # File uploads
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
