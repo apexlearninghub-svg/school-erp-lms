@@ -3,8 +3,58 @@
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
- * Running on http://10.246.243.248:5000
+ * Running on http://10.161.43.248:5000
 Press CTRL+C to quit
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 114-560-397
+ * Detected change in 'C:\\Users\\LOQ\\OneDrive\\Desktop\\demo tester 1\\backend\\app\\routes\\auth.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 114-560-397
+send: 'ehlo [10.161.43.248]\r\n'
+reply: b'250-smtp.gmail.com at your service, [2409:40e3:4076:7149:18bb:d545:4717:ba58]\r\n'
+reply: b'250-SIZE 35882577\r\n'
+reply: b'250-8BITMIME\r\n'
+reply: b'250-STARTTLS\r\n'
+reply: b'250-ENHANCEDSTATUSCODES\r\n'
+reply: b'250-PIPELINING\r\n'
+reply: b'250-CHUNKING\r\n'
+reply: b'250 SMTPUTF8\r\n'
+reply: retcode (250); Msg: b'smtp.gmail.com at your service, [2409:40e3:4076:7149:18bb:d545:4717:ba58]\nSIZE 35882577\n8BITMIME\nSTARTTLS\nENHANCEDSTATUSCODES\nPIPELINING\nCHUNKING\nSMTPUTF8'
+send: 'STARTTLS\r\n'
+reply: b'220 2.0.0 Ready to start TLS\r\n'
+reply: retcode (220); Msg: b'2.0.0 Ready to start TLS'
+send: 'ehlo [10.161.43.248]\r\n'
+reply: b'250-smtp.gmail.com at your service, [2409:40e3:4076:7149:18bb:d545:4717:ba58]\r\n'
+reply: b'250-SIZE 35882577\r\n'
+reply: b'250-8BITMIME\r\n'
+reply: b'250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH\r\n'
+reply: b'250-ENHANCEDSTATUSCODES\r\n'
+reply: b'250-PIPELINING\r\n'
+reply: b'250-CHUNKING\r\n'
+reply: b'250 SMTPUTF8\r\n'
+reply: retcode (250); Msg: b'smtp.gmail.com at your service, [2409:40e3:4076:7149:18bb:d545:4717:ba58]\nSIZE 35882577\n8BITMIME\nAUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH\nENHANCEDSTATUSCODES\nPIPELINING\nCHUNKING\nSMTPUTF8'
+send: 'AUTH PLAIN AGFwZXhsZWFybmluZ2h1YjIwMjBAZ21haWwuY29tAG50enV5amFib2hhYnNvaWU=\r\n'
+reply: b'235 2.7.0 Accepted\r\n'
+reply: retcode (235); Msg: b'2.7.0 Accepted'
+send: 'mail from:<apexlearninghub2020@gmail.com> size=6230\r\n'
+reply: b'250 2.1.0 OK 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp\r\n'
+reply: retcode (250); Msg: b'2.1.0 OK 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp'
+send: 'rcpt to:<nvjdkbdpsks@gmail.com>\r\n'
+reply: b'250 2.1.5 OK 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp\r\n'
+reply: retcode (250); Msg: b'2.1.5 OK 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp'
+send: 'data\r\n'
+reply: b'354 Go ahead 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp\r\n'
+reply: retcode (354); Msg: b'Go ahead 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp'
+data: (354, b'Go ahead 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp')
+send: b'Content-Type: multipart/mixed; boundary="===============1711202068125559260=="\r\nMIME-Version: 1.0\r\nSubject: Verify Your Apex Learning Hub Email\r\nFrom: apexlearninghub2020@gmail.com\r\nTo: nvjdkbdpsks@gmail.com\r\nDate: Fri, 26 Jun 2026 09:28:18 +0530\r\nMessage-ID: <178244629581.13136.1365291477341965138@LAPTOP-D3BD3MJ2>\r\n\r\n--===============1711202068125559260==\r\nContent-Type: multipart/alternative;\r\n boundary="===============6464015385879267543=="\r\nMIME-Version: 1.0\r\n\r\n--===============6464015385879267543==\r\nContent-Type: text/plain; charset="utf-8"\r\nMIME-Version: 1.0\r\nContent-Transfer-Encoding: 7bit\r\n\r\n\r\n--===============6464015385879267543==\r\nContent-Type: text/html; charset="utf-8"\r\nMIME-Version: 1.0\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\r\n    <!DOCTYPE html>\r\n    <html>\r\n    <head>\r\n        <meta charset="utf-8">\r\n        <meta name="viewport" content="width=device-width, initial-scale=1.0">\r\n        <title>Verify Your Email Address</title>\r\n        <style>\r\n            body {\r\n                font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;\r\n                background-color: #f8fafc;\r\n                margin: 0;\r\n                padding: 0;\r\n                -webkit-font-smoothing: antialiased;\r\n            }\r\n            .wrapper {\r\n                width: 100%;\r\n                table-layout: fixed;\r\n                background-color: #f8fafc;\r\n                padding: 40px 0;\r\n            }\r\n            .container {\r\n                max-width: 600px;\r\n                margin: 0 auto;\r\n                background-color: #ffffff;\r\n                border-radius: 16px;\r\n                overflow: hidden;\r\n                box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);\r\n                border: 1px solid #e2e8f0;\r\n            }\r\n            .header {\r\n                background: linear-gradient(135deg, #0EA5A4, #14B8A6);\r\n                padding: 40px 20px;\r\n                text-align: center;\r\n            }\r\n            .header h1 {\r\n                color: #ffffff;\r\n                margin: 0;\r\n                font-size: 26px;\r\n                font-weight: 800;\r\n                letter-spacing: -0.5px;\r\n            }\r\n            .logo {\r\n                width: 50px;\r\n                height: 50px;\r\n                background-color: rgba(255, 255, 255, 0.2);\r\n                border-radius: 12px;\r\n                display: inline-flex;\r\n                align-items: center;\r\n                justify-content: center;\r\n                color: #ffffff;\r\n                font-size: 24px;\r\n                font-weight: 900;\r\n                margin-bottom: 15px;\r\n                border: 1px solid rgba(255, 255, 255, 0.4);\r\n            }\r\n            .content {\r\n                padding: 40px 30px;\r\n                color: #334155;\r\n                line-height: 1.6;\r\n            }\r\n            .content h2 {\r\n                color: #0f172a;\r\n                font-size: 20px;\r\n                margin-top: 0;\r\n                font-weight: 700;\r\n            }\r\n            .otp-container {\r\n                background-color: #f1f5f9;\r\n                border: 1px solid #e2e8f0;\r\n                border-radius: 12px;\r\n                padding: 24px;\r\n                text-align: center;\r\n                margin: 30px 0;\r\n            }\r\n            .otp-code {\r\n                font-family: \'Courier New\', Courier, monospace;\r\n                font-size: 38px;\r\n                font-weight: 900;\r\n                color: #0EA5A4;\r\n                letter-spacing: 6px;\r\n                margin: 0;\r\n            }\r\n            .expiry-note {\r\n                font-size: 13px;\r\n                color: #64748b;\r\n                margin-top: 10px;\r\n                font-weight: 600;\r\n            }\r\n            .footer {\r\n                background-color: #f8fafc;\r\n                padding: 24px 30px;\r\n                text-align: center;\r\n                border-top: 1px solid #e2e8f0;\r\n                font-size: 12px;\r\n                color: #94a3b8;\r\n            }\r\n            .footer p {\r\n                margin: 5px 0;\r\n            }\r\n            .notice {\r\n                font-size: 13px;\r\n                color: #ef4444;\r\n                background-color: #fef2f2;\r\n                border: 1px solid #fecaca;\r\n                padding: 12px;\r\n                border-radius: 8px;\r\n                margin-top: 20px;\r\n            }\r\n        </style>\r\n    </head>\r\n    <body>\r\n        <div class="wrapper">\r\n            <div class="container">\r\n                <div class="header">\r\n                    <div class="logo"><img src="http://localhost:5173/logo.png" alt="ALH" style="width:100%;height:100%;object-fit:contain;border-radius:12px;"/></div>\r\n                    <h1>Apex Learning Hub</h1>\r\n                </div>\r\n                <div class="content">\r\n                    <h2>Hello ankita sharma,</h2>\r\n                    <p>Thank you for registering with Apex Learning Hub. To complete your sign-up and activate your account, please verify your email address using the secure 6-digit One-Time Password (OTP) below:</p>\r\n                    \r\n                    <div class="otp-container">\r\n                        <div class="otp-code">644149</div>\r\n                        <div class="expiry-note">This code expires in 5 minutes.</div>\r\n                    </div>\r\n                    \r\n                    <p>Enter this OTP on the verification screen to activate your account.</p>\r\n                    <p>If you did not initiate this request, please ignore this email or contact the school IT support desk immediately.</p>\r\n                    \r\n                    <div class="notice">\r\n                        <strong>Security Notice:</strong> Never share this OTP code with anyone, including Apex Learning Hub administration or staff.\r\n                    </div>\r\n                </div>\r\n                <div class="footer">\r\n                    <p>&copy; localhost:5173 \xc2\xb7 Apex Learning Hub platform</p>\r\n                    <p>This is an automated system notification. Please do not reply to this email.</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </body>\r\n    </html>\r\n    \r\n--===============6464015385879267543==--\r\n\r\n--===============1711202068125559260==--\r\n.\r\n'
+reply: b'250 2.0.0 OK  1782446299 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp\r\n'
+reply: retcode (250); Msg: b'2.0.0 OK  1782446299 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp'
+data: (250, b'2.0.0 OK  1782446299 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp')
+send: 'quit\r\n'
+reply: b'221 2.0.0 closing connection 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp\r\n'
+reply: retcode (221); Msg: b'2.0.0 closing connection 5a478bee46e88-30c7c9e220bsm13660605eec.21 - gsmtp'
+OTP email sent successfully to nvjdkbdpsks@gmail.com. Code: 644149
+127.0.0.1 - - [26/Jun/2026 09:28:30] "POST /api/auth/resend-otp HTTP/1.1" 200 -
+127.0.0.1 - - [26/Jun/2026 09:31:41] "POST /api/auth/verify-otp HTTP/1.1" 200 -

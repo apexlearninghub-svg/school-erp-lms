@@ -190,7 +190,7 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
     try:
         # Prevent Render's SMTP block from hanging the server and getting killed by Gunicorn
         old_timeout = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(30.0)
+        socket.setdefaulttimeout(5.0)  # 5 second timeout
         mail.send(msg)
         socket.setdefaulttimeout(old_timeout)
         print(f"OTP email sent successfully to {recipient_email}. Code: {otp_code}", flush=True)
