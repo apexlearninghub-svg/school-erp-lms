@@ -262,7 +262,7 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
 
               <button onClick={handlePublishTest} disabled={isPublishing || selectedClasses.length === 0} className="w-full py-3 bg-[#0EA5A4] text-white font-bold rounded-xl flex justify-center items-center gap-2 disabled:opacity-50">
                 {isPublishing ? <Loader2 className="animate-spin" /> : <CheckSquare />}
-                Publish to Students
+                Confirm Publish
               </button>
             </div>
           </div>
