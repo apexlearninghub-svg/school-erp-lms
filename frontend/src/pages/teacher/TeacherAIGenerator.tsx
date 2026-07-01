@@ -43,7 +43,7 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
     const compoundPrompt = sourceFile ? `[Source Material: ${sourceFile.name}]. ${aiPrompt}` : aiPrompt;
 
     try {
-      const response = await api.post('/tests/generate-test', {
+      const response = await api.post('/generate-test', {
         title: testTitle,
         subject: testSubject,
         difficulty,
