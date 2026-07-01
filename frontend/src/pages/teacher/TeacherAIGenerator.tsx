@@ -58,7 +58,12 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
       setCurrentDraft(response.data.test);
       toast.success('AI MCQ Test generated successfully!');
     } catch (err: any) {
-      toast.error(err?.response?.data?.error || 'AI generation failed.');
+      const errorData = err?.response?.data;
+      if (errorData?.detail || errorData?.fix) {
+        toast.error(`${errorData.detail}\n${errorData.fix || ''}`.trim(), { duration: 6000 });
+      } else {
+        toast.error(errorData?.error || 'AI generation failed.');
+      }
     } finally {
       setIsGenerating(false);
     }
