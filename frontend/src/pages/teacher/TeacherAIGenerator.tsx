@@ -74,8 +74,8 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
     
     setIsPublishing(true);
     try {
-      await api.put(`/tests/${currentDraft.id}/edit`, currentDraft);
-      await api.post(`/tests/${currentDraft.id}/publish`, { target_classes: selectedClasses });
+      await api.put(`/tests/${currentDraft.id}`, currentDraft);
+      await api.post('/publish-test', { test_id: currentDraft.id, classes: selectedClasses });
       
       toast.success('Exam successfully published!');
       setCurrentDraft(null);
