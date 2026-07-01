@@ -182,17 +182,22 @@ def generate_mcq_test(subject, prompt_text, difficulty="medium", count=10):
                 time.sleep(2)
 
         except RuntimeError as e:
+            error_str = str(e)
+            if "API key not valid" in error_str or "Quota exceeded" in error_str or "HTTP 400" in error_str:
+                current_app.logger.warning(f"Gemini API failed with auth/quota error. Falling back to mock questions. Error: {error_str}")
+                return generate_mock_questions(subject, count)
+
             # If a batch fails but we already have some questions, use them
             if all_questions:
                 current_app.logger.warning(
                     f"Batch {batch_num} failed but already have {len(all_questions)} questions. "
-                    f"Returning partial result. Error: {str(e)}"
+                    f"Returning partial result. Error: {error_str}"
                 )
                 break
             else:
                 # First batch failed — nothing to return
                 raise RuntimeError(
-                    f"AI question generation failed. {str(e)}"
+                    f"AI question generation failed. {error_str}"
                 )
 
     if not all_questions:
