@@ -29,7 +29,7 @@ export function AdminFinance() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <DollarSign className="text-[#0EA5A4]" /> Finance & Fees
+            <DollarSign className="text-[#862fe7]" /> Finance & Fees
           </h2>
           <p className="text-slate-500 text-sm mt-1">Track revenue, fee collections, and outstanding payments</p>
         </div>
@@ -40,12 +40,12 @@ export function AdminFinance() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
         </div>
       ) : (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] rounded-3xl p-6 shadow-lg shadow-teal-500/20 text-white relative overflow-hidden">
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#862fe7] to-[#ad6df4] rounded-3xl p-6 shadow-lg shadow-violet-500/20 text-white relative overflow-hidden">
               <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
               <p className="text-teal-100 font-bold text-sm uppercase tracking-wider mb-2 relative z-10">Total Collected</p>
               <h3 className="text-4xl font-black mb-1 relative z-10">${data?.total_collected?.toLocaleString() || 0}</h3>
@@ -106,7 +106,7 @@ export function AdminFinance() {
             <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm flex flex-col">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-bold text-lg text-slate-800 dark:text-white">Recent Transactions</h3>
-                <button className="text-sm font-bold text-[#0EA5A4] hover:underline">View All</button>
+                <button className="text-sm font-bold text-[#862fe7] hover:underline">View All</button>
               </div>
               
               <div className="flex-1 flex flex-col justify-center text-center p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl bg-slate-50/50 dark:bg-slate-900/30">

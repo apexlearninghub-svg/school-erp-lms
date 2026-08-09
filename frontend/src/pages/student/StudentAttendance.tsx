@@ -76,7 +76,7 @@ export function StudentAttendance() {
     return cells;
   };
 
-  if (isLoading) return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" /></div>;
+  if (isLoading) return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>;
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
@@ -101,7 +101,7 @@ export function StudentAttendance() {
           <p className="text-4xl font-black text-yellow-500">{summary?.late || 0}</p>
         </motion.div>
         
-        <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] p-6 rounded-3xl shadow-lg shadow-[#0EA5A4]/20 relative overflow-hidden text-white group flex flex-col justify-center">
+        <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#862fe7] to-[#ad6df4] p-6 rounded-3xl shadow-lg shadow-[#862fe7]/20 relative overflow-hidden text-white group flex flex-col justify-center">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mt-10 -mr-10"></div>
           <p className="text-sm font-bold text-white/80 uppercase tracking-wider mb-1">Overall</p>
           <div className="flex items-baseline gap-1">
@@ -117,7 +117,7 @@ export function StudentAttendance() {
         <motion.div variants={itemVariants} className="lg:col-span-2 bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-              <CalendarIcon className="text-[#0EA5A4]" /> 
+              <CalendarIcon className="text-[#862fe7]" /> 
               {today.toLocaleDateString('default', { month: 'long', year: 'numeric' })}
             </h3>
             <div className="flex gap-4 text-xs font-bold text-slate-500">

@@ -130,7 +130,7 @@ export function StudentAnalytics({ resultsList, analyticsData }: AnalyticsProps)
 
             doc.save("Analytics_Report.pdf");
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-[#0EA5A4] hover:bg-[#14B8A6] text-white rounded-xl text-sm font-semibold shadow-md shadow-[#0EA5A4]/20 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-[#862fe7] hover:bg-[#ad6df4] text-white rounded-xl text-sm font-semibold shadow-md shadow-[#862fe7]/20 transition-all"
         >
           <Award className="w-4 h-4" /> Export Report
         </button>

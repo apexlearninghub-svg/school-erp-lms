@@ -10,12 +10,12 @@ export default function ContactPage() {
         
         {/* Header */}
         <div className="mb-12 flex flex-col items-center text-center">
-          <Link to="/" className="self-start mb-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#0EA5A4] transition-colors">
+          <Link to="/" className="self-start mb-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#862fe7] transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
           
-          <div className="p-4 bg-white dark:bg-[#1E293B] rounded-2xl shadow-lg shadow-[#0EA5A4]/10 mb-6 inline-block">
-            <Mail className="w-10 h-10 text-[#0EA5A4]" />
+          <div className="p-4 bg-white dark:bg-[#1E293B] rounded-2xl shadow-lg shadow-[#862fe7]/10 mb-6 inline-block">
+            <Mail className="w-10 h-10 text-[#862fe7]" />
           </div>
           <h1 className="text-4xl font-extrabold text-[#0F172A] dark:text-white tracking-tight mb-4">
             Contact Us
@@ -32,8 +32,8 @@ export default function ContactPage() {
               whileHover={{ x: 5 }}
               className="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-start gap-4"
             >
-              <div className="w-12 h-12 bg-[#0EA5A4]/10 rounded-xl flex items-center justify-center shrink-0">
-                <Phone className="w-6 h-6 text-[#0EA5A4]" />
+              <div className="w-12 h-12 bg-[#862fe7]/10 rounded-xl flex items-center justify-center shrink-0">
+                <Phone className="w-6 h-6 text-[#862fe7]" />
               </div>
               <div>
                 <a href="tel:+918928772435"><h3 className="text-lg font-bold text-[#0F172A] dark:text-white mb-1">Phone Number</h3>
@@ -46,8 +46,8 @@ export default function ContactPage() {
               whileHover={{ x: 5 }}
               className="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-start gap-4"
             >
-              <div className="w-12 h-12 bg-[#0EA5A4]/10 rounded-xl flex items-center justify-center shrink-0">
-                <Mail className="w-6 h-6 text-[#0EA5A4]" />
+              <div className="w-12 h-12 bg-[#862fe7]/10 rounded-xl flex items-center justify-center shrink-0">
+                <Mail className="w-6 h-6 text-[#862fe7]" />
               </div>
               <div>
                <a href="mailto:apexlearninghub2020@gmail.com"><h3 className="text-lg font-bold text-[#0F172A] dark:text-white mb-1">Email Address</h3>
@@ -59,8 +59,8 @@ export default function ContactPage() {
               whileHover={{ x: 5 }}
               className="bg-white dark:bg-[#1E293B] p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-start gap-4"
             >
-              <div className="w-12 h-12 bg-[#0EA5A4]/10 rounded-xl flex items-center justify-center shrink-0">
-                <MapPin className="w-6 h-6 text-[#0EA5A4]" />
+              <div className="w-12 h-12 bg-[#862fe7]/10 rounded-xl flex items-center justify-center shrink-0">
+                <MapPin className="w-6 h-6 text-[#862fe7]" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-[#0F172A] dark:text-white mb-1">Office Address</h3>
@@ -79,17 +79,17 @@ export default function ContactPage() {
             <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
               <div>
                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
-                <input type="text" className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-[#0EA5A4] transition-colors text-slate-800 dark:text-white" placeholder="John Doe" />
+                <input type="text" className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-[#862fe7] transition-colors text-slate-800 dark:text-white" placeholder="John Doe" />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
-                <input type="email" className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-[#0EA5A4] transition-colors text-slate-800 dark:text-white" placeholder="john@example.com" />
+                <input type="email" className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-[#862fe7] transition-colors text-slate-800 dark:text-white" placeholder="john@example.com" />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Message</label>
-                <textarea rows={4} className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-[#0EA5A4] transition-colors text-slate-800 dark:text-white resize-none" placeholder="How can we help you?"></textarea>
+                <textarea rows={4} className="w-full bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-[#862fe7] transition-colors text-slate-800 dark:text-white resize-none" placeholder="How can we help you?"></textarea>
               </div>
-              <button className="w-full flex items-center justify-center gap-2 py-3 bg-[#0EA5A4] hover:bg-[#14B8A6] text-white font-bold rounded-xl shadow-lg shadow-[#0EA5A4]/20 transition-all">
+              <button className="w-full flex items-center justify-center gap-2 py-3 bg-[#862fe7] hover:bg-[#ad6df4] text-white font-bold rounded-xl shadow-lg shadow-[#862fe7]/20 transition-all">
                 <Send className="w-4 h-4" /> Send Message
               </button>
             </form>

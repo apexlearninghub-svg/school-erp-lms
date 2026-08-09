@@ -71,12 +71,12 @@ export function StudentCalendar() {
           key={i} 
           onClick={() => setSelectedDate(i)}
           className={`p-2 min-h-[80px] rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-col
-            ${isToday ? 'border-[#0EA5A4] bg-[#0EA5A4]/5' : 'border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-500'}
-            ${isSelected ? 'ring-2 ring-[#0EA5A4] ring-offset-2 dark:ring-offset-slate-900' : ''}
+            ${isToday ? 'border-[#862fe7] bg-[#862fe7]/5' : 'border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-500'}
+            ${isSelected ? 'ring-2 ring-[#862fe7] ring-offset-2 dark:ring-offset-slate-900' : ''}
           `}
         >
-          {isToday && <div className="absolute top-0 right-0 w-8 h-8 bg-[#0EA5A4] rounded-bl-full -mr-2 -mt-2"></div>}
-          <span className={`text-sm font-bold z-10 ${isToday ? 'text-[#0EA5A4]' : 'text-slate-700 dark:text-slate-300'}`}>{i}</span>
+          {isToday && <div className="absolute top-0 right-0 w-8 h-8 bg-[#862fe7] rounded-bl-full -mr-2 -mt-2"></div>}
+          <span className={`text-sm font-bold z-10 ${isToday ? 'text-[#862fe7]' : 'text-slate-700 dark:text-slate-300'}`}>{i}</span>
           
           <div className="mt-auto space-y-1">
             {hasEvents && eventsByDate[i].slice(0, 2).map((e, idx) => (
@@ -100,7 +100,7 @@ export function StudentCalendar() {
       <div className="xl:col-span-2 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm flex flex-col overflow-y-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-[#0EA5A4]/10 text-[#0EA5A4] rounded-xl"><CalendarIcon size={24} /></div>
+            <div className="p-3 bg-[#862fe7]/10 text-[#862fe7] rounded-xl"><CalendarIcon size={24} /></div>
             <div>
               <h2 className="text-2xl font-black text-slate-800 dark:text-white">{monthNames[month]} {year}</h2>
               <p className="text-slate-500 text-sm font-medium">Academic Calendar & Schedule</p>

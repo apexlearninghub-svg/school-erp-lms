@@ -259,7 +259,7 @@ export default function StudentDashboard() {
         {/* Exam Header */}
         <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 mb-6 shadow-sm">
           <div>
-            <span className="text-[10px] font-bold text-[#0EA5A4] uppercase tracking-widest bg-teal-50 dark:bg-teal-950/20 px-2.5 py-1 rounded-md">
+            <span className="text-[10px] font-bold text-[#862fe7] uppercase tracking-widest bg-teal-50 dark:bg-teal-950/20 px-2.5 py-1 rounded-md">
               {activeTest.subject} Exam
             </span>
             <h3 className="font-bold text-lg text-slate-800 dark:text-white mt-1.5">{activeTest.title}</h3>
@@ -285,7 +285,7 @@ export default function StudentDashboard() {
           {/* Question Grid Navigation (Side Column) */}
           <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-              <ListOrdered className="w-5 h-5 text-[#0EA5A4]" />
+              <ListOrdered className="w-5 h-5 text-[#862fe7]" />
               <h4 className="font-bold text-sm text-slate-800 dark:text-white">Question Navigation</h4>
             </div>
 
@@ -297,7 +297,7 @@ export default function StudentDashboard() {
 
                 let btnClass = 'bg-slate-50 text-slate-500 border border-slate-200 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800';
                 if (isCurrent) {
-                  btnClass = 'bg-[#0EA5A4] text-white border border-[#0EA5A4] shadow-md shadow-[#0EA5A4]/10';
+                  btnClass = 'bg-[#862fe7] text-white border border-[#862fe7] shadow-md shadow-[#862fe7]/10';
                 } else if (isMarked) {
                   btnClass = 'bg-purple-50 text-purple-600 border border-purple-200 dark:bg-purple-950/20 dark:text-purple-400 dark:border-purple-900/40';
                 } else if (isAnswered) {
@@ -319,7 +319,7 @@ export default function StudentDashboard() {
             {/* Legend */}
             <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-2 text-xs">
               <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-                <span className="w-3.5 h-3.5 rounded bg-[#0EA5A4]" /> Current Question
+                <span className="w-3.5 h-3.5 rounded bg-[#862fe7]" /> Current Question
               </div>
               <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
                 <span className="w-3.5 h-3.5 rounded bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200" /> Answered
@@ -362,13 +362,13 @@ export default function StudentDashboard() {
                         onClick={() => handleOptionSelect(currentQuestion.id, opt.key)}
                         className={`w-full p-4 rounded-xl border text-left text-sm flex gap-3 items-center transition-all ${
                           isSelected
-                            ? 'border-[#0EA5A4] bg-teal-50/20 dark:bg-teal-950/10 text-slate-800 dark:text-white font-semibold shadow-sm'
+                            ? 'border-[#862fe7] bg-teal-50/20 dark:bg-teal-950/10 text-slate-800 dark:text-white font-semibold shadow-sm'
                             : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 bg-slate-50/50 dark:bg-slate-900/40 text-slate-600 dark:text-slate-350'
                         }`}
                       >
                         <span className={`w-5 h-5 rounded-full border flex items-center justify-center text-xs font-bold ${
                           isSelected
-                            ? 'border-[#0EA5A4] bg-[#0EA5A4] text-white'
+                            ? 'border-[#862fe7] bg-[#862fe7] text-white'
                             : 'border-slate-300 dark:border-slate-700 text-slate-400'
                         }`}>
                           {opt.key}
@@ -407,7 +407,7 @@ export default function StudentDashboard() {
                 <button
                   disabled={!hasNext}
                   onClick={() => setCurrentQuestionIdx(prev => prev + 1)}
-                  className="w-1/2 sm:w-auto flex items-center justify-center gap-1 px-4 py-2 bg-[#0EA5A4] text-white rounded-xl text-xs font-bold hover:bg-[#0EA5A4]/90 disabled:opacity-40 transition-colors"
+                  className="w-1/2 sm:w-auto flex items-center justify-center gap-1 px-4 py-2 bg-[#862fe7] text-white rounded-xl text-xs font-bold hover:bg-[#862fe7]/90 disabled:opacity-40 transition-colors"
                 >
                   Next <ChevronRight className="w-4 h-4" />
                 </button>
@@ -436,43 +436,81 @@ export default function StudentDashboard() {
     { id: 'profile', label: 'Profile', icon: UserIcon },
   ];
 
+  const NAV_GROUPS_STUDENT = [
+    {
+      label: 'Learning',
+      items: [
+        { id: 'overview',      label: 'Dashboard',        icon: LayoutDashboard },
+        { id: 'available',     label: 'Assigned Exams',   icon: CheckSquare },
+        { id: 'results',       label: 'My Results',       icon: Award },
+        { id: 'analytics',     label: 'Analytics',        icon: BarChart3 },
+      ],
+    },
+    {
+      label: 'Study',
+      items: [
+        { id: 'homework',      label: 'Homework',         icon: ClipboardList },
+        { id: 'materials',     label: 'Study Materials',  icon: Archive },
+        { id: 'calendar',      label: 'Calendar',         icon: CalendarIcon },
+        { id: 'attendance',    label: 'Attendance',       icon: CheckCircle2 },
+      ],
+    },
+    {
+      label: 'Social',
+      items: [
+        { id: 'leaderboard',   label: 'Leaderboard',      icon: Award },
+        { id: 'ai',            label: 'AI Assistant',     icon: Bot },
+        { id: 'notifications', label: 'Notifications',    icon: Bell },
+        { id: 'profile',       label: 'Profile',          icon: UserIcon },
+      ],
+    },
+  ];
+
   return (
     <DashboardLayout
       title={`Hello, ${user?.full_name?.split(' ')[0]} 🎓`}
-      subtitle="Your comprehensive enterprise learning dashboard"
+      subtitle="Your comprehensive learning dashboard"
     >
       <div className="flex flex-col lg:flex-row gap-6 mt-2 relative">
         
-        {/* Modern Sidebar inside Dashboard */}
-        <div className="lg:w-64 shrink-0 flex flex-col gap-2">
-          <div className="bg-white dark:bg-[#1E293B] rounded-2xl border border-slate-100 dark:border-slate-800 p-3 shadow-sm sticky top-6">
-            <nav className="space-y-1">
-              {SIDEBAR_TABS.map((tab) => {
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => {
-                      setActiveTab(tab.id);
-                      setSelectedInstructionTest(null);
-                    }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all relative
-                      ${isActive 
-                        ? 'text-white bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] shadow-md shadow-[#0EA5A4]/20' 
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                      }
-                    `}
-                  >
-                    <tab.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                    {tab.label}
-                    {tab.id === 'notifications' && notifications.filter(n => !n.is_read).length > 0 && (
-                      <span className="absolute right-4 w-5 h-5 bg-rose-500 text-white text-[10px] flex items-center justify-center rounded-full">
-                        {notifications.filter(n => !n.is_read).length}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+        {/* Premium Sidebar */}
+        <div className="lg:w-64 shrink-0">
+          <div className="bg-white dark:bg-[#1E293B] rounded-[24px] border border-[#d8e0ea] dark:border-[#334155] overflow-hidden sticky top-6">
+            <nav className="p-3 space-y-4">
+              {NAV_GROUPS_STUDENT.map(group => (
+                <div key={group.label}>
+                  <p className="px-3 text-[10px] font-bold text-[#6b7589] uppercase tracking-widest mb-1">{group.label}</p>
+                  <div className="space-y-0.5">
+                    {group.items.map(tab => {
+                      const isActive = activeTab === tab.id;
+                      const unread = tab.id === 'notifications' ? notifications.filter(n => !n.is_read).length : 0;
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => {
+                            setActiveTab(tab.id);
+                            setSelectedInstructionTest(null);
+                          }}
+                          className={[
+                            'w-full flex items-center gap-3 px-3 py-2.5 rounded-[12px] text-sm font-medium transition-all duration-150 relative',
+                            isActive
+                              ? 'bg-[#ebdafd] text-[#862fe7] dark:bg-[rgba(134,47,231,0.18)] dark:text-[#ad6df4]'
+                              : 'text-[#6b7589] dark:text-[#94A3B8] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] hover:text-[#111827] dark:hover:text-white',
+                          ].join(' ')}
+                        >
+                          <tab.icon className={`w-4.5 h-4.5 shrink-0 ${isActive ? 'text-[#862fe7] dark:text-[#ad6df4]' : 'text-[#6b7589] dark:text-[#94A3B8]'}`} size={18} />
+                          <span className="flex-1 text-left">{tab.label}</span>
+                          {unread > 0 && (
+                            <span className="w-5 h-5 bg-[#862fe7] text-white text-[10px] flex items-center justify-center rounded-full shrink-0">
+                              {unread}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </nav>
           </div>
         </div>
@@ -481,7 +519,7 @@ export default function StudentDashboard() {
         <div className="flex-1 min-w-0">
           {isLoading ? (
             <div className="h-64 flex flex-col items-center justify-center gap-2">
-              <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+              <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
               <p className="text-sm text-slate-500 dark:text-slate-400">Loading student dashboards...</p>
             </div>
           ) : (
@@ -570,7 +608,7 @@ export default function StudentDashboard() {
                               >
                                 <div>
                                   <div className="flex justify-between items-start mb-2">
-                                    <span className="text-[10px] font-bold text-[#0EA5A4] uppercase bg-teal-50 dark:bg-teal-950/20 px-2 py-0.5 rounded-md">
+                                    <span className="text-[10px] font-bold text-[#862fe7] uppercase bg-teal-50 dark:bg-teal-950/20 px-2 py-0.5 rounded-md">
                                       {t.subject}
                                     </span>
                                     <span className="text-xs text-slate-400 font-medium">Difficulty: {t.difficulty}</span>
@@ -605,14 +643,14 @@ export default function StudentDashboard() {
                                           toast.error('Detailed report is being compiled.');
                                         }
                                       }}
-                                      className="flex items-center gap-1 text-xs font-bold text-[#0EA5A4]"
+                                      className="flex items-center gap-1 text-xs font-bold text-[#862fe7]"
                                     >
                                       View Report <ChevronRight className="w-4 h-4" />
                                     </button>
                                   ) : (
                                     <button
                                       onClick={() => setSelectedInstructionTest(t)}
-                                      className="flex items-center gap-1 bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-md shadow-[#0EA5A4]/10"
+                                      className="flex items-center gap-1 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-md shadow-[#862fe7]/10"
                                     >
                                       Start Exam <ArrowRight className="w-4 h-4" />
                                     </button>
@@ -630,7 +668,7 @@ export default function StudentDashboard() {
                         className="bg-white dark:bg-[#1E293B] rounded-2xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm max-w-2xl mx-auto space-y-5"
                       >
                         <div className="border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center gap-2">
-                          <FileText className="w-6 h-6 text-[#0EA5A4]" />
+                          <FileText className="w-6 h-6 text-[#862fe7]" />
                           <div>
                             <h3 className="font-bold text-lg text-slate-850 dark:text-white">Exam Instructions</h3>
                             <p className="text-xs text-slate-450">{selectedInstructionTest.title}</p>
@@ -638,7 +676,7 @@ export default function StudentDashboard() {
                         </div>
 
                         {/* Student Info Box - from database */}
-                        <div className="grid grid-cols-2 gap-3 text-xs bg-[#0EA5A4]/5 border border-[#0EA5A4]/20 p-4 rounded-xl">
+                        <div className="grid grid-cols-2 gap-3 text-xs bg-[#862fe7]/5 border border-[#862fe7]/20 p-4 rounded-xl">
                           <div>
                             <span className="text-slate-400">Student Name:</span>
                             <strong className="block text-slate-800 dark:text-white text-sm mt-0.5">{user?.full_name || '—'}</strong>
@@ -696,7 +734,7 @@ export default function StudentDashboard() {
                           </button>
                           <button
                             onClick={() => handleStartExam(selectedInstructionTest)}
-                            className="flex items-center gap-1 bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-[#0EA5A4]/10"
+                            className="flex items-center gap-1 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-[#862fe7]/10"
                           >
                             Start Test Now <ArrowRight className="w-4 h-4 ml-1" />
                           </button>
@@ -763,14 +801,14 @@ export default function StudentDashboard() {
                           <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
                             {resultsList.map((res) => (
                               <tr key={res.id} className="text-sm text-slate-600 dark:text-slate-350 hover:bg-[#F8FAFC]/50 dark:hover:bg-[#1E293B]/60 transition-colors">
-                                <td className="py-3.5 px-4 font-semibold text-[#0EA5A4] uppercase">
+                                <td className="py-3.5 px-4 font-semibold text-[#862fe7] uppercase">
                                   {res.test_subject || 'General'}
                                 </td>
                                 <td className="py-3.5 px-4 font-semibold text-slate-850 dark:text-white truncate max-w-xs">
                                   {res.test_title || 'Assigned Test'}
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
-                                  <span className="font-bold text-[#0EA5A4]">{res.percentage}%</span>
+                                  <span className="font-bold text-[#862fe7]">{res.percentage}%</span>
                                   <div className="text-[10px] text-slate-400">{res.marks_obtained} marks</div>
                                 </td>
                                 <td className="py-3.5 px-4 text-center">
@@ -830,7 +868,7 @@ export default function StudentDashboard() {
               className="bg-white dark:bg-[#1E293B] rounded-2xl w-full max-w-4xl overflow-hidden shadow-2xl relative z-10 border border-slate-100 dark:border-slate-800 max-h-[85vh] flex flex-col justify-between print:max-h-none print:shadow-none print:border-none print:rounded-none print:w-full print:bg-white print:text-black"
             >
               {/* Modal Header */}
-              <div className="bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] p-5 text-white flex justify-between items-center print:bg-none print:text-black print:border-b print:pb-3">
+              <div className="bg-gradient-to-r from-[#862fe7] to-[#ad6df4] p-5 text-white flex justify-between items-center print:bg-none print:text-black print:border-b print:pb-3">
                 <div>
                   <h4 className="font-bold text-lg print:text-xl">Examination Performance Report</h4>
                   <p className="text-xs text-teal-50 print:text-slate-500">Student score card analysis overview</p>
@@ -856,7 +894,7 @@ export default function StudentDashboard() {
               <div className="p-6 overflow-y-auto space-y-6 flex-1 print:overflow-visible">
                 <div className="text-center space-y-1 pb-4 border-b border-slate-100 dark:border-slate-800 print:text-left">
                   <h5 className="font-bold text-2xl text-slate-850 dark:text-white print:text-xl">{selectedResult.test_title}</h5>
-                  <p className="text-xs font-semibold text-[#0EA5A4] uppercase tracking-wider">{selectedResult.test_subject} Domain</p>
+                  <p className="text-xs font-semibold text-[#862fe7] uppercase tracking-wider">{selectedResult.test_subject} Domain</p>
                   <p className="text-[10px] text-slate-400">Completed at: {selectedResult.completed_at ? new Date(selectedResult.completed_at).toLocaleString() : 'N/A'}</p>
                 </div>
 
@@ -864,7 +902,7 @@ export default function StudentDashboard() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="bg-slate-50 dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-850 text-center">
                     <span className="text-[10px] font-bold text-slate-400 uppercase">Marks Obtained</span>
-                    <strong className="block text-[#0EA5A4] text-2xl mt-1">{selectedResult.marks_obtained}</strong>
+                    <strong className="block text-[#862fe7] text-2xl mt-1">{selectedResult.marks_obtained}</strong>
                     <span className="text-[10px] text-slate-400">out of {selectedResult.total_questions * 1}</span>
                   </div>
 
@@ -983,7 +1021,7 @@ export default function StudentDashboard() {
               <div className="bg-slate-50 dark:bg-slate-900/60 px-6 py-4 flex justify-end gap-2 border-t border-slate-100 dark:border-slate-850 print:hidden">
                 <button
                   onClick={() => setSelectedResult(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold bg-[#0EA5A4] text-white hover:bg-[#0EA5A4]/90 transition-all shadow-md shadow-[#0EA5A4]/10"
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-[#862fe7] text-white hover:bg-[#862fe7]/90 transition-all shadow-md shadow-[#862fe7]/10"
                 >
                   Close
                 </button>

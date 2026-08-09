@@ -53,7 +53,7 @@ export function TeacherExams({ onTabChange }: { onTabChange: (tab: string) => vo
         </div>
         <button
           onClick={() => onTabChange('generate')}
-          className="flex items-center gap-2 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] text-white font-bold px-5 py-2.5 rounded-xl hover:opacity-95 shadow-md shadow-[#0EA5A4]/20 transition-all"
+          className="flex items-center gap-2 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white font-bold px-5 py-2.5 rounded-xl hover:opacity-95 shadow-md shadow-[#862fe7]/20 transition-all"
         >
           <Plus size={18} /> Generate New Test
         </button>
@@ -62,7 +62,7 @@ export function TeacherExams({ onTabChange }: { onTabChange: (tab: string) => vo
       <div className="flex-1 overflow-y-auto pb-6">
         {isLoading ? (
           <div className="flex justify-center items-center h-48">
-            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#0EA5A4] animate-spin"></div>
+            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#862fe7] animate-spin"></div>
           </div>
         ) : tests.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center opacity-70">
@@ -75,7 +75,7 @@ export function TeacherExams({ onTabChange }: { onTabChange: (tab: string) => vo
             {tests.map(test => (
               <motion.div variants={itemVariants} key={test.id} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-lg transition-all flex flex-col">
                 <div className="flex justify-between items-start mb-4">
-                  <span className="px-2.5 py-1 text-xs font-bold uppercase rounded-md bg-[#0EA5A4]/10 text-[#0EA5A4]">
+                  <span className="px-2.5 py-1 text-xs font-bold uppercase rounded-md bg-[#862fe7]/10 text-[#862fe7]">
                     {test.subject}
                   </span>
                   <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${

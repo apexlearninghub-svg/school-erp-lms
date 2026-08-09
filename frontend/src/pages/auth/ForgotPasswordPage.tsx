@@ -46,17 +46,17 @@ function StepIndicator({ current }: { current: Step }) {
     <div className="flex items-center gap-2 mb-7">
       {STEPS.filter(s => s !== 'success').map((step, idx) => (
         <React.Fragment key={step}>
-          <div className={`flex items-center gap-1.5 ${idx <= activeIdx ? 'text-[#0EA5A4]' : 'text-[#94A3B8]'}`}>
+          <div className={`flex items-center gap-1.5 ${idx <= activeIdx ? 'text-[#862fe7]' : 'text-[#94A3B8]'}`}>
             <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-              idx < activeIdx ? 'bg-[#0EA5A4] text-white' :
-              idx === activeIdx ? 'bg-[#0EA5A4] text-white ring-4 ring-[#0EA5A4]/20' :
+              idx < activeIdx ? 'bg-[#862fe7] text-white' :
+              idx === activeIdx ? 'bg-[#862fe7] text-white ring-4 ring-[#862fe7]/20' :
               'bg-[#E2E8F0] dark:bg-[#334155] text-[#94A3B8]'
             }`}>
               {idx < activeIdx ? <CheckCircle2 className="w-3.5 h-3.5" /> : idx + 1}
             </div>
             <span className="text-xs font-medium hidden sm:block">{STEP_LABELS[step]}</span>
           </div>
-          {idx < 1 && <div className={`flex-1 h-px transition-all duration-300 ${idx < activeIdx ? 'bg-[#0EA5A4]' : 'bg-[#E2E8F0] dark:bg-[#334155]'}`} />}
+          {idx < 1 && <div className={`flex-1 h-px transition-all duration-300 ${idx < activeIdx ? 'bg-[#862fe7]' : 'bg-[#E2E8F0] dark:bg-[#334155]'}`} />}
         </React.Fragment>
       ))}
     </div>
@@ -138,7 +138,7 @@ export default function ForgotPasswordPage() {
                   type="email"
                   placeholder="Enter your registered email"
                   className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] outline-none input-focus-glow transition-all
-                    ${emailForm.formState.errors.email ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                    ${emailForm.formState.errors.email ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                 />
               </div>
               {emailForm.formState.errors.email && (
@@ -178,10 +178,10 @@ export default function ForgotPasswordPage() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Enter new password"
                     className={`w-full pl-10 pr-12 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] outline-none input-focus-glow transition-all
-                      ${resetForm.formState.errors.new_password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                      ${resetForm.formState.errors.new_password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0EA5A4]">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#862fe7]">
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
@@ -196,10 +196,10 @@ export default function ForgotPasswordPage() {
                     type={showConfirm ? 'text' : 'password'}
                     placeholder="Repeat new password"
                     className={`w-full pl-10 pr-12 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] outline-none input-focus-glow transition-all
-                      ${resetForm.formState.errors.confirm_password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                      ${resetForm.formState.errors.confirm_password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                   />
                   <button type="button" onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0EA5A4]">
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#862fe7]">
                     {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>

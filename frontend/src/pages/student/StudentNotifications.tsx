@@ -32,7 +32,7 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
     if (t.includes('test') || t.includes('exam')) return <BookOpen className="w-5 h-5 text-blue-500" />;
     if (t.includes('result') || t.includes('score')) return <Award className="w-5 h-5 text-purple-500" />;
     if (t.includes('homework') || t.includes('assignment')) return <ClipboardList className="w-5 h-5 text-orange-500" />;
-    return <Bell className="w-5 h-5 text-[#0EA5A4]" />;
+    return <Bell className="w-5 h-5 text-[#862fe7]" />;
   };
 
   const getTimeAgo = (dateStr: string) => {
@@ -54,7 +54,7 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
       {/* Header */}
       <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/20">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-[#0EA5A4]/10 flex items-center justify-center text-[#0EA5A4]">
+          <div className="w-12 h-12 rounded-2xl bg-[#862fe7]/10 flex items-center justify-center text-[#862fe7]">
             <Bell size={24} />
           </div>
           <div>
@@ -64,7 +64,7 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
         </div>
         <button 
           onClick={onMarkRead}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-[#0EA5A4]/10 hover:text-[#0EA5A4] text-slate-600 dark:text-slate-300 rounded-xl text-sm font-semibold transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-[#862fe7]/10 hover:text-[#862fe7] text-slate-600 dark:text-slate-300 rounded-xl text-sm font-semibold transition-colors"
         >
           <CheckCircle2 size={16} /> Mark all read
         </button>
@@ -78,7 +78,7 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
             onClick={() => setFilter(f as any)}
             className={`flex-1 py-4 text-sm font-semibold capitalize transition-all border-b-2 ${
               filter === f 
-                ? 'border-[#0EA5A4] text-[#0EA5A4] bg-[#0EA5A4]/5' 
+                ? 'border-[#862fe7] text-[#862fe7] bg-[#862fe7]/5' 
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
           >
@@ -103,7 +103,7 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
                       : 'bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-700 opacity-75'}`}
                 >
                   {!notif.is_read && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-gradient-to-b from-[#0EA5A4] to-[#14B8A6] rounded-r-full"></div>
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-gradient-to-b from-[#862fe7] to-[#ad6df4] rounded-r-full"></div>
                   )}
                   
                   <div className="flex items-start gap-4">

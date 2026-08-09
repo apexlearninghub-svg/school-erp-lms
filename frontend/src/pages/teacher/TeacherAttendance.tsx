@@ -82,7 +82,7 @@ export function TeacherAttendance() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <CalendarIcon className="text-[#0EA5A4]" /> Attendance Registry
+            <CalendarIcon className="text-[#862fe7]" /> Attendance Registry
           </h2>
           <p className="text-slate-500 text-sm mt-1">Mark and monitor daily student attendance</p>
         </div>
@@ -110,7 +110,7 @@ export function TeacherAttendance() {
           <button 
             onClick={handleSaveAll}
             disabled={isSaving || students.length === 0}
-            className="flex items-center gap-2 bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors shadow-md shadow-[#0EA5A4]/20 disabled:opacity-50"
+            className="flex items-center gap-2 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors shadow-md shadow-[#862fe7]/20 disabled:opacity-50"
           >
             {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save Register
           </button>
@@ -119,7 +119,7 @@ export function TeacherAttendance() {
         <div className="flex-1 overflow-y-auto p-4">
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
-              <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+              <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
             </div>
           ) : students.length === 0 ? (
             <div className="text-center text-slate-500 mt-10">No students found for this class.</div>

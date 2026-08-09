@@ -25,7 +25,7 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
     { label: 'Average Score', value: `${stats?.average_score || 0}%`, icon: <BarChart3 size={24} />, color: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/20' },
     { label: 'Pending Homework', value: stats?.pending_homework || 0, icon: <Clock size={24} />, color: 'from-orange-500 to-amber-500', shadow: 'shadow-orange-500/20' },
     { label: 'Upcoming Exams', value: stats?.upcoming_exams || 0, icon: <Calendar size={24} />, color: 'from-purple-500 to-fuchsia-600', shadow: 'shadow-purple-500/20' },
-    { label: 'Class Rank', value: stats?.class_rank || 'N/A', icon: <FileText size={24} />, color: 'from-[#0EA5A4] to-[#14B8A6]', shadow: 'shadow-[#0EA5A4]/20' },
+    { label: 'Class Rank', value: stats?.class_rank || 'N/A', icon: <FileText size={24} />, color: 'from-[#862fe7] to-[#ad6df4]', shadow: 'shadow-[#862fe7]/20' },
     { label: 'Fee Status', value: stats?.fee_status || 'Checking', icon: <DollarSign size={24} />, color: stats?.fee_status === 'Paid' ? 'from-emerald-500 to-green-500' : 'from-rose-500 to-pink-500', shadow: 'shadow-rose-500/20' }
   ];
 
@@ -59,7 +59,7 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
           </div>
           
           <div className="flex flex-col items-center mb-6">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40 border-4 border-white dark:border-slate-800 shadow-lg flex items-center justify-center text-3xl font-black text-[#0EA5A4] mb-3">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40 border-4 border-white dark:border-slate-800 shadow-lg flex items-center justify-center text-3xl font-black text-[#862fe7] mb-3">
               {stats?.child_name?.charAt(0) || 'S'}
             </div>
             <h4 className="font-black text-xl text-slate-800 dark:text-white">{stats?.child_name || 'Loading...'}</h4>
@@ -79,7 +79,7 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
             </div>
             <div className="flex justify-between items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50">
               <span className="text-sm font-bold text-slate-500">Session</span>
-              <span className="text-sm font-black text-[#0EA5A4]">2023-2024</span>
+              <span className="text-sm font-black text-[#862fe7]">2023-2024</span>
             </div>
           </div>
           
@@ -106,9 +106,9 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
               { title: 'Message Teacher', icon: <User size={18} />, color: 'bg-blue-50 text-blue-600', tab: 'communication' },
               { title: 'AI Assistant', icon: <AlertCircle size={18} />, color: 'bg-rose-50 text-rose-600', tab: 'ai' }
             ].map((action, i) => (
-              <div key={i} onClick={() => onTabChange(action.tab)} className="cursor-pointer group flex items-center gap-3 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 hover:border-[#0EA5A4]/30 hover:shadow-sm transition-all">
+              <div key={i} onClick={() => onTabChange(action.tab)} className="cursor-pointer group flex items-center gap-3 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 hover:border-[#862fe7]/30 hover:shadow-sm transition-all">
                 <div className={`p-2.5 rounded-xl ${action.color} dark:bg-opacity-20`}>{action.icon}</div>
-                <span className="font-bold text-slate-700 dark:text-slate-300 text-sm group-hover:text-[#0EA5A4] transition-colors">{action.title}</span>
+                <span className="font-bold text-slate-700 dark:text-slate-300 text-sm group-hover:text-[#862fe7] transition-colors">{action.title}</span>
               </div>
             ))}
           </div>

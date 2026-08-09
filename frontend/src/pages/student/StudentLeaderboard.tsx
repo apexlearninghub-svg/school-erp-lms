@@ -40,7 +40,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
   }, []);
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" /></div>;
+    return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>;
   }
 
   // Define badges logic
@@ -63,7 +63,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* My Rank Card */}
-        <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] rounded-3xl p-6 text-white shadow-xl shadow-[#0EA5A4]/20 relative overflow-hidden flex flex-col justify-between">
+        <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#862fe7] to-[#ad6df4] rounded-3xl p-6 text-white shadow-xl shadow-[#862fe7]/20 relative overflow-hidden flex flex-col justify-between">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mt-10 -mr-10"></div>
           
           <div>
@@ -90,7 +90,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
         <motion.div variants={itemVariants} className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-lg text-slate-800 dark:text-white">Achievements & Badges</h3>
-            <span className="bg-[#0EA5A4]/10 text-[#0EA5A4] font-bold px-3 py-1 rounded-full text-sm">
+            <span className="bg-[#862fe7]/10 text-[#862fe7] font-bold px-3 py-1 rounded-full text-sm">
               {badges.filter(b => b.earned).length} / {badges.length} Unlocked
             </span>
           </div>
@@ -164,7 +164,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
                   variants={itemVariants}
                   key={student.student_id} 
                   className={`border-b border-slate-50 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors
-                    ${student.student_id === currentUserId ? 'bg-[#0EA5A4]/5 dark:bg-[#0EA5A4]/10' : ''}
+                    ${student.student_id === currentUserId ? 'bg-[#862fe7]/5 dark:bg-[#862fe7]/10' : ''}
                   `}
                 >
                   <td className="p-4">
@@ -180,7 +180,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
                         {student.student_name.charAt(0)}
                       </div>
                       <div>
-                        <p className={`font-semibold ${student.student_id === currentUserId ? 'text-[#0EA5A4]' : 'text-slate-800 dark:text-white'}`}>
+                        <p className={`font-semibold ${student.student_id === currentUserId ? 'text-[#862fe7]' : 'text-slate-800 dark:text-white'}`}>
                           {student.student_name} {student.student_id === currentUserId && '(You)'}
                         </p>
                         <p className="text-xs text-slate-500">Roll: {student.roll_number || 'N/A'}</p>
@@ -198,7 +198,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
                   </td>
                   <td className="p-4 text-right">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-lg">
-                      <TrendingUp className="w-3 h-3 text-[#0EA5A4]" />
+                      <TrendingUp className="w-3 h-3 text-[#862fe7]" />
                       <span className="font-bold text-slate-800 dark:text-white">{student.avg_score}%</span>
                     </div>
                   </td>

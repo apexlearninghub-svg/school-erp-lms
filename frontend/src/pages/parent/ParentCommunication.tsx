@@ -31,7 +31,7 @@ export function ParentCommunication() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <MessageSquare className="text-[#0EA5A4]" /> Communication Center
+            <MessageSquare className="text-[#862fe7]" /> Communication Center
           </h2>
           <p className="text-slate-500 text-sm mt-1">Stay connected with teachers and school administration</p>
         </div>
@@ -39,13 +39,13 @@ export function ParentCommunication() {
         <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl">
           <button 
             onClick={() => setActiveTab('messages')}
-            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'messages' ? 'bg-white dark:bg-slate-800 text-[#0EA5A4] shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'messages' ? 'bg-white dark:bg-slate-800 text-[#862fe7] shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
           >
             Messages
           </button>
           <button 
             onClick={() => setActiveTab('announcements')}
-            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'announcements' ? 'bg-white dark:bg-slate-800 text-[#0EA5A4] shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'announcements' ? 'bg-white dark:bg-slate-800 text-[#862fe7] shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
           >
             Announcements
           </button>
@@ -74,7 +74,7 @@ export function ParentCommunication() {
 
             <motion.div variants={itemVariants} className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col h-[500px]">
               <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-slate-700 flex items-center gap-4">
-                <div className="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-[#0EA5A4] font-black">
+                <div className="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-[#862fe7] font-black">
                   M
                 </div>
                 <div>
@@ -94,11 +94,11 @@ export function ParentCommunication() {
                     <span className="text-[10px] font-bold text-slate-400 mt-1 ml-1 block">10:30 AM</span>
                   </div>
                   <div className="self-end max-w-[80%]">
-                    <div className="bg-[#0EA5A4] p-4 rounded-2xl rounded-tr-sm text-white text-sm shadow-md shadow-[#0EA5A4]/20">
+                    <div className="bg-[#862fe7] p-4 rounded-2xl rounded-tr-sm text-white text-sm shadow-md shadow-[#862fe7]/20">
                       Thank you Mr. Smith. We will review the paper tonight.
                     </div>
                     <span className="text-[10px] font-bold text-slate-400 mt-1 mr-1 block text-right flex items-center justify-end gap-1">
-                      10:35 AM <CheckCircle2 size={12} className="text-[#0EA5A4]" />
+                      10:35 AM <CheckCircle2 size={12} className="text-[#862fe7]" />
                     </span>
                   </div>
                 </div>
@@ -110,9 +110,9 @@ export function ParentCommunication() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type a message..." 
-                  className="flex-1 px-4 py-2.5 bg-slate-100 dark:bg-slate-900 border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#0EA5A4]/20 dark:text-white"
+                  className="flex-1 px-4 py-2.5 bg-slate-100 dark:bg-slate-900 border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#862fe7]/20 dark:text-white"
                 />
-                <button className="p-3 bg-[#0EA5A4] text-white rounded-xl hover:bg-[#14B8A6] transition-colors shadow-md flex items-center justify-center">
+                <button className="p-3 bg-[#862fe7] text-white rounded-xl hover:bg-[#ad6df4] transition-colors shadow-md flex items-center justify-center">
                   <Send size={18} />
                 </button>
               </div>

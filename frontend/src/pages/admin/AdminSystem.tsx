@@ -32,7 +32,7 @@ export function AdminSystem() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[60vh]">
-        <Loader2 className="w-10 h-10 text-[#0EA5A4] animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#862fe7] animate-spin" />
       </div>
     );
   }
@@ -42,7 +42,7 @@ export function AdminSystem() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <Server className="text-[#0EA5A4]" /> System Monitoring
+            <Server className="text-[#862fe7]" /> System Monitoring
           </h2>
           <p className="text-slate-500 text-sm mt-1">Real-time infrastructure health and server metrics</p>
         </div>
@@ -50,7 +50,7 @@ export function AdminSystem() {
           <button className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
             <RefreshCw size={16} /> Refresh
           </button>
-          <button className="flex items-center gap-2 bg-[#0EA5A4] text-white font-bold px-4 py-2 rounded-xl transition-colors hover:bg-[#14B8A6] shadow-lg shadow-[#0EA5A4]/20">
+          <button className="flex items-center gap-2 bg-[#862fe7] text-white font-bold px-4 py-2 rounded-xl transition-colors hover:bg-[#ad6df4] shadow-lg shadow-[#862fe7]/20">
             <Settings size={18} /> Settings
           </button>
         </div>

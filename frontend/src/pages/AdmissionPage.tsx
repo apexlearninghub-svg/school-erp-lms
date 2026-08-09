@@ -106,7 +106,7 @@ function StepIndicator({ steps, activeIndex }: { steps: string[], activeIndex: n
               {idx < activeIndex ? <CheckCircle2 className="w-5 h-5 text-white" /> : idx + 1}
             </motion.div>
             <span className={`text-[10px] sm:text-xs font-semibold mt-2 text-center absolute -bottom-6 w-20 sm:w-28 transition-colors duration-300 ${
-              idx <= activeIndex ? 'text-[#0EA5A4] dark:text-[#14B8A6] font-bold' : 'text-[#94A3B8] dark:text-[#475569]'
+              idx <= activeIndex ? 'text-[#862fe7] dark:text-[#ad6df4] font-bold' : 'text-[#94A3B8] dark:text-[#475569]'
             }`}>
               {label}
             </span>
@@ -114,7 +114,7 @@ function StepIndicator({ steps, activeIndex }: { steps: string[], activeIndex: n
           {idx < steps.length - 1 && (
             <div className="flex-1 h-0.5 mx-2 bg-[#E2E8F0] dark:bg-[#334155] relative overflow-hidden">
               <motion.div
-                className="absolute top-0 left-0 h-full bg-[#0EA5A4]"
+                className="absolute top-0 left-0 h-full bg-[#862fe7]"
                 initial={{ width: '0%' }}
                 animate={{ width: idx < activeIndex ? '100%' : '0%' }}
                 transition={{ duration: 0.4 }}
@@ -378,7 +378,7 @@ export default function AdmissionPage() {
           >
             <GraduationCap className="w-5.5 h-5.5 text-white" />
           </div>
-          <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] bg-clip-text text-transparent">
+          <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-[#862fe7] to-[#ad6df4] bg-clip-text text-transparent">
             Apex Learning Hub
           </span>
         </div>
@@ -403,7 +403,7 @@ export default function AdmissionPage() {
               {isTeacher ? 'Teacher Onboarding File' : 'Student Admission Form'} 📝
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-              Welcome, <span className="font-bold text-[#0EA5A4]">{user?.full_name}</span>. Please complete your registration file to unlock your portal access.
+              Welcome, <span className="font-bold text-[#862fe7]">{user?.full_name}</span>. Please complete your registration file to unlock your portal access.
             </p>
           </div>
 
@@ -424,7 +424,7 @@ export default function AdmissionPage() {
                   <div className="space-y-6">
                     <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
                       <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                        <UserIcon className="w-5 h-5 text-[#0EA5A4]" /> Personal Information
+                        <UserIcon className="w-5 h-5 text-[#862fe7]" /> Personal Information
                       </h2>
                     </div>
 
@@ -441,7 +441,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="Enter full name"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.student_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.student_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -464,7 +464,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="Enter father's name"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.father_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.father_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -487,7 +487,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="Enter mother's name"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.mother_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.mother_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -510,7 +510,7 @@ export default function AdmissionPage() {
                             type="email"
                             placeholder="Enter email address"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.email ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.email ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -533,7 +533,7 @@ export default function AdmissionPage() {
                             type="tel"
                             placeholder="10-digit phone number"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.phone ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.phone ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -555,7 +555,7 @@ export default function AdmissionPage() {
                             {...register('dob')}
                             type="date"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.dob ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.dob ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -576,7 +576,7 @@ export default function AdmissionPage() {
                           <select
                             {...register('gender')}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all appearance-none focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.gender ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.gender ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           >
                             <option value="">Select Gender</option>
@@ -602,7 +602,7 @@ export default function AdmissionPage() {
                           <select
                             {...register('blood_group')}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all appearance-none focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.blood_group ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.blood_group ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           >
                             <option value="">Select Blood Group</option>
@@ -631,7 +631,7 @@ export default function AdmissionPage() {
                           rows={3}
                           placeholder="Enter your full home address"
                           className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 resize-none transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                            errors.address ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                            errors.address ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                           }`}
                         />
                       </div>
@@ -649,7 +649,7 @@ export default function AdmissionPage() {
                   <div className="space-y-6">
                     <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
                       <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                        <Briefcase className="w-5 h-5 text-[#0EA5A4]" /> Professional Details
+                        <Briefcase className="w-5 h-5 text-[#862fe7]" /> Professional Details
                       </h2>
                     </div>
 
@@ -666,7 +666,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="Enter Employee ID"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.employee_id ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.employee_id ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -687,7 +687,7 @@ export default function AdmissionPage() {
                           <select
                             {...register('designation')}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all appearance-none focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.designation ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.designation ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           >
                             <option value="">Select Designation</option>
@@ -715,7 +715,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="e.g., Mathematics"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.department ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.department ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -737,7 +737,7 @@ export default function AdmissionPage() {
                             {...register('joining_date')}
                             type="date"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.joining_date ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.joining_date ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -760,7 +760,7 @@ export default function AdmissionPage() {
                             type="number"
                             placeholder="e.g. 5"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.experience ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.experience ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -783,7 +783,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="e.g., Algebra & Calculus"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.specialization ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.specialization ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -802,7 +802,7 @@ export default function AdmissionPage() {
                   <div className="space-y-6">
                     <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
                       <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                        <BookOpen className="w-5 h-5 text-[#0EA5A4]" /> Academic Details
+                        <BookOpen className="w-5 h-5 text-[#862fe7]" /> Academic Details
                       </h2>
                     </div>
 
@@ -817,7 +817,7 @@ export default function AdmissionPage() {
                           <select
                             {...register('class_applied')}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all appearance-none focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.class_applied ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.class_applied ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           >
                             <option value="">Select Class</option>
@@ -845,7 +845,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="Full name of parent/guardian"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.guardian_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.guardian_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -867,7 +867,7 @@ export default function AdmissionPage() {
                             {...register('previous_gpa')}
                             type="text"
                             placeholder="e.g. 3.8 GPA or 92%"
-                            className="form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10 text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A]"
+                            className="form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10 text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A]"
                           />
                         </div>
                       </div>
@@ -880,7 +880,7 @@ export default function AdmissionPage() {
                   <div className="space-y-6">
                     <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
                       <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                        <GraduationCap className="w-5 h-5 text-[#0EA5A4]" /> Educational Qualifications
+                        <GraduationCap className="w-5 h-5 text-[#862fe7]" /> Educational Qualifications
                       </h2>
                     </div>
 
@@ -895,7 +895,7 @@ export default function AdmissionPage() {
                           <select
                             {...register('highest_qualification')}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all appearance-none focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.highest_qualification ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.highest_qualification ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           >
                             <option value="">Select Qualification</option>
@@ -923,7 +923,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="University / School name"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.university ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.university ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -947,7 +947,7 @@ export default function AdmissionPage() {
                             maxLength={4}
                             placeholder="YYYY"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.graduation_year ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.graduation_year ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -970,7 +970,7 @@ export default function AdmissionPage() {
                           {...register('certifications')}
                           rows={3}
                           placeholder="List any additional certifications or professional achievements (Optional)"
-                          className="form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10 text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 resize-none transition-all focus:bg-white dark:focus:bg-[#0F172A]"
+                          className="form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10 text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 resize-none transition-all focus:bg-white dark:focus:bg-[#0F172A]"
                         />
                       </div>
                     </div>
@@ -982,7 +982,7 @@ export default function AdmissionPage() {
                   <div className="space-y-6">
                     <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
                       <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                        <ShieldAlert className="w-5 h-5 text-[#0EA5A4]" /> Emergency Contact
+                        <ShieldAlert className="w-5 h-5 text-[#862fe7]" /> Emergency Contact
                       </h2>
                     </div>
 
@@ -999,7 +999,7 @@ export default function AdmissionPage() {
                             type="text"
                             placeholder="Enter emergency contact's full name"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.emergency_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.emergency_name ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -1022,7 +1022,7 @@ export default function AdmissionPage() {
                             type="tel"
                             placeholder="10-digit phone number"
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.emergency_phone ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.emergency_phone ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           />
                         </div>
@@ -1043,7 +1043,7 @@ export default function AdmissionPage() {
                           <select
                             {...register('emergency_relation')}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 transition-all appearance-none focus:bg-white dark:focus:bg-[#0F172A] ${
-                              errors.emergency_relation ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10'
+                              errors.emergency_relation ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
                           >
                             <option value="">Select Relation</option>
@@ -1067,7 +1067,7 @@ export default function AdmissionPage() {
                   <div className="space-y-6">
                     <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
                       <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                        <FileText className="w-5 h-5 text-[#0EA5A4]" /> Document Uploads
+                        <FileText className="w-5 h-5 text-[#862fe7]" /> Document Uploads
                       </h2>
                     </div>
 
@@ -1097,7 +1097,7 @@ export default function AdmissionPage() {
                         </h4>
                         <p className="text-xs text-slate-400">Upload a professional JPG or PNG (max 2MB)</p>
                         <div>
-                          <label className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#0EA5A4] hover:bg-[#14B8A6] rounded-xl cursor-pointer shadow-md transition-all">
+                          <label className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-[#862fe7] hover:bg-[#ad6df4] rounded-xl cursor-pointer shadow-md transition-all">
                             <Upload className="w-3.5 h-3.5" /> Choose Photo
                             <input
                               type="file"
@@ -1131,16 +1131,16 @@ export default function AdmissionPage() {
 
                         {formValues.aadhaar_card ? (
                           <div className="p-3 bg-slate-50 dark:bg-[#1E293B] rounded-xl flex items-center gap-3 border border-slate-100 dark:border-slate-800">
-                            <FileText className="w-8 h-8 text-[#0EA5A4]" />
+                            <FileText className="w-8 h-8 text-[#862fe7]" />
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-bold truncate text-slate-700 dark:text-slate-300">Aadhaar Card</p>
                               <p className="text-[10px] text-slate-400">{getFileMetadata(formValues.aadhaar_card)?.ext} Format</p>
                             </div>
                           </div>
                         ) : (
-                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#0EA5A4] dark:hover:border-[#0EA5A4] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
+                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#862fe7] dark:hover:border-[#862fe7] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
                             <Upload className="w-6 h-6 text-slate-400 mb-2" />
-                            <span className="text-xs font-bold text-[#0EA5A4]">Click to upload</span>
+                            <span className="text-xs font-bold text-[#862fe7]">Click to upload</span>
                             <span className="text-[10px] text-slate-400 mt-1">PDF/JPG/PNG (max 2MB)</span>
                             <input
                               type="file"
@@ -1170,16 +1170,16 @@ export default function AdmissionPage() {
 
                         {formValues.resume ? (
                           <div className="p-3 bg-slate-50 dark:bg-[#1E293B] rounded-xl flex items-center gap-3 border border-slate-100 dark:border-slate-800">
-                            <FileText className="w-8 h-8 text-[#0EA5A4]" />
+                            <FileText className="w-8 h-8 text-[#862fe7]" />
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-bold truncate text-slate-700 dark:text-slate-300">Resume / CV</p>
                               <p className="text-[10px] text-slate-400">{getFileMetadata(formValues.resume)?.ext} Format</p>
                             </div>
                           </div>
                         ) : (
-                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#0EA5A4] dark:hover:border-[#0EA5A4] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
+                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#862fe7] dark:hover:border-[#862fe7] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
                             <Upload className="w-6 h-6 text-slate-400 mb-2" />
-                            <span className="text-xs font-bold text-[#0EA5A4]">Click to upload</span>
+                            <span className="text-xs font-bold text-[#862fe7]">Click to upload</span>
                             <span className="text-[10px] text-slate-400 mt-1">PDF/DOC/DOCX (max 5MB)</span>
                             <input
                               type="file"
@@ -1204,16 +1204,16 @@ export default function AdmissionPage() {
 
                         {formValues.pan_card ? (
                           <div className="p-3 bg-slate-50 dark:bg-[#1E293B] rounded-xl flex items-center gap-3 border border-slate-100 dark:border-slate-800">
-                            <FileText className="w-8 h-8 text-[#0EA5A4]" />
+                            <FileText className="w-8 h-8 text-[#862fe7]" />
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-bold truncate text-slate-700 dark:text-slate-300">PAN Card</p>
                               <p className="text-[10px] text-slate-400">{getFileMetadata(formValues.pan_card)?.ext} Format</p>
                             </div>
                           </div>
                         ) : (
-                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#0EA5A4] dark:hover:border-[#0EA5A4] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
+                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#862fe7] dark:hover:border-[#862fe7] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
                             <Upload className="w-6 h-6 text-slate-400 mb-2" />
-                            <span className="text-xs font-bold text-[#0EA5A4]">Click to upload</span>
+                            <span className="text-xs font-bold text-[#862fe7]">Click to upload</span>
                             <span className="text-[10px] text-slate-400 mt-1">PDF/JPG/PNG (max 2MB)</span>
                             <input
                               type="file"
@@ -1238,16 +1238,16 @@ export default function AdmissionPage() {
 
                         {formValues.other_docs ? (
                           <div className="p-3 bg-slate-50 dark:bg-[#1E293B] rounded-xl flex items-center gap-3 border border-slate-100 dark:border-slate-800">
-                            <FileText className="w-8 h-8 text-[#0EA5A4]" />
+                            <FileText className="w-8 h-8 text-[#862fe7]" />
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-bold truncate text-slate-700 dark:text-slate-300">Supporting Document</p>
                               <p className="text-[10px] text-slate-400">{getFileMetadata(formValues.other_docs)?.ext} Format</p>
                             </div>
                           </div>
                         ) : (
-                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#0EA5A4] dark:hover:border-[#0EA5A4] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
+                          <label className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-[#862fe7] dark:hover:border-[#862fe7] hover:bg-slate-50/50 dark:hover:bg-slate-900/10 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all">
                             <Upload className="w-6 h-6 text-slate-400 mb-2" />
-                            <span className="text-xs font-bold text-[#0EA5A4]">Click to upload</span>
+                            <span className="text-xs font-bold text-[#862fe7]">Click to upload</span>
                             <span className="text-[10px] text-slate-400 mt-1">PDF/JPG/PNG (max 2MB)</span>
                             <input
                               type="file"
@@ -1280,7 +1280,7 @@ export default function AdmissionPage() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="flex items-center gap-1.5 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#0EA5A4] hover:bg-[#14B8A6] shadow-lg shadow-[#0EA5A4]/10 hover:shadow-[#0EA5A4]/20 transition-all"
+                  className="flex items-center gap-1.5 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#862fe7] hover:bg-[#ad6df4] shadow-lg shadow-[#862fe7]/10 hover:shadow-[#862fe7]/20 transition-all"
                 >
                   Next <ChevronRight className="w-4 h-4" />
                 </button>
@@ -1305,7 +1305,7 @@ export default function AdmissionPage() {
                     disabled={isLoading}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-2 px-7 py-3 rounded-xl text-sm font-extrabold text-white bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] shadow-lg shadow-[#0EA5A4]/20 hover:shadow-[#0EA5A4]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-7 py-3 rounded-xl text-sm font-extrabold text-white bg-gradient-to-r from-[#862fe7] to-[#ad6df4] shadow-lg shadow-[#862fe7]/20 hover:shadow-[#862fe7]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <>

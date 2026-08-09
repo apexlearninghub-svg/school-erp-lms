@@ -35,7 +35,7 @@ export function TeacherOverview({ user, onTabChange }: { user: any, onTabChange:
 
   const statCards = [
     { label: 'Total Students', value: stats?.total_students || 0, icon: <Users size={24} />, color: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/20' },
-    { label: 'Active Exams', value: stats?.active_exams || 0, icon: <FileText size={24} />, color: 'from-[#0EA5A4] to-[#14B8A6]', shadow: 'shadow-[#0EA5A4]/20' },
+    { label: 'Active Exams', value: stats?.active_exams || 0, icon: <FileText size={24} />, color: 'from-[#862fe7] to-[#ad6df4]', shadow: 'shadow-[#862fe7]/20' },
     { label: 'Pending Reviews', value: stats?.pending_reviews || 0, icon: <ClipboardList size={24} />, color: 'from-orange-500 to-amber-500', shadow: 'shadow-orange-500/20' },
     { label: 'Class Avg Score', value: `${stats?.average_score || 0}%`, icon: <TrendingUp size={24} />, color: 'from-emerald-500 to-teal-500', shadow: 'shadow-emerald-500/20' }
   ];
@@ -46,7 +46,7 @@ export function TeacherOverview({ user, onTabChange }: { user: any, onTabChange:
       {/* Welcome Banner */}
       <motion.div variants={itemVariants} className="relative overflow-hidden bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 md:p-10 text-white shadow-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-40 w-40 h-40 bg-[#0EA5A4]/20 rounded-full blur-2xl pointer-events-none"></div>
+        <div className="absolute bottom-0 right-40 w-40 h-40 bg-[#862fe7]/20 rounded-full blur-2xl pointer-events-none"></div>
         
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
@@ -145,17 +145,17 @@ export function TeacherOverview({ user, onTabChange }: { user: any, onTabChange:
               { title: 'Assign Homework', desc: 'Create a new homework assignment', icon: <BookOpen size={18} />, color: 'bg-purple-50 text-purple-600 border-purple-100', tab: 'homework' },
               { title: 'Send Announcement', desc: 'Broadcast a message to students', icon: <ClipboardList size={18} />, color: 'bg-rose-50 text-rose-600 border-rose-100', tab: 'communication' }
             ].map((action, i) => (
-              <div key={i} onClick={() => onTabChange(action.tab)} className="group flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-[#0EA5A4]/30 bg-white dark:bg-slate-800 hover:shadow-md transition-all cursor-pointer">
+              <div key={i} onClick={() => onTabChange(action.tab)} className="group flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-[#862fe7]/30 bg-white dark:bg-slate-800 hover:shadow-md transition-all cursor-pointer">
                 <div className="flex items-center gap-4">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${action.color} dark:bg-opacity-10 dark:border-opacity-20`}>
                     {action.icon}
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-slate-800 dark:text-white group-hover:text-[#0EA5A4] transition-colors">{action.title}</h4>
+                    <h4 className="font-bold text-sm text-slate-800 dark:text-white group-hover:text-[#862fe7] transition-colors">{action.title}</h4>
                     <p className="text-xs text-slate-500">{action.desc}</p>
                   </div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-[#0EA5A4] group-hover:text-white transition-colors">
+                <div className="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-700 flex items-center justify-center text-slate-400 group-hover:bg-[#862fe7] group-hover:text-white transition-colors">
                   <span className="font-bold">→</span>
                 </div>
               </div>

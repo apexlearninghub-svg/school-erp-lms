@@ -45,7 +45,7 @@ export function TeacherNotifications() {
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0">
         <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2 mb-2">
-          <Bell className="text-[#0EA5A4]" /> Notifications Panel
+          <Bell className="text-[#862fe7]" /> Notifications Panel
         </h2>
         <p className="text-slate-500 text-sm">Stay updated on student submissions, system alerts, and administrative messages.</p>
       </div>
@@ -53,7 +53,7 @@ export function TeacherNotifications() {
       <div className="flex-1 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm p-4 md:p-6 lg:p-8">
         {isLoading ? (
           <div className="flex justify-center items-center h-48">
-            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#0EA5A4] animate-spin"></div>
+            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#862fe7] animate-spin"></div>
           </div>
         ) : notifications.length === 0 ? (
           <div className="h-64 flex flex-col items-center justify-center text-center opacity-70">
@@ -82,7 +82,7 @@ export function TeacherNotifications() {
                   )}
                   <div className="flex gap-4">
                     <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center ${
-                      noti.is_read ? 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400' : 'bg-teal-100 text-[#0EA5A4] dark:bg-teal-900/50 dark:text-teal-400'
+                      noti.is_read ? 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400' : 'bg-teal-100 text-[#862fe7] dark:bg-teal-900/50 dark:text-teal-400'
                     }`}>
                       {noti.is_read ? <CheckCircle2 size={20} /> : <Bell size={20} />}
                     </div>

@@ -91,7 +91,7 @@ export function StudentHomework() {
 
       <div className="flex-1 overflow-y-auto pb-6">
         {isLoading ? (
-          <div className="flex justify-center items-center h-48"><Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" /></div>
+          <div className="flex justify-center items-center h-48"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>
         ) : homework.length > 0 ? (
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {homework.map(hw => {
@@ -132,7 +132,7 @@ export function StudentHomework() {
                     {!sub ? (
                       <button 
                         onClick={() => setActiveModal(hw)}
-                        className="px-4 py-2 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] text-white rounded-lg text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                        className="px-4 py-2 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white rounded-lg text-sm font-bold shadow-md hover:shadow-lg transition-all"
                       >
                         Submit Now
                       </button>
@@ -170,7 +170,7 @@ export function StudentHomework() {
             >
               <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#0EA5A4]/10 text-[#0EA5A4] rounded-xl"><Send size={20} /></div>
+                  <div className="p-2 bg-[#862fe7]/10 text-[#862fe7] rounded-xl"><Send size={20} /></div>
                   <h3 className="font-bold text-lg text-slate-800 dark:text-white">Submit Homework</h3>
                 </div>
                 <button onClick={() => setActiveModal(null)} className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-700 rounded-full transition-colors">
@@ -192,7 +192,7 @@ export function StudentHomework() {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Type your answer here, or paste a link to your Google Doc/Drive file..."
-                      className="w-full h-32 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none resize-none text-slate-700 dark:text-white"
+                      className="w-full h-32 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none resize-none text-slate-700 dark:text-white"
                     ></textarea>
                   </div>
                   
@@ -215,7 +215,7 @@ export function StudentHomework() {
                   <button 
                     type="submit" 
                     disabled={isSubmitting || !notes.trim()}
-                    className="flex-1 py-3 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] text-white font-bold rounded-xl shadow-lg shadow-[#0EA5A4]/20 hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white font-bold rounded-xl shadow-lg shadow-[#862fe7]/20 hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><CheckCircle2 className="w-5 h-5" /> Submit Work</>}
                   </button>

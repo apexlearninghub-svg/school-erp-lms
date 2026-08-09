@@ -21,7 +21,7 @@ export function AdminProfile({ user }: { user: any }) {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <User className="text-[#0EA5A4]" /> Admin Profile
+            <User className="text-[#862fe7]" /> Admin Profile
           </h2>
           <p className="text-slate-500 text-sm mt-1">Manage your account and global security settings</p>
         </div>
@@ -30,7 +30,7 @@ export function AdminProfile({ user }: { user: any }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
         <motion.div variants={itemVariants} className="md:col-span-1 bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-sm text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] opacity-10"></div>
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] opacity-10"></div>
           
           <div className="relative mx-auto w-28 h-28 rounded-full border-4 border-white dark:border-slate-800 shadow-lg bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center mb-4 mt-4">
             {user?.avatar ? (
@@ -40,7 +40,7 @@ export function AdminProfile({ user }: { user: any }) {
                 {user?.full_name?.charAt(0) || 'A'}
               </span>
             )}
-            <button className="absolute bottom-0 right-0 p-2 bg-[#0EA5A4] text-white rounded-full hover:bg-[#14B8A6] transition-colors shadow-md">
+            <button className="absolute bottom-0 right-0 p-2 bg-[#862fe7] text-white rounded-full hover:bg-[#ad6df4] transition-colors shadow-md">
               <Edit size={14} />
             </button>
           </div>
@@ -64,20 +64,20 @@ export function AdminProfile({ user }: { user: any }) {
         <motion.div variants={itemVariants} className="md:col-span-2 space-y-6">
           <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-sm">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100 dark:border-slate-700">
-              <Key className="text-[#0EA5A4]" size={24} />
+              <Key className="text-[#862fe7]" size={24} />
               <h3 className="text-xl font-bold text-slate-800 dark:text-white">Security Settings</h3>
             </div>
             
             <div className="space-y-4 max-w-md">
               <div className="space-y-1">
                 <label className="text-xs font-bold text-slate-500 uppercase">Current Password</label>
-                <input type="password" placeholder="••••••••" className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white" />
+                <input type="password" placeholder="••••••••" className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white" />
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-bold text-slate-500 uppercase">New Password</label>
-                <input type="password" placeholder="••••••••" className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white" />
+                <input type="password" placeholder="••••••••" className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white" />
               </div>
-              <button className="py-2.5 px-6 bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white font-bold rounded-xl transition-colors shadow-md shadow-[#0EA5A4]/20">
+              <button className="py-2.5 px-6 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold rounded-xl transition-colors shadow-md shadow-[#862fe7]/20">
                 Update Password
               </button>
             </div>
@@ -95,7 +95,7 @@ export function AdminProfile({ user }: { user: any }) {
               {['System Administrator', 'Principal', 'Vice Principal', 'Accountant'].map((role, i) => (
                 <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
                   <div className="font-bold text-slate-700 dark:text-slate-300">{role}</div>
-                  <button className="text-xs font-bold text-[#0EA5A4] hover:underline">Edit Permissions</button>
+                  <button className="text-xs font-bold text-[#862fe7] hover:underline">Edit Permissions</button>
                 </div>
               ))}
             </div>

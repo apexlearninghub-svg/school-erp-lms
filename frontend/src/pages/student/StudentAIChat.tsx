@@ -87,7 +87,7 @@ export function StudentAIChat() {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] rounded-xl text-white shadow-md">
+          <div className="p-2 bg-gradient-to-br from-[#862fe7] to-[#ad6df4] rounded-xl text-white shadow-md">
             <Bot size={24} />
           </div>
           <div>
@@ -108,7 +108,7 @@ export function StudentAIChat() {
             <button
               key={i}
               onClick={() => handleSend(prompt)}
-              className="whitespace-nowrap px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-[#0EA5A4]/10 hover:text-[#0EA5A4] dark:hover:bg-[#0EA5A4]/20 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium transition-colors border border-transparent hover:border-[#0EA5A4]/30"
+              className="whitespace-nowrap px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-[#862fe7]/10 hover:text-[#862fe7] dark:hover:bg-[#862fe7]/20 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium transition-colors border border-transparent hover:border-[#862fe7]/30"
             >
               {prompt}
             </button>
@@ -125,10 +125,10 @@ export function StudentAIChat() {
             animate={{ opacity: 1, y: 0 }}
             className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
           >
-            <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center shadow-sm ${msg.role === 'user' ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white' : 'bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[#0EA5A4]'}`}>
+            <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center shadow-sm ${msg.role === 'user' ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white' : 'bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[#862fe7]'}`}>
               {msg.role === 'user' ? <User size={20} /> : <Bot size={20} />}
             </div>
-            <div className={`p-4 rounded-2xl ${msg.role === 'user' ? 'bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] text-white rounded-tr-sm shadow-md' : 'bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-tl-sm'}`}>
+            <div className={`p-4 rounded-2xl ${msg.role === 'user' ? 'bg-gradient-to-br from-[#862fe7] to-[#ad6df4] text-white rounded-tr-sm shadow-md' : 'bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-tl-sm'}`}>
               <div className="text-[15px] leading-relaxed">
                 {msg.role === 'ai' ? renderFormattedText(msg.content) : msg.content}
               </div>
@@ -141,13 +141,13 @@ export function StudentAIChat() {
 
         {isLoading && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4 max-w-[85%] mr-auto">
-            <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center shadow-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[#0EA5A4]">
+            <div className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center shadow-sm bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[#862fe7]">
               <Bot size={20} />
             </div>
             <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 rounded-tl-sm flex items-center gap-1.5">
-              <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="w-2 h-2 rounded-full bg-[#0EA5A4]/60"></motion.div>
-              <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-2 h-2 rounded-full bg-[#0EA5A4]/80"></motion.div>
-              <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-2 h-2 rounded-full bg-[#0EA5A4]"></motion.div>
+              <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} className="w-2 h-2 rounded-full bg-[#862fe7]/60"></motion.div>
+              <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-2 h-2 rounded-full bg-[#862fe7]/80"></motion.div>
+              <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-2 h-2 rounded-full bg-[#862fe7]"></motion.div>
             </div>
           </motion.div>
         )}
@@ -158,7 +158,7 @@ export function StudentAIChat() {
       <div className="p-4 bg-white dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700">
         <form 
           onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-          className="flex items-end gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-2 focus-within:ring-2 focus-within:ring-[#0EA5A4]/50 focus-within:border-[#0EA5A4] transition-all"
+          className="flex items-end gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-2 focus-within:ring-2 focus-within:ring-[#862fe7]/50 focus-within:border-[#862fe7] transition-all"
         >
           <textarea
             value={input}
@@ -176,7 +176,7 @@ export function StudentAIChat() {
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="p-3 bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] text-white rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all mb-1 shrink-0"
+            className="p-3 bg-gradient-to-br from-[#862fe7] to-[#ad6df4] text-white rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all mb-1 shrink-0"
           >
             {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
           </button>

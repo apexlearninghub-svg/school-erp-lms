@@ -36,8 +36,11 @@ const queryClient = new QueryClient({
 
 function PageLoader() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] dark:bg-[#0F172A]">
-      <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+    <div className="min-h-screen flex items-center justify-center bg-[#f1f5f9] dark:bg-[#0F172A]">
+      <div className="flex flex-col items-center gap-3">
+        <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
+        <p className="text-sm text-[#6b7589] font-medium">Loading...</p>
+      </div>
     </div>
   );
 }
@@ -59,12 +62,12 @@ export default function App() {
                   fontSize: '14px',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: '500',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
                   background: 'white',
-                  color: '#0F172A',
+                  color: '#111827',
                 },
                 success: {
-                  iconTheme: { primary: '#0EA5A4', secondary: 'white' },
+                  iconTheme: { primary: '#862fe7', secondary: 'white' },
                 },
                 error: {
                   iconTheme: { primary: '#EF4444', secondary: 'white' },

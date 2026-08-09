@@ -29,7 +29,7 @@ export function ParentAcademics() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <GraduationCap className="text-[#0EA5A4]" /> Academic Progress
+            <GraduationCap className="text-[#862fe7]" /> Academic Progress
           </h2>
           <p className="text-slate-500 text-sm mt-1">Track exam performance, upcoming schedules, and class ranking</p>
         </div>
@@ -40,7 +40,7 @@ export function ParentAcademics() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
         </div>
       ) : (
         <>
@@ -96,12 +96,12 @@ export function ParentAcademics() {
                     const heightPercent = item.score;
                     return (
                       <div key={i} className="flex flex-col items-center group w-full px-1 sm:px-3 h-full justify-end relative">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#0EA5A4]/10 rounded-full scale-0 group-hover:scale-150 transition-transform blur-md"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#862fe7]/10 rounded-full scale-0 group-hover:scale-150 transition-transform blur-md"></div>
                         <div className="w-full max-w-[24px] relative flex justify-center items-end" style={{ height: `${heightPercent}%` }}>
                           <div className="absolute -top-8 bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20 whitespace-nowrap">
                             {item.score}%
                           </div>
-                          <div className="w-full h-full rounded-full bg-gradient-to-t from-[#0EA5A4] to-[#14B8A6] group-hover:from-[#14B8A6] group-hover:to-[#2DD4BF] transition-all shadow-[0_0_10px_rgba(14,165,164,0.3)]"></div>
+                          <div className="w-full h-full rounded-full bg-gradient-to-t from-[#862fe7] to-[#ad6df4] group-hover:from-[#ad6df4] group-hover:to-[#2DD4BF] transition-all shadow-[0_0_10px_rgba(14,165,164,0.3)]"></div>
                         </div>
                         <span className="text-xs font-bold text-slate-500 mt-3 absolute bottom-0">{item.month}</span>
                       </div>
@@ -118,9 +118,9 @@ export function ParentAcademics() {
               <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Recent Exam Results</h3>
               <div className="space-y-4">
                 {data?.recent_results?.map((result: any, i: number) => (
-                  <div key={i} className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 hover:border-[#0EA5A4]/30 transition-all group">
+                  <div key={i} className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 hover:border-[#862fe7]/30 transition-all group">
                     <div>
-                      <h4 className="font-bold text-slate-800 dark:text-white mb-1 group-hover:text-[#0EA5A4] transition-colors">{result.exam}</h4>
+                      <h4 className="font-bold text-slate-800 dark:text-white mb-1 group-hover:text-[#862fe7] transition-colors">{result.exam}</h4>
                       <div className="flex items-center gap-2 text-xs text-slate-500">
                         <span>{result.subject}</span>
                         <span>•</span>
@@ -130,7 +130,7 @@ export function ParentAcademics() {
                     <div className="text-right flex items-center gap-4">
                       <div>
                         <p className="text-xl font-black text-slate-800 dark:text-white">{result.percentage}%</p>
-                        <p className="text-xs font-bold text-[#0EA5A4]">Grade {result.grade}</p>
+                        <p className="text-xs font-bold text-[#862fe7]">Grade {result.grade}</p>
                       </div>
                       <button className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-lg transition-colors">
                         <ChevronRight size={20} />

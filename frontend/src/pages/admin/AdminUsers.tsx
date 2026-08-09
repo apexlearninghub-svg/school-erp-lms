@@ -147,7 +147,7 @@ export function AdminUsers() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <Users className="text-[#0EA5A4]" /> User Management
+            <Users className="text-[#862fe7]" /> User Management
           </h2>
           <p className="text-slate-500 text-sm mt-1">Manage all students, teachers, parents, and staff accounts</p>
         </div>
@@ -160,7 +160,7 @@ export function AdminUsers() {
               placeholder="Search users..." 
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm focus:outline-none focus:border-[#0EA5A4] transition-colors dark:text-white"
+              className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm focus:outline-none focus:border-[#862fe7] transition-colors dark:text-white"
             />
           </div>
           <select 
@@ -177,7 +177,7 @@ export function AdminUsers() {
           </select>
           <button 
             onClick={() => { resetForm(); setIsModalOpen(true); }}
-            className="flex justify-center items-center gap-2 bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white px-4 py-2 rounded-xl font-bold text-sm transition-colors shadow-md shadow-[#0EA5A4]/20"
+            className="flex justify-center items-center gap-2 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white px-4 py-2 rounded-xl font-bold text-sm transition-colors shadow-md shadow-[#862fe7]/20"
           >
             <UserPlus size={18} /> Add User
           </button>
@@ -201,7 +201,7 @@ export function AdminUsers() {
               {isLoading ? (
                 <tr>
                   <td colSpan={6} className="p-8 text-center">
-                    <Loader2 className="w-8 h-8 animate-spin text-[#0EA5A4] mx-auto" />
+                    <Loader2 className="w-8 h-8 animate-spin text-[#862fe7] mx-auto" />
                   </td>
                 </tr>
               ) : filteredUsers.length === 0 ? (
@@ -315,7 +315,7 @@ export function AdminUsers() {
                   <div className="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-2xl p-6 text-left space-y-3 font-mono relative max-w-md mx-auto">
                     <button 
                       onClick={copyToClipboard}
-                      className="absolute right-4 top-4 p-2 text-slate-400 hover:text-[#0EA5A4] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all"
+                      className="absolute right-4 top-4 p-2 text-slate-400 hover:text-[#862fe7] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all"
                       title="Copy Credentials"
                     >
                       {copied ? <Check size={16} className="text-emerald-500" /> : <Clipboard size={16} />}
@@ -332,7 +332,7 @@ export function AdminUsers() {
                   
                   <button 
                     onClick={() => setIsModalOpen(false)}
-                    className="w-full max-w-xs bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-[#0EA5A4]/25"
+                    className="w-full max-w-xs bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-[#862fe7]/25"
                   >
                     Done
                   </button>
@@ -345,14 +345,14 @@ export function AdminUsers() {
                     <button 
                       type="button"
                       onClick={() => setModalType('student')}
-                      className={`py-2 rounded-xl text-sm font-bold transition-all ${modalType === 'student' ? 'bg-white dark:bg-slate-800 text-[#0EA5A4] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                      className={`py-2 rounded-xl text-sm font-bold transition-all ${modalType === 'student' ? 'bg-white dark:bg-slate-800 text-[#862fe7] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
                     >
                       Student Account
                     </button>
                     <button 
                       type="button"
                       onClick={() => setModalType('parent')}
-                      className={`py-2 rounded-xl text-sm font-bold transition-all ${modalType === 'parent' ? 'bg-white dark:bg-slate-800 text-[#0EA5A4] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                      className={`py-2 rounded-xl text-sm font-bold transition-all ${modalType === 'parent' ? 'bg-white dark:bg-slate-800 text-[#862fe7] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
                     >
                       Parent Account
                     </button>
@@ -368,7 +368,7 @@ export function AdminUsers() {
                         placeholder="John Doe"
                         value={fullName}
                         onChange={e => setFullName(e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                        className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                       />
                     </div>
                     <div className="space-y-1">
@@ -379,7 +379,7 @@ export function AdminUsers() {
                         placeholder="johndoe"
                         value={username}
                         onChange={e => setUsername(e.target.value)}
-                        className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                        className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                       />
                     </div>
                   </div>
@@ -392,7 +392,7 @@ export function AdminUsers() {
                       placeholder="johndoe@school.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                      className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                     />
                   </div>
 
@@ -405,7 +405,7 @@ export function AdminUsers() {
                           <select 
                             value={className}
                             onChange={e => setClassName(e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                           >
                             {[...Array(12)].map((_, i) => (
                               <option key={i} value={`Class ${i + 1}`}>Class {i + 1}</option>
@@ -419,7 +419,7 @@ export function AdminUsers() {
                             placeholder="S102"
                             value={rollNumber}
                             onChange={e => setRollNumber(e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                           />
                         </div>
                       </div>
@@ -431,7 +431,7 @@ export function AdminUsers() {
                             placeholder="Robert Doe"
                             value={fatherName}
                             onChange={e => setFatherName(e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                           />
                         </div>
                         <div className="space-y-1">
@@ -441,7 +441,7 @@ export function AdminUsers() {
                             placeholder="Mary Doe"
                             value={motherName}
                             onChange={e => setMotherName(e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                           />
                         </div>
                       </div>
@@ -459,7 +459,7 @@ export function AdminUsers() {
                             placeholder="+1234567890"
                             value={phoneNumber}
                             onChange={e => setPhoneNumber(e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                           />
                         </div>
                         <div className="space-y-1">
@@ -469,7 +469,7 @@ export function AdminUsers() {
                             placeholder="Engineer"
                             value={occupation}
                             onChange={e => setOccupation(e.target.value)}
-                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                            className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                           />
                         </div>
                       </div>
@@ -480,7 +480,7 @@ export function AdminUsers() {
                           placeholder="123 Main St"
                           value={address}
                           onChange={e => setAddress(e.target.value)}
-                          className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                          className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                         />
                       </div>
                       
@@ -490,7 +490,7 @@ export function AdminUsers() {
                         <select 
                           value={selectedStudentId}
                           onChange={e => setSelectedStudentId(e.target.value)}
-                          className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white"
+                          className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white"
                         >
                           <option value="">-- No Linked Student --</option>
                           {students.map(s => (
@@ -512,7 +512,7 @@ export function AdminUsers() {
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="px-6 py-2.5 bg-[#0EA5A4] hover:bg-[#0EA5A4]/90 text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-[#0EA5A4]/20 flex items-center gap-2"
+                      className="px-6 py-2.5 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-[#862fe7]/20 flex items-center gap-2"
                     >
                       {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                       Create Account

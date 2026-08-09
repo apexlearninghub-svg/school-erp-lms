@@ -78,7 +78,7 @@ export function StudentMaterials() {
               placeholder="Search subject or topic..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none text-sm dark:text-white"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none text-sm dark:text-white"
             />
           </div>
         </div>
@@ -89,7 +89,7 @@ export function StudentMaterials() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${filter === f ? 'bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] text-white shadow-md' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'}`}
+              className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${filter === f ? 'bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white shadow-md' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'}`}
             >
               {f}
             </button>
@@ -100,7 +100,7 @@ export function StudentMaterials() {
       {/* Grid */}
       <div className="flex-1 overflow-y-auto pb-6">
         {isLoading ? (
-          <div className="flex justify-center items-center h-48"><Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" /></div>
+          <div className="flex justify-center items-center h-48"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>
         ) : filtered.length > 0 ? (
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(mat => (
@@ -113,7 +113,7 @@ export function StudentMaterials() {
                     {mat.material_type}
                   </span>
                 </div>
-                <h3 className="font-bold text-slate-800 dark:text-white text-lg leading-tight mb-1 group-hover:text-[#0EA5A4] transition-colors line-clamp-2">{mat.title}</h3>
+                <h3 className="font-bold text-slate-800 dark:text-white text-lg leading-tight mb-1 group-hover:text-[#862fe7] transition-colors line-clamp-2">{mat.title}</h3>
                 <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-4">
                   <span className="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">{mat.subject}</span>
                   <span>•</span>
@@ -133,7 +133,7 @@ export function StudentMaterials() {
                         toast.error('Download failed');
                       }
                     }}
-                    className="flex items-center gap-1.5 text-sm font-bold text-[#0EA5A4] hover:text-[#14B8A6] bg-[#0EA5A4]/10 hover:bg-[#0EA5A4]/20 px-3 py-1.5 rounded-lg transition-colors"
+                    className="flex items-center gap-1.5 text-sm font-bold text-[#862fe7] hover:text-[#ad6df4] bg-[#862fe7]/10 hover:bg-[#862fe7]/20 px-3 py-1.5 rounded-lg transition-colors"
                   >
                     <Download className="w-4 h-4" /> Download
                   </button>

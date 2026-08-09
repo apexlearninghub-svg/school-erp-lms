@@ -181,7 +181,7 @@ export default function OTPVerificationPage() {
             ) : (
               <motion.div key="form" className="space-y-6">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-lg bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] text-white">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-lg bg-gradient-to-br from-[#862fe7] to-[#ad6df4] text-white">
                     <ShieldCheck className="w-9 h-9" />
                   </div>
                   <h1 className="text-2xl font-bold text-[#0F172A] dark:text-white tracking-tight">
@@ -206,7 +206,7 @@ export default function OTPVerificationPage() {
                         onChange={(e) => handleChange(e.target, idx)}
                         onKeyDown={(e) => handleKeyDown(e, idx)}
                         onPaste={idx === 0 ? handlePaste : undefined}
-                        className="w-12 h-14 text-center text-2xl font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1E293B] text-slate-800 dark:text-white rounded-xl focus:border-[#0EA5A4] outline-none transition-all input-focus-glow"
+                        className="w-12 h-14 text-center text-2xl font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1E293B] text-slate-800 dark:text-white rounded-xl focus:border-[#862fe7] outline-none transition-all input-focus-glow"
                       />
                     ))}
                   </div>
@@ -220,7 +220,7 @@ export default function OTPVerificationPage() {
                   <button
                     type="submit"
                     disabled={isVerifying}
-                    className="w-full btn-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#0EA5A4]/20"
+                    className="w-full btn-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#862fe7]/20"
                   >
                     {isVerifying ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -234,13 +234,13 @@ export default function OTPVerificationPage() {
                 <div className="flex flex-col items-center gap-2 text-center text-sm">
                   {countdown > 0 ? (
                     <span className="text-slate-500 dark:text-slate-400 font-medium">
-                      Resend code in <strong className="text-[#0EA5A4]">{countdown}s</strong>
+                      Resend code in <strong className="text-[#862fe7]">{countdown}s</strong>
                     </span>
                   ) : (
                     <button
                       onClick={handleResend}
                       disabled={isResending}
-                      className="flex items-center gap-2 text-[#0EA5A4] hover:underline font-bold transition-all"
+                      className="flex items-center gap-2 text-[#862fe7] hover:underline font-bold transition-all"
                     >
                       {isResending ? (
                         <Loader2 className="w-4 h-4 animate-spin" />

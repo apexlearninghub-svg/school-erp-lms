@@ -56,22 +56,22 @@ export default function HomePage() {
     {
       title: 'AI Test Generator',
       desc: 'Teachers can upload chapters or type prompts to dynamically generate custom MCQ exams in seconds using Gemini API.',
-      icon: <Sparkles className="w-6 h-6 text-[#0EA5A4]" />,
+      icon: <Sparkles className="w-6 h-6 text-[#862fe7]" />,
     },
     {
       title: 'Online Examination Platform',
       desc: 'Interactive exam UI with auto-saving, countdown timers, strict navigation constraints, and auto-submission.',
-      icon: <CheckSquare className="w-6 h-6 text-[#0EA5A4]" />,
+      icon: <CheckSquare className="w-6 h-6 text-[#862fe7]" />,
     },
     {
       title: 'Student Admissions Tracker',
       desc: 'Sleek multi-step registration for students and teachers, with dashboard tracking, and admin approvals.',
-      icon: <Users className="w-6 h-6 text-[#0EA5A4]" />,
+      icon: <Users className="w-6 h-6 text-[#862fe7]" />,
     },
     {
       title: 'Instant Analytics & Ranks',
       desc: 'Calculate scores, percentages, and dynamic class/school ranks instantly. Detailed chart reports for everyone.',
-      icon: <Award className="w-6 h-6 text-[#0EA5A4]" />,
+      icon: <Award className="w-6 h-6 text-[#862fe7]" />,
     },
   ];
 
@@ -102,18 +102,18 @@ export default function HomePage() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-2.5">
-            <img src="/logo.png" alt="Apex Learning Hub Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain shadow-md shadow-[#0EA5A4]/20 bg-white flex-shrink-0" />
-            <span className="font-extrabold text-base sm:text-xl tracking-tight bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] bg-clip-text text-transparent leading-tight hidden min-[360px]:block whitespace-nowrap">
+            <img src="/logo.png" alt="Apex Learning Hub Logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl object-contain shadow-md shadow-[#862fe7]/20 bg-white flex-shrink-0" />
+            <span className="font-extrabold text-base sm:text-xl tracking-tight bg-gradient-to-r from-[#862fe7] to-[#ad6df4] bg-clip-text text-transparent leading-tight hidden min-[360px]:block whitespace-nowrap">
               Apex Learning Hub
             </span>
           </div>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
-            <Link to="/" className="hover:text-[#0EA5A4] transition-colors">Home</Link>
-            <Link to="/courses" className="hover:text-[#0EA5A4] transition-colors">Courses</Link>
-            <Link to="/about" className="hover:text-[#0EA5A4] transition-colors">About Us</Link>
-            <Link to="/contact" className="hover:text-[#0EA5A4] transition-colors">Contact</Link>
-            <Link to="/login" className="hover:text-[#0EA5A4] transition-colors">ERP Connect</Link>
+            <Link to="/" className="hover:text-[#862fe7] transition-colors">Home</Link>
+            <Link to="/courses" className="hover:text-[#862fe7] transition-colors">Courses</Link>
+            <Link to="/about" className="hover:text-[#862fe7] transition-colors">About Us</Link>
+            <Link to="/contact" className="hover:text-[#862fe7] transition-colors">Contact</Link>
+            <Link to="/login" className="hover:text-[#862fe7] transition-colors">ERP Connect</Link>
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
@@ -121,7 +121,7 @@ export default function HomePage() {
             {isAuthenticated ? (
               <Link
                 to={`/${user?.role}/dashboard`}
-                className="text-xs sm:text-sm font-semibold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl shadow-lg shadow-[#0EA5A4]/15 transition-all flex items-center gap-2 whitespace-nowrap"
+                className="text-xs sm:text-sm font-semibold bg-[#862fe7] text-white hover:bg-[#ad6df4] px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl shadow-lg shadow-[#862fe7]/15 transition-all flex items-center gap-2 whitespace-nowrap"
               >
                 {user?.avatar ? (
                   <img src={user.avatar} alt="Profile" className="w-5 h-5 sm:w-6 sm:h-6 rounded-md object-cover" />
@@ -137,13 +137,13 @@ export default function HomePage() {
               <>
                 <Link
                   to="/login"
-                  className="text-xs sm:text-sm font-semibold hover:text-[#0EA5A4] transition-colors px-2 py-1.5 sm:px-3 sm:py-2 whitespace-nowrap"
+                  className="text-xs sm:text-sm font-semibold hover:text-[#862fe7] transition-colors px-2 py-1.5 sm:px-3 sm:py-2 whitespace-nowrap"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-xs sm:text-sm font-semibold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl shadow-lg shadow-[#0EA5A4]/15 transition-all whitespace-nowrap"
+                  className="text-xs sm:text-sm font-semibold bg-[#862fe7] text-white hover:bg-[#ad6df4] px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl shadow-lg shadow-[#862fe7]/15 transition-all whitespace-nowrap"
                 >
                   Apply Online
                 </Link>
@@ -166,11 +166,11 @@ export default function HomePage() {
             animate={{ opacity: 1, height: 'auto' }}
             className="md:hidden border-t border-[#E2E8F0] dark:border-[#334155] bg-white dark:bg-[#0F172A] px-6 py-4 space-y-4 shadow-xl"
           >
-            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">Home</Link>
-            <Link to="/courses" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">Courses</Link>
-            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">About Us</Link>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">Contact</Link>
-            <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4]">ERP Connect</Link>
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#862fe7]">Home</Link>
+            <Link to="/courses" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#862fe7]">Courses</Link>
+            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#862fe7]">About Us</Link>
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#862fe7]">Contact</Link>
+            <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#862fe7]">ERP Connect</Link>
           </motion.div>
         )}
       </motion.header>
@@ -191,7 +191,7 @@ export default function HomePage() {
           >
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#0EA5A4]/10 text-[#0EA5A4] border border-[#0EA5A4]/20 mb-6"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#862fe7]/10 text-[#862fe7] border border-[#862fe7]/20 mb-6"
             >
               <Sparkles className="w-3.5 h-3.5" /> Next-Gen AI Platform
             </motion.div>
@@ -201,7 +201,7 @@ export default function HomePage() {
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6"
             >
               Smart School System{' '}
-              <span className="bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#862fe7] to-[#ad6df4] bg-clip-text text-transparent">
               </span>
             </motion.h1>
 
@@ -222,7 +222,7 @@ export default function HomePage() {
               </Link>
               <Link
                 to="/login"
-                className="flex items-center justify-center font-bold bg-white dark:bg-[#1E293B] border border-[#E2E8F0] dark:border-[#334155] hover:border-[#0EA5A4] hover:text-[#0EA5A4] px-8 py-4 rounded-2xl transition-all shadow-sm"
+                className="flex items-center justify-center font-bold bg-white dark:bg-[#1E293B] border border-[#E2E8F0] dark:border-[#334155] hover:border-[#862fe7] hover:text-[#862fe7] px-8 py-4 rounded-2xl transition-all shadow-sm"
               >
                 Access Dashboard
               </Link>
@@ -257,7 +257,7 @@ export default function HomePage() {
                 'Seamless student onboarding and profiling workflows',
               ].map((point, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-[#0EA5A4]" />
+                  <CheckCircle className="w-5 h-5 text-[#862fe7]" />
                   <span className="text-sm font-semibold">{point}</span>
                 </div>
               ))}
@@ -272,7 +272,7 @@ export default function HomePage() {
             className="relative"
           >
             <div className="aspect-video w-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl relative bg-slate-900 flex items-center justify-center p-8">
-              <div className="absolute inset-0 bg-[#0EA5A4]/5 backdrop-blur-sm" />
+              <div className="absolute inset-0 bg-[#862fe7]/5 backdrop-blur-sm" />
               <div className="relative z-10 text-center space-y-4">
                 <div className="w-16 h-16 rounded-full bg-white/10 mx-auto flex items-center justify-center border border-white/20">
                   <Award className="w-8 h-8 text-white" />
@@ -305,9 +305,9 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass rounded-3xl p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1E293B]/60 hover:border-[#0EA5A4] dark:hover:border-[#0EA5A4] transition-all group"
+                className="glass rounded-3xl p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1E293B]/60 hover:border-[#862fe7] dark:hover:border-[#862fe7] transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-[#0EA5A4]/10 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-[#862fe7]/10 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-lg font-bold mb-3">{feature.title}</h3>
@@ -333,7 +333,7 @@ export default function HomePage() {
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
                 className="text-center space-y-2"
               >
-                <h3 className="text-4xl lg:text-5xl font-black text-[#0EA5A4]">{stat.number}</h3>
+                <h3 className="text-4xl lg:text-5xl font-black text-[#862fe7]">{stat.number}</h3>
                 <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">{stat.label}</p>
               </motion.div>
             ))}
@@ -342,9 +342,9 @@ export default function HomePage() {
       </section>
 
       {/* ── Admission Open Banner ── */}
-      <section id="admissions" className="py-20 bg-gradient-to-r from-[#0EA5A4]/10 to-[#14B8A6]/10">
+      <section id="admissions" className="py-20 bg-gradient-to-r from-[#862fe7]/10 to-[#ad6df4]/10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="glass rounded-3xl p-8 lg:p-12 border border-[#0EA5A4]/20 bg-white/60 dark:bg-[#1E293B]/60 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
+          <div className="glass rounded-3xl p-8 lg:p-12 border border-[#862fe7]/20 bg-white/60 dark:bg-[#1E293B]/60 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
             <div>
               <div className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-500/15 text-red-500 mb-4 animate-pulse">
                 Admissions Open 2026-27
@@ -358,7 +358,7 @@ export default function HomePage() {
             </div>
             <Link
               to="/register"
-              className="flex items-center gap-2 px-8 py-4 font-bold bg-[#0EA5A4] text-white hover:bg-[#14B8A6] rounded-2xl shadow-xl shadow-[#0EA5A4]/15 transition-all shrink-0"
+              className="flex items-center gap-2 px-8 py-4 font-bold bg-[#862fe7] text-white hover:bg-[#ad6df4] rounded-2xl shadow-xl shadow-[#862fe7]/15 transition-all shrink-0"
             >
               Apply Online Now
               <ArrowRight className="w-5 h-5" />
@@ -415,15 +415,15 @@ export default function HomePage() {
             
             <div className="space-y-4 text-sm font-semibold">
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#0EA5A4]" />
+                <Phone className="w-5 h-5 text-[#862fe7]" />
                 <span>+919421554793</span>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#0EA5A4]" />
+                <Mail className="w-5 h-5 text-[#862fe7]" />
                 <span>apexlearninghub2020@gmail.com</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="w-5 h-5 text-[#0EA5A4]" />
+                <MapPin className="w-5 h-5 text-[#862fe7]" />
                 <span>2nd Floor, 'Guru mauli',<br />Near HP Petrol Pump, Meri - Rasbihari link Road<br />Nashik 422003</span>
               </div>
             </div>
@@ -437,7 +437,7 @@ export default function HomePage() {
                 placeholder="Your name"
                 value={contactForm.name}
                 onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm outline-none bg-slate-50/50 dark:bg-slate-900/50 text-[#0F172A] dark:text-white focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10 transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm outline-none bg-slate-50/50 dark:bg-slate-900/50 text-[#0F172A] dark:text-white focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10 transition-all"
               />
             </div>
             <div>
@@ -447,7 +447,7 @@ export default function HomePage() {
                 placeholder="Your email"
                 value={contactForm.email}
                 onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm outline-none bg-slate-50/50 dark:bg-slate-900/50 text-[#0F172A] dark:text-white focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10 transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm outline-none bg-slate-50/50 dark:bg-slate-900/50 text-[#0F172A] dark:text-white focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10 transition-all"
               />
             </div>
             <div>
@@ -457,12 +457,12 @@ export default function HomePage() {
                 rows={4}
                 value={contactForm.message}
                 onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm outline-none bg-slate-50/50 dark:bg-slate-900/50 text-[#0F172A] dark:text-white focus:border-[#0EA5A4] focus:ring-4 focus:ring-[#0EA5A4]/10 resize-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm outline-none bg-slate-50/50 dark:bg-slate-900/50 text-[#0F172A] dark:text-white focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10 resize-none transition-all"
               />
             </div>
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 py-3 bg-[#0EA5A4] hover:bg-[#14B8A6] text-white font-bold rounded-xl shadow-lg shadow-[#0EA5A4]/10 transition-all"
+              className="w-full flex items-center justify-center gap-2 py-3 bg-[#862fe7] hover:bg-[#ad6df4] text-white font-bold rounded-xl shadow-lg shadow-[#862fe7]/10 transition-all"
             >
               <Send className="w-4 h-4" /> Send Message
             </button>
@@ -476,13 +476,13 @@ export default function HomePage() {
           
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-xl font-bold border-b-2 border-[#0EA5A4] inline-block pb-1">Quick Links</h4>
+            <h4 className="text-xl font-bold border-b-2 border-[#862fe7] inline-block pb-1">Quick Links</h4>
             <div className="flex flex-col gap-3 text-sm text-slate-600 dark:text-slate-300 mt-4 font-medium">
-              <Link to="/" className="hover:text-[#0EA5A4] transition-colors">Home</Link>
-              <Link to="/courses" className="hover:text-[#0EA5A4] transition-colors">Courses</Link>
-              <Link to="/about" className="hover:text-[#0EA5A4] transition-colors">About Us</Link>
-              <Link to="/contact" className="hover:text-[#0EA5A4] transition-colors">Contact</Link>
-              <Link to="/login" className="hover:text-[#0EA5A4] transition-colors">ERP Connect</Link>
+              <Link to="/" className="hover:text-[#862fe7] transition-colors">Home</Link>
+              <Link to="/courses" className="hover:text-[#862fe7] transition-colors">Courses</Link>
+              <Link to="/about" className="hover:text-[#862fe7] transition-colors">About Us</Link>
+              <Link to="/contact" className="hover:text-[#862fe7] transition-colors">Contact</Link>
+              <Link to="/login" className="hover:text-[#862fe7] transition-colors">ERP Connect</Link>
             </div>
           </div>
 

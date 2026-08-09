@@ -29,13 +29,13 @@ export function AdminExams() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <FileText className="text-[#0EA5A4]" /> Exam & AI Control
+            <FileText className="text-[#862fe7]" /> Exam & AI Control
           </h2>
           <p className="text-slate-500 text-sm mt-1">Manage all institutional exams and monitor AI Test Generator usage</p>
         </div>
         
         <div className="flex gap-2">
-          <button className="flex items-center gap-2 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-[#0EA5A4]/20 hover:opacity-95 transition-all">
+          <button className="flex items-center gap-2 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md shadow-[#862fe7]/20 hover:opacity-95 transition-all">
             <BrainCircuit size={18} /> Configure AI Limits
           </button>
         </div>
@@ -56,7 +56,7 @@ export function AdminExams() {
             </div>
             <div className="text-right">
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Generated Tests</p>
-              <h4 className="text-2xl font-black text-[#0EA5A4]">124</h4>
+              <h4 className="text-2xl font-black text-[#862fe7]">124</h4>
             </div>
           </div>
         </motion.div>
@@ -69,7 +69,7 @@ export function AdminExams() {
           <p className="text-sm text-slate-500 mb-4">
             Teachers can currently generate and publish tests instantly. Switch to manual review to require admin approval before a test is published to students.
           </p>
-          <button className="px-4 py-2 bg-slate-100 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:border-[#0EA5A4] transition-colors">
+          <button className="px-4 py-2 bg-slate-100 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-bold border border-slate-200 dark:border-slate-700 hover:border-[#862fe7] transition-colors">
             Require Manual Approval
           </button>
         </motion.div>
@@ -81,19 +81,19 @@ export function AdminExams() {
         <div className="flex-1 overflow-y-auto pr-2">
           {isLoading ? (
             <div className="flex justify-center items-center h-32">
-              <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+              <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
             </div>
           ) : exams.length === 0 ? (
             <div className="text-center text-slate-500 py-10">No active exams found in the system.</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {exams.map(test => (
-                <div key={test.id} className="p-5 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-[#0EA5A4]/30 transition-colors group">
+                <div key={test.id} className="p-5 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-[#862fe7]/30 transition-colors group">
                   <div className="flex justify-between items-start mb-3">
                     <span className="px-2.5 py-1 text-xs font-bold uppercase rounded-md bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400">
                       {test.subject}
                     </span>
-                    <button className="text-slate-400 hover:text-[#0EA5A4]"><Settings size={16} /></button>
+                    <button className="text-slate-400 hover:text-[#862fe7]"><Settings size={16} /></button>
                   </div>
                   <h4 className="font-bold text-slate-800 dark:text-white mb-3 line-clamp-1">{test.title}</h4>
                   
@@ -108,7 +108,7 @@ export function AdminExams() {
                   
                   <div className="pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center text-xs font-bold">
                     <span className="text-slate-400">By: Admin</span>
-                    <span className="text-[#0EA5A4] cursor-pointer hover:underline">View Analytics →</span>
+                    <span className="text-[#862fe7] cursor-pointer hover:underline">View Analytics →</span>
                   </div>
                 </div>
               ))}

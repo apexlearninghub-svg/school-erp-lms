@@ -159,7 +159,7 @@ export default function RegisterPage() {
                   className={`flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all duration-200 ${
                     watchedRole === role.id
                       ? 'role-btn-active'
-                      : 'border-[#E2E8F0] dark:border-[#334155] bg-white dark:bg-[#1E293B] hover:border-[#0EA5A4] text-[#64748B] dark:text-[#94A3B8]'
+                      : 'border-[#E2E8F0] dark:border-[#334155] bg-white dark:bg-[#1E293B] hover:border-[#862fe7] text-[#64748B] dark:text-[#94A3B8]'
                   }`}
                 >
                   {role.icon}
@@ -182,7 +182,7 @@ export default function RegisterPage() {
                   {...register('full_name')}
                   placeholder="John Smith"
                   className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] transition-all outline-none input-focus-glow
-                    ${errors.full_name ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                    ${errors.full_name ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                 />
               </div>
               {errors.full_name && <p className="text-[#EF4444] text-xs mt-1.5">{errors.full_name.message}</p>}
@@ -199,7 +199,7 @@ export default function RegisterPage() {
                     type="email"
                     placeholder="john@school.edu"
                     className={`w-full pl-10 pr-3 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] transition-all outline-none input-focus-glow
-                      ${errors.email ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                      ${errors.email ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                   />
                 </div>
                 {errors.email && <p className="text-[#EF4444] text-xs mt-1.5">{errors.email.message}</p>}
@@ -212,7 +212,7 @@ export default function RegisterPage() {
                     {...register('username')}
                     placeholder="johnsmith"
                     className={`w-full pl-8 pr-3 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] transition-all outline-none input-focus-glow
-                      ${errors.username ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                      ${errors.username ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                   />
                 </div>
                 {errors.username && <p className="text-[#EF4444] text-xs mt-1.5">{errors.username.message}</p>}
@@ -230,10 +230,10 @@ export default function RegisterPage() {
                   placeholder="Create a strong password"
                   autoComplete="new-password"
                   className={`w-full pl-10 pr-12 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] transition-all outline-none input-focus-glow
-                    ${errors.password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                    ${errors.password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                 />
                 <motion.button type="button" whileTap={{ scale: 0.9 }} onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0EA5A4] transition-colors">
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#862fe7] transition-colors">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </motion.button>
               </div>
@@ -264,10 +264,10 @@ export default function RegisterPage() {
                   placeholder="Repeat your password"
                   autoComplete="new-password"
                   className={`w-full pl-10 pr-12 py-3 rounded-xl border text-sm bg-white dark:bg-[#1E293B] text-[#0F172A] dark:text-[#F1F5F9] placeholder-[#94A3B8] transition-all outline-none input-focus-glow
-                    ${errors.confirm_password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#0EA5A4]'}`}
+                    ${errors.confirm_password ? 'border-[#EF4444]' : 'border-[#E2E8F0] dark:border-[#334155] focus:border-[#862fe7]'}`}
                 />
                 <motion.button type="button" whileTap={{ scale: 0.9 }} onClick={() => setShowConfirm(!showConfirm)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0EA5A4] transition-colors">
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#862fe7] transition-colors">
                   {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </motion.button>
               </div>
@@ -307,7 +307,7 @@ export default function RegisterPage() {
 
           <motion.p variants={itemVariants} className="text-center mt-5 text-sm text-[#64748B] dark:text-[#94A3B8]">
             Already have an account?{' '}
-            <Link to="/login" className="text-[#0EA5A4] font-semibold hover:underline">Sign in</Link>
+            <Link to="/login" className="text-[#862fe7] font-semibold hover:underline">Sign in</Link>
           </motion.p>
         </motion.div>
       </motion.div>

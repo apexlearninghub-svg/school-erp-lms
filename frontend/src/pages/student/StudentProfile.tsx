@@ -56,13 +56,13 @@ export function StudentProfile({ user }: ProfileProps) {
       
       {/* Header Card */}
       <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
-        <div className="h-32 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] relative">
+        <div className="h-32 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mt-20 -mr-20"></div>
         </div>
         
         <div className="px-6 sm:px-10 pb-8 relative">
           <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 -mt-16 mb-6">
-            <div className="w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-4xl font-bold text-[#0EA5A4] shadow-lg relative overflow-hidden">
+            <div className="w-32 h-32 rounded-full border-4 border-white dark:border-slate-800 bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-4xl font-bold text-[#862fe7] shadow-lg relative overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
               ) : (
@@ -123,14 +123,14 @@ export function StudentProfile({ user }: ProfileProps) {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 flex items-center gap-3">
-                <div className="p-2 bg-[#0EA5A4]/10 text-[#0EA5A4] rounded-lg"><GraduationCap size={20} /></div>
+                <div className="p-2 bg-[#862fe7]/10 text-[#862fe7] rounded-lg"><GraduationCap size={20} /></div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase">Roll Number</p>
                   <p className="font-semibold text-slate-800 dark:text-white">{user?.student_profile?.roll_number || 'N/A'}</p>
                 </div>
               </div>
               <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 flex items-center gap-3">
-                <div className="p-2 bg-[#0EA5A4]/10 text-[#0EA5A4] rounded-lg"><Calendar size={20} /></div>
+                <div className="p-2 bg-[#862fe7]/10 text-[#862fe7] rounded-lg"><Calendar size={20} /></div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase">Academic Session</p>
                   <p className="font-semibold text-slate-800 dark:text-white">{user?.student_profile?.academic_session || '2023-2024'}</p>
@@ -176,7 +176,7 @@ export function StudentProfile({ user }: ProfileProps) {
                   type="password" 
                   value={passwords.current}
                   onChange={e => setPasswords({...passwords, current: e.target.value})}
-                  className="w-full mt-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4] outline-none"
+                  className="w-full mt-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7] outline-none"
                   required 
                 />
               </div>
@@ -186,7 +186,7 @@ export function StudentProfile({ user }: ProfileProps) {
                   type="password" 
                   value={passwords.new}
                   onChange={e => setPasswords({...passwords, new: e.target.value})}
-                  className="w-full mt-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4] outline-none"
+                  className="w-full mt-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7] outline-none"
                   required 
                 />
               </div>
@@ -196,14 +196,14 @@ export function StudentProfile({ user }: ProfileProps) {
                   type="password" 
                   value={passwords.confirm}
                   onChange={e => setPasswords({...passwords, confirm: e.target.value})}
-                  className="w-full mt-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4] outline-none"
+                  className="w-full mt-1 px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7] outline-none"
                   required 
                 />
               </div>
               <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="px-4 py-2 bg-[#0EA5A4] text-white font-bold rounded-xl hover:bg-[#14B8A6] transition-colors disabled:opacity-50 flex items-center gap-2"
+                className="px-4 py-2 bg-[#862fe7] text-white font-bold rounded-xl hover:bg-[#ad6df4] transition-colors disabled:opacity-50 flex items-center gap-2"
               >
                 {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                 Change Password

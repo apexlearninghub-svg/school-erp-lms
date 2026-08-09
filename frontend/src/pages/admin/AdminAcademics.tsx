@@ -30,7 +30,7 @@ export function AdminAcademics() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <GraduationCap className="text-[#0EA5A4]" /> Academic Management
+            <GraduationCap className="text-[#862fe7]" /> Academic Management
           </h2>
           <p className="text-slate-500 text-sm mt-1">Configure classes, sections, and curriculum subjects</p>
         </div>
@@ -44,15 +44,15 @@ export function AdminAcademics() {
       <div className="flex-1 overflow-y-auto pb-6 pr-2">
         {isLoading ? (
           <div className="flex justify-center items-center h-48">
-            <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
           </div>
         ) : activeTab === 'classes' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-[#0EA5A4] rounded-3xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-slate-50/50 dark:bg-slate-900/30 group min-h-[200px]">
-              <div className="w-12 h-12 rounded-full bg-[#0EA5A4]/10 flex items-center justify-center text-[#0EA5A4] mb-3 group-hover:scale-110 transition-transform">
+            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-[#862fe7] rounded-3xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-slate-50/50 dark:bg-slate-900/30 group min-h-[200px]">
+              <div className="w-12 h-12 rounded-full bg-[#862fe7]/10 flex items-center justify-center text-[#862fe7] mb-3 group-hover:scale-110 transition-transform">
                 <Plus size={24} />
               </div>
-              <h3 className="font-bold text-slate-800 dark:text-white group-hover:text-[#0EA5A4] transition-colors">Add New Class</h3>
+              <h3 className="font-bold text-slate-800 dark:text-white group-hover:text-[#862fe7] transition-colors">Add New Class</h3>
               <p className="text-xs text-slate-500 mt-1">Create a new academic class</p>
             </div>
             
@@ -87,15 +87,15 @@ export function AdminAcademics() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-[#0EA5A4] rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-slate-50/50 dark:bg-slate-900/30 group">
-              <div className="w-10 h-10 rounded-full bg-[#0EA5A4]/10 flex items-center justify-center text-[#0EA5A4] mb-2 group-hover:scale-110 transition-transform">
+            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-[#862fe7] rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-slate-50/50 dark:bg-slate-900/30 group">
+              <div className="w-10 h-10 rounded-full bg-[#862fe7]/10 flex items-center justify-center text-[#862fe7] mb-2 group-hover:scale-110 transition-transform">
                 <Plus size={20} />
               </div>
-              <h3 className="font-bold text-sm text-slate-800 dark:text-white group-hover:text-[#0EA5A4] transition-colors">Add Subject</h3>
+              <h3 className="font-bold text-sm text-slate-800 dark:text-white group-hover:text-[#862fe7] transition-colors">Add Subject</h3>
             </div>
             
             {data.subjects.map((sub: any) => (
-              <motion.div variants={itemVariants} key={sub.id} className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col group hover:border-[#0EA5A4]/30 transition-colors">
+              <motion.div variants={itemVariants} key={sub.id} className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col group hover:border-[#862fe7]/30 transition-colors">
                 <div className="flex justify-between items-start mb-3">
                   <div className="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-500 rounded-lg">
                     <Book size={18} />
@@ -105,7 +105,7 @@ export function AdminAcademics() {
                   </span>
                 </div>
                 <h3 className="font-bold text-slate-800 dark:text-white text-lg">{sub.name}</h3>
-                <button className="mt-4 text-xs font-bold text-[#0EA5A4] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                <button className="mt-4 text-xs font-bold text-[#862fe7] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
                   Manage Syllabus →
                 </button>
               </motion.div>

@@ -48,7 +48,7 @@ export function AdminReports() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
-        <Loader2 className="w-10 h-10 text-[#0EA5A4] animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#862fe7] animate-spin" />
       </div>
     );
   }
@@ -58,7 +58,7 @@ export function AdminReports() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <BarChart3 className="text-[#0EA5A4]" /> Interactive Analytics
+            <BarChart3 className="text-[#862fe7]" /> Interactive Analytics
           </h2>
           <p className="text-slate-500 text-sm mt-1">Real-time charts and system metrics</p>
         </div>

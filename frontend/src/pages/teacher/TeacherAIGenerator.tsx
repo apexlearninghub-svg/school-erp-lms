@@ -97,35 +97,51 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
   };
 
   return (
-    <div className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
+    <div className="space-y-6 pb-6">
       {!currentDraft ? (
-        <motion.div variants={itemVariants} initial="hidden" animate="visible" className="bg-white dark:bg-slate-800 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-700 shadow-sm max-w-4xl mx-auto w-full">
-          <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100 dark:border-slate-700">
-            <div className="p-3 bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] rounded-2xl text-white shadow-lg shadow-[#0EA5A4]/20">
-              <BrainCircuit size={28} />
+        <motion.div variants={itemVariants} initial="hidden" animate="visible" className="bg-white dark:bg-[#1E293B] rounded-[24px] p-6 md:p-8 border border-[#d8e0ea] dark:border-[#334155] max-w-4xl mx-auto w-full">
+          <div className="flex items-center gap-4 mb-8 pb-6 border-b border-[#f1f5f9] dark:border-[#334155]">
+            <div className="p-3 rounded-[16px] bg-gradient-to-br from-[#862fe7] to-[#ad6df4] text-white shadow-[0_8px_24px_rgba(134,47,231,0.3)]">
+              <BrainCircuit size={26} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-white">AI Exam Builder</h2>
-              <p className="text-slate-500 text-sm mt-1">Generate structured exam papers from prompts and documents instantly.</p>
+              <div className="flex items-center gap-2 mb-1">
+                <h2 className="text-xl font-bold text-[#111827] dark:text-white">AI Exam Builder</h2>
+                <span className="ai-badge">✦ AI</span>
+              </div>
+              <p className="text-[#6b7589] dark:text-[#94A3B8] text-sm">Generate structured exam papers from prompts and documents instantly.</p>
             </div>
+          </div>
+
+          {/* Step Progress */}
+          <div className="flex items-center gap-3 mb-8 overflow-x-auto pb-2">
+            {['Configure', 'Add Source', 'Generate', 'Review & Publish'].map((step, i) => (
+              <div key={i} className="flex items-center gap-2 shrink-0">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                  i === 0 ? 'bg-[#862fe7] text-white' : 'bg-[#f1f5f9] dark:bg-[#334155] text-[#6b7589] dark:text-[#94A3B8]'
+                }`}>{i + 1}</div>
+                <span className={`text-xs font-medium ${i === 0 ? 'text-[#862fe7] font-semibold' : 'text-[#6b7589] dark:text-[#94A3B8]'}`}>{step}</span>
+                {i < 3 && <div className="w-8 h-px bg-[#d8e0ea] dark:bg-[#334155] ml-1" />}
+              </div>
+            ))}
           </div>
 
           <form onSubmit={handleGenerateTest} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Test Title</label>
-                <input required value={testTitle} onChange={e => setTestTitle(e.target.value)} placeholder="e.g. Science Midterm" className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none dark:text-white" />
+                <input required value={testTitle} onChange={e => setTestTitle(e.target.value)} placeholder="e.g. Science Midterm" className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none dark:text-white" />
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Subject Domain</label>
-                <input required value={testSubject} onChange={e => setTestSubject(e.target.value)} placeholder="e.g. Biology" className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none dark:text-white" />
+                <input required value={testSubject} onChange={e => setTestSubject(e.target.value)} placeholder="e.g. Biology" className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none dark:text-white" />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Complexity</label>
-                <select value={difficulty} onChange={e => setDifficulty(e.target.value as any)} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none dark:text-white appearance-none">
+                <select value={difficulty} onChange={e => setDifficulty(e.target.value as any)} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none dark:text-white appearance-none">
                   <option value="easy">Easy (Foundation)</option>
                   <option value="medium">Medium (Intermediate)</option>
                   <option value="hard">Hard (Advanced)</option>
@@ -133,14 +149,14 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Question Count</label>
-                <input type="number" min="10" max="100" value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none dark:text-white" />
+                <input type="number" min="10" max="100" value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none dark:text-white" />
               </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Source Material (Optional)</label>
-              <div onDragOver={e => e.preventDefault()} onDrop={handleFileDrop} className="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-[#0EA5A4] rounded-2xl p-8 text-center transition-colors cursor-pointer bg-slate-50 dark:bg-slate-900/30 group">
-                <Upload size={32} className="text-slate-400 mx-auto mb-3 group-hover:text-[#0EA5A4] transition-colors" />
+              <div onDragOver={e => e.preventDefault()} onDrop={handleFileDrop} className="border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-[#862fe7] rounded-2xl p-8 text-center transition-colors cursor-pointer bg-slate-50 dark:bg-slate-900/30 group">
+                <Upload size={32} className="text-slate-400 mx-auto mb-3 group-hover:text-[#862fe7] transition-colors" />
                 <p className="font-semibold text-slate-700 dark:text-slate-300">{sourceFile ? sourceFile.name : 'Drag & Drop PDF or Document'}</p>
                 <input type="file" id="ai-file" accept=".pdf,.doc,.docx" onChange={e => e.target.files?.[0] && setSourceFile(e.target.files[0])} className="hidden" />
                 <label htmlFor="ai-file" className="mt-4 inline-block px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-sm font-bold cursor-pointer transition-colors dark:text-white">Browse Files</label>
@@ -149,10 +165,10 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
 
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Custom Prompt / Guidelines</label>
-              <textarea rows={3} value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder="e.g. Include real-world examples, avoid trick questions..." className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#0EA5A4]/50 focus:border-[#0EA5A4] transition-all outline-none resize-none dark:text-white" />
+              <textarea rows={3} value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder="e.g. Include real-world examples, avoid trick questions..." className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none resize-none dark:text-white" />
             </div>
 
-            <button type="submit" disabled={isGenerating} className="w-full py-4 bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] text-white font-bold rounded-xl shadow-lg shadow-[#0EA5A4]/20 hover:opacity-90 disabled:opacity-50 transition-all flex justify-center items-center gap-2 text-lg mt-4">
+            <button type="submit" disabled={isGenerating} className="w-full py-4 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white font-bold rounded-xl shadow-lg shadow-[rgba(134,47,231,0.3)] hover:opacity-90 disabled:opacity-50 transition-all flex justify-center items-center gap-2 text-lg mt-4">
               {isGenerating ? <><Loader2 className="animate-spin" /> Generating via Gemini...</> : <><BrainCircuit /> Generate Test Now</>}
             </button>
           </form>
@@ -162,7 +178,7 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
         <motion.div variants={itemVariants} initial="hidden" animate="visible" className="space-y-6">
           <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 flex justify-between items-center shadow-lg">
             <div>
-              <span className="text-xs font-bold text-[#0EA5A4] uppercase tracking-widest bg-[#0EA5A4]/10 px-2.5 py-1 rounded-md">Draft Mode</span>
+              <span className="text-xs font-bold text-[#862fe7] uppercase tracking-widest bg-[#ebdafd] px-2.5 py-1 rounded-md">Draft Mode</span>
               <h2 className="text-2xl font-bold mt-2">{currentDraft.title}</h2>
               <p className="text-slate-400 mt-1">{currentDraft.subject} • {currentDraft.questions.length} Questions</p>
             </div>
@@ -193,7 +209,7 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
                         </div>
                         <div className="flex justify-end gap-2">
                           <button onClick={() => setEditingQuestionIdx(null)} className="px-4 py-2 bg-slate-100 dark:bg-slate-700 font-bold rounded-xl">Cancel</button>
-                          <button onClick={() => saveQuestionEdit(idx)} className="px-4 py-2 bg-[#0EA5A4] text-white font-bold rounded-xl">Save</button>
+                          <button onClick={() => saveQuestionEdit(idx)} className="px-4 py-2 bg-[#862fe7] text-white font-bold rounded-[12px]">Save</button>
                         </div>
                       </div>
                     ) : (
@@ -253,14 +269,14 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
                       <input type="checkbox" checked={selectedClasses.includes(cls)} onChange={e => {
                         if (e.target.checked) setSelectedClasses([...selectedClasses, cls]);
                         else setSelectedClasses(selectedClasses.filter(c => c !== cls));
-                      }} className="text-[#0EA5A4] rounded focus:ring-[#0EA5A4]" />
+                      }} className="text-[#862fe7] rounded focus:ring-[#862fe7]" />
                       <span className="text-sm font-medium dark:text-white">{cls}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <button onClick={handlePublishTest} disabled={isPublishing || selectedClasses.length === 0} className="w-full py-3 bg-[#0EA5A4] text-white font-bold rounded-xl flex justify-center items-center gap-2 disabled:opacity-50">
+              <button onClick={handlePublishTest} disabled={isPublishing || selectedClasses.length === 0} className="w-full py-3 bg-[#862fe7] text-white font-bold rounded-[12px] flex justify-center items-center gap-2 disabled:opacity-50">
                 {isPublishing ? <Loader2 className="animate-spin" /> : <CheckSquare />}
                 Confirm Publish
               </button>
@@ -271,3 +287,5 @@ export function TeacherAIGenerator({ onTabChange }: { onTabChange: (tab: string)
     </div>
   );
 }
+
+

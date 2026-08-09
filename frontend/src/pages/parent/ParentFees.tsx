@@ -29,7 +29,7 @@ export function ParentFees() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <DollarSign className="text-[#0EA5A4]" /> Fee Management
+            <DollarSign className="text-[#862fe7]" /> Fee Management
           </h2>
           <p className="text-slate-500 text-sm mt-1">View fee structures, outstanding dues, and payment history</p>
         </div>
@@ -37,18 +37,18 @@ export function ParentFees() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 space-y-6">
-            <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] rounded-3xl p-6 shadow-lg shadow-teal-500/20 text-white relative overflow-hidden">
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#862fe7] to-[#ad6df4] rounded-3xl p-6 shadow-lg shadow-violet-500/20 text-white relative overflow-hidden">
               <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
               <p className="text-teal-100 font-bold text-sm uppercase tracking-wider mb-2 relative z-10">Total Outstanding</p>
               <h3 className="text-4xl font-black mb-1 relative z-10">${data?.total_pending?.toLocaleString() || 0}</h3>
               <p className="text-sm font-medium text-teal-50 relative z-10">Due by: {data?.due_date}</p>
               
-              <button className="w-full mt-6 py-3 bg-white text-[#0EA5A4] font-black rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all flex justify-center items-center gap-2 relative z-10">
+              <button className="w-full mt-6 py-3 bg-white text-[#862fe7] font-black rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all flex justify-center items-center gap-2 relative z-10">
                 <CreditCard size={20} /> Pay Now
               </button>
             </motion.div>
@@ -96,7 +96,7 @@ export function ParentFees() {
                       <p className="font-black text-slate-800 dark:text-white">${txn.amount.toLocaleString()}</p>
                       <p className={`text-xs font-bold uppercase tracking-wider ${txn.status === 'completed' ? 'text-emerald-500' : 'text-orange-500'}`}>{txn.status}</p>
                     </div>
-                    <button disabled={txn.status !== 'completed'} className="p-2 text-slate-400 hover:text-[#0EA5A4] disabled:opacity-30 disabled:hover:text-slate-400 transition-colors">
+                    <button disabled={txn.status !== 'completed'} className="p-2 text-slate-400 hover:text-[#862fe7] disabled:opacity-30 disabled:hover:text-slate-400 transition-colors">
                       <DownloadCloud size={20} />
                     </button>
                   </div>

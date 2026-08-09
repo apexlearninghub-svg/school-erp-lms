@@ -39,7 +39,7 @@ export function TeacherProfile({ user }: { user: any }) {
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="max-w-5xl mx-auto space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
       <motion.div variants={itemVariants} className="relative bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
         {/* Banner */}
-        <div className="h-48 bg-gradient-to-r from-slate-900 to-[#0EA5A4] relative overflow-hidden">
+        <div className="h-48 bg-gradient-to-r from-slate-900 to-[#862fe7] relative overflow-hidden">
           <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
         </div>
         
@@ -47,7 +47,7 @@ export function TeacherProfile({ user }: { user: any }) {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end -mt-16 mb-6">
             <div className="flex items-end gap-6">
               <div className="relative group">
-                <div className="w-32 h-32 rounded-3xl border-4 border-white dark:border-slate-800 bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] flex justify-center items-center text-4xl font-black text-white shadow-xl overflow-hidden">
+                <div className="w-32 h-32 rounded-3xl border-4 border-white dark:border-slate-800 bg-gradient-to-br from-[#862fe7] to-[#ad6df4] flex justify-center items-center text-4xl font-black text-white shadow-xl overflow-hidden">
                   {user?.avatar ? (
                     <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
@@ -62,7 +62,7 @@ export function TeacherProfile({ user }: { user: any }) {
               <div className="pb-2">
                 <h1 className="text-3xl font-black text-slate-800 dark:text-white mb-1">{formData.full_name}</h1>
                 <div className="flex items-center gap-3 text-sm font-semibold text-slate-500">
-                  <span className="flex items-center gap-1.5 px-3 py-1 bg-[#0EA5A4]/10 text-[#0EA5A4] rounded-lg uppercase tracking-wider">
+                  <span className="flex items-center gap-1.5 px-3 py-1 bg-[#862fe7]/10 text-[#862fe7] rounded-lg uppercase tracking-wider">
                     <Shield size={14} /> Teacher Account
                   </span>
                   <span>{user?.teacher_profile?.employee_id || 'TCH-001'}</span>
@@ -76,7 +76,7 @@ export function TeacherProfile({ user }: { user: any }) {
                   <button onClick={() => setIsEditing(false)} className="px-5 py-2.5 rounded-xl font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                     Cancel
                   </button>
-                  <button onClick={handleSave} disabled={isSaving} className="px-5 py-2.5 rounded-xl font-bold bg-[#0EA5A4] text-white hover:opacity-95 shadow-lg shadow-[#0EA5A4]/20 transition-all flex items-center gap-2">
+                  <button onClick={handleSave} disabled={isSaving} className="px-5 py-2.5 rounded-xl font-bold bg-[#862fe7] text-white hover:opacity-95 shadow-lg shadow-[#862fe7]/20 transition-all flex items-center gap-2">
                     {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />} Save Changes
                   </button>
                 </div>
@@ -97,7 +97,7 @@ export function TeacherProfile({ user }: { user: any }) {
                     value={formData.bio}
                     onChange={e => setFormData({...formData, bio: e.target.value})}
                     rows={4}
-                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#0EA5A4] dark:text-white resize-none"
+                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white resize-none"
                   />
                 ) : (
                   <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
@@ -158,7 +158,7 @@ export function TeacherProfile({ user }: { user: any }) {
                     { degree: 'Bachelor of Science', year: '2012', inst: 'Tech Institute' }
                   ].map((q, idx) => (
                     <li key={idx} className="relative pl-6">
-                      <span className="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-[#0EA5A4]"></span>
+                      <span className="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-[#862fe7]"></span>
                       <p className="font-bold text-sm text-slate-800 dark:text-white">{q.degree}</p>
                       <p className="text-xs font-medium text-slate-500 mt-0.5">{q.inst} • {q.year}</p>
                     </li>

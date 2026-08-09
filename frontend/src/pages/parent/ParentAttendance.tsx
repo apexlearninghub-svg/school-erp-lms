@@ -33,7 +33,7 @@ export function ParentAttendance() {
   if (isLoading) {
     return (
       <div className="h-[calc(100vh-140px)] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#0EA5A4] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
       </div>
     );
   }
@@ -44,7 +44,7 @@ export function ParentAttendance() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <CalendarDays className="text-[#0EA5A4]" /> Attendance Record
+            <CalendarDays className="text-[#862fe7]" /> Attendance Record
           </h2>
           <p className="text-slate-500 text-sm mt-1">Monitor your child's daily school attendance</p>
         </div>

@@ -70,7 +70,7 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
       
       {/* Welcome Banner */}
-      <motion.div variants={itemVariants} className="relative overflow-hidden bg-gradient-to-r from-[#0EA5A4] to-[#14B8A6] rounded-3xl p-8 text-white shadow-xl shadow-[#0EA5A4]/20">
+      <motion.div variants={itemVariants} className="relative overflow-hidden bg-gradient-to-r from-[#862fe7] to-[#ad6df4] rounded-3xl p-8 text-white shadow-xl shadow-[#862fe7]/20">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-1/4 -mb-10 w-48 h-48 bg-black/10 rounded-full blur-2xl"></div>
         
@@ -117,16 +117,16 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
 
       {/* Quick Actions */}
       <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <button onClick={() => onTabChange('available')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#0EA5A4] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
-          <PlayCircle className="w-5 h-5 text-[#0EA5A4]" /> Start Test
+        <button onClick={() => onTabChange('available')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+          <PlayCircle className="w-5 h-5 text-[#862fe7]" /> Start Test
         </button>
-        <button onClick={() => onTabChange('results')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#0EA5A4] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        <button onClick={() => onTabChange('results')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
           <BarChart3 className="w-5 h-5 text-purple-500" /> View Results
         </button>
-        <button onClick={() => onTabChange('ai')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#0EA5A4] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        <button onClick={() => onTabChange('ai')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
           <BookOpen className="w-5 h-5 text-amber-500" /> AI Assistant
         </button>
-        <button onClick={() => onTabChange('notifications')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#0EA5A4] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        <button onClick={() => onTabChange('notifications')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
           <Bell className="w-5 h-5 text-rose-500" /> Notifications
         </button>
       </motion.div>
@@ -136,7 +136,7 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
         <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-lg text-slate-800 dark:text-white">Recent Results</h3>
-            <button onClick={() => onTabChange('results')} className="text-sm font-semibold text-[#0EA5A4] hover:underline flex items-center">
+            <button onClick={() => onTabChange('results')} className="text-sm font-semibold text-[#862fe7] hover:underline flex items-center">
               View All <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -148,7 +148,7 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
                   <p className="text-xs text-slate-500">{new Date(res.completed_at).toLocaleDateString()}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-black text-[#0EA5A4]">{res.percentage}%</span>
+                  <span className="font-black text-[#862fe7]">{res.percentage}%</span>
                   <span className={`px-2 py-1 rounded text-xs font-bold text-white
                     ${res.grade === 'A+' ? 'bg-emerald-500' : 
                       res.grade === 'A' ? 'bg-teal-500' : 
@@ -169,7 +169,7 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
         <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-lg text-slate-800 dark:text-white">Upcoming Tests</h3>
-            <button onClick={() => onTabChange('available')} className="text-sm font-semibold text-[#0EA5A4] hover:underline flex items-center">
+            <button onClick={() => onTabChange('available')} className="text-sm font-semibold text-[#862fe7] hover:underline flex items-center">
               View All <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -186,7 +186,7 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
                 </div>
                 <button 
                   onClick={() => onStartExam(test)}
-                  className="p-2 bg-[#0EA5A4]/10 text-[#0EA5A4] rounded-lg hover:bg-[#0EA5A4] hover:text-white transition-colors"
+                  className="p-2 bg-[#862fe7]/10 text-[#862fe7] rounded-lg hover:bg-[#862fe7] hover:text-white transition-colors"
                 >
                   <PlayCircle className="w-5 h-5" />
                 </button>

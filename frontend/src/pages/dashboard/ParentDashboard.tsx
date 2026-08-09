@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  LayoutDashboard, GraduationCap, CalendarDays, 
+import {
+  LayoutDashboard, GraduationCap, CalendarDays,
   BookOpen, DollarSign, MessageSquare, Bot, User,
-  LogOut, Sun, Moon, Menu, ChevronRight, Home
+  LogOut, Sun, Moon, Menu, ChevronRight, Home, X,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from '@/components/ui/Avatar';
 
-// Import all Parent Modules
 import { ParentOverview } from '../parent/ParentOverview';
 import { ParentAcademics } from '../parent/ParentAcademics';
 import { ParentAttendance } from '../parent/ParentAttendance';
@@ -18,14 +18,33 @@ import { ParentCommunication } from '../parent/ParentCommunication';
 import { ParentAIAssistant } from '../parent/ParentAIAssistant';
 import { ParentProfile } from '../parent/ParentProfile';
 
+const NAV_GROUPS = [
+  {
+    label: 'Overview',
+    items: [
+      { id: 'overview',       label: 'Dashboard',           icon: LayoutDashboard },
+      { id: 'academics',      label: 'Academic Progress',   icon: GraduationCap },
+      { id: 'attendance',     label: 'Attendance',          icon: CalendarDays },
+    ],
+  },
+  {
+    label: 'Manage',
+    items: [
+      { id: 'homework',       label: 'Homework Tracker',    icon: BookOpen },
+      { id: 'fees',           label: 'Fee Management',      icon: DollarSign },
+      { id: 'communication',  label: 'Communication',       icon: MessageSquare },
+      { id: 'ai',             label: 'AI Learning Assistant', icon: Bot },
+    ],
+  },
+];
+
 export default function ParentDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('darkMode') === 'true';
-  });
+  const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
 
   useEffect(() => {
     if (isDarkMode) {
@@ -37,183 +56,193 @@ export default function ParentDashboard() {
     }
   }, [isDarkMode]);
 
-  // Auth Protection
   useEffect(() => {
-    if (!user || user.role !== 'parent') {
-      navigate('/login');
-    }
+    if (!user || user.role !== 'parent') navigate('/login');
   }, [user, navigate]);
 
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
 
-  const NAVIGATION_TABS = [
-    { id: 'overview', label: 'Dashboard Overview', icon: <LayoutDashboard size={20} /> },
-    { id: 'academics', label: 'Academic Progress', icon: <GraduationCap size={20} /> },
-    { id: 'attendance', label: 'Attendance', icon: <CalendarDays size={20} /> },
-    { id: 'homework', label: 'Homework Tracker', icon: <BookOpen size={20} /> },
-    { id: 'fees', label: 'Fee Management', icon: <DollarSign size={20} /> },
-    { id: 'communication', label: 'Communication Center', icon: <MessageSquare size={20} /> },
-    { id: 'ai', label: 'AI Learning Assistant', icon: <Bot size={20} /> }
-  ];
+  const currentLabel = NAV_GROUPS.flatMap(g => g.items).find(i => i.id === activeTab)?.label || 'Profile';
 
-  const renderActiveTab = () => {
+  const renderTab = () => {
     switch (activeTab) {
-      case 'overview': return <ParentOverview onTabChange={setActiveTab} />;
-      case 'academics': return <ParentAcademics />;
-      case 'attendance': return <ParentAttendance />;
-      case 'homework': return <ParentHomework />;
-      case 'fees': return <ParentFees />;
+      case 'overview':      return <ParentOverview onTabChange={setActiveTab} />;
+      case 'academics':     return <ParentAcademics />;
+      case 'attendance':    return <ParentAttendance />;
+      case 'homework':      return <ParentHomework />;
+      case 'fees':          return <ParentFees />;
       case 'communication': return <ParentCommunication />;
-      case 'ai': return <ParentAIAssistant />;
-      case 'profile': return <ParentProfile user={user} />;
-      default: return <ParentOverview onTabChange={setActiveTab} />;
+      case 'ai':            return <ParentAIAssistant />;
+      case 'profile':       return <ParentProfile user={user} />;
+      default:              return <ParentOverview onTabChange={setActiveTab} />;
     }
   };
 
-  const currentTabLabel = NAVIGATION_TABS.find(t => t.id === activeTab)?.label || 'Profile';
-
   if (!user) return null;
 
+  const sidebarContent = (
+    <div className="flex flex-col h-full">
+      <div className="px-6 py-5 flex items-center justify-between border-b border-[#d8e0ea] dark:border-[#334155] shrink-0">
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Apex Learning Hub" className="w-9 h-9 rounded-[12px] object-contain shrink-0 bg-white" />
+          <div>
+            <h2 className="text-sm font-bold text-[#111827] dark:text-white leading-none">Apex Learning Hub</h2>
+            <p className="text-[10px] text-[#c2410c] font-semibold uppercase tracking-widest mt-0.5">Parent Portal</p>
+          </div>
+        </div>
+        <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-1.5 rounded-[10px] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] text-[#6b7589]">
+          <X size={16} />
+        </button>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
+        {NAV_GROUPS.map(group => (
+          <div key={group.label}>
+            <p className="px-3 text-[10px] font-bold text-[#6b7589] uppercase tracking-widest mb-2">{group.label}</p>
+            <div className="space-y-0.5">
+              {group.items.map(item => {
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => { setActiveTab(item.id); setIsSidebarOpen(false); }}
+                    className={[
+                      'w-full flex items-center gap-3 px-3 py-2.5 rounded-[12px] text-sm font-medium transition-all duration-150',
+                      isActive
+                        ? 'bg-[#fff7ed] text-[#c2410c] dark:bg-[rgba(194,65,12,0.18)] dark:text-[#fb923c]'
+                        : 'text-[#6b7589] dark:text-[#94A3B8] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] hover:text-[#111827] dark:hover:text-white',
+                    ].join(' ')}
+                  >
+                    <item.icon size={18} className={isActive ? '' : 'text-[#6b7589] dark:text-[#94A3B8]'} />
+                    <span className="flex-1 text-left">{item.label}</span>
+                    {isActive && <ChevronRight size={14} className="shrink-0" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </nav>
+
+      <div className="px-4 py-4 border-t border-[#d8e0ea] dark:border-[#334155] space-y-1 shrink-0">
+        <button
+          onClick={() => { setActiveTab('profile'); setIsSidebarOpen(false); }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-[12px] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] transition-colors"
+        >
+          <Avatar src={user.avatar} name={user.full_name} size="sm" />
+          <div className="flex-1 text-left overflow-hidden">
+            <p className="text-sm font-semibold text-[#111827] dark:text-white truncate">{user.full_name}</p>
+            <p className="text-xs text-[#6b7589] dark:text-[#94A3B8]">Parent</p>
+          </div>
+          <User size={14} className="text-[#6b7589] shrink-0" />
+        </button>
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-[12px] text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+        >
+          <LogOut size={16} /> Sign Out
+        </button>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300 font-sans selection:bg-[#0EA5A4] selection:text-white flex overflow-hidden">
-      
-      {/* Mobile Sidebar Overlay */}
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
+    <div className="min-h-screen bg-[#f1f5f9] dark:bg-[#0F172A] flex transition-colors duration-200 font-sans">
+
+      <AnimatePresence initial={false}>
+        {isDesktopSidebarOpen && (
+          <motion.aside
+            key="desktop"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 272, opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+            className="hidden lg:flex flex-col shrink-0 bg-white dark:bg-[#1E293B] border-r border-[#d8e0ea] dark:border-[#334155] overflow-hidden h-screen sticky top-0"
+          >
+            <div className="w-[272px]">{sidebarContent}</div>
+          </motion.aside>
         )}
       </AnimatePresence>
 
-      {/* Sidebar Navigation */}
-      <motion.aside 
-        className={`fixed lg:static inset-y-0 left-0 w-[280px] bg-white dark:bg-slate-800 border-r border-slate-100 dark:border-slate-700 shadow-xl lg:shadow-none z-50 flex flex-col transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
-      >
-        <div className="h-20 flex items-center px-8 border-b border-slate-100 dark:border-slate-700">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Apex Learning Hub Logo" className="w-10 h-10 rounded-xl object-contain shadow-lg shadow-[#0EA5A4]/30 bg-white shrink-0" />
-            <span className="text-lg font-black bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300 tracking-tight leading-tight">
-              Apex Learning Hub
-            </span>
-          </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
-          <div className="mb-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Parent Portal</div>
-          {NAVIGATION_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => {
-                setActiveTab(tab.id);
-                if (window.innerWidth < 1024) setIsSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all duration-200 group ${
-                activeTab === tab.id 
-                  ? 'bg-gradient-to-r from-[#0EA5A4]/10 to-transparent text-[#0EA5A4] dark:from-[#0EA5A4]/20' 
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/50'
-              }`}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <>
+            <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
+              onClick={() => setIsSidebarOpen(false)}
+            />
+            <motion.aside
+              key="mobile"
+              initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+              className="fixed top-0 left-0 h-full w-[272px] z-50 lg:hidden bg-white dark:bg-[#1E293B] border-r border-[#d8e0ea] dark:border-[#334155] shadow-2xl"
             >
-              <div className={`${activeTab === tab.id ? 'text-[#0EA5A4]' : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300'} transition-colors`}>
-                {tab.icon}
-              </div>
-              {tab.label}
-              {activeTab === tab.id && (
-                <motion.div layoutId="activeIndicator" className="absolute left-0 w-1 h-8 bg-[#0EA5A4] rounded-r-full" />
-              )}
-            </button>
-          ))}
-        </div>
+              {sidebarContent}
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
-        <div className="p-4 border-t border-slate-100 dark:border-slate-700">
-          <button 
-            onClick={() => {
-              setActiveTab('profile');
-              if (window.innerWidth < 1024) setIsSidebarOpen(false);
-            }}
-            className="flex items-center gap-3 p-2 w-full hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-xl transition-colors text-left"
+      <div className="flex-1 flex flex-col min-w-0 h-screen">
+        <header className="h-16 shrink-0 bg-white/90 dark:bg-[#1E293B]/90 backdrop-blur-xl border-b border-[#d8e0ea] dark:border-[#334155] flex items-center px-4 sm:px-6 gap-3 sticky top-0 z-30">
+          <button
+            onClick={() => window.innerWidth >= 1024 ? setIsDesktopSidebarOpen(v => !v) : setIsSidebarOpen(true)}
+            className="p-2 rounded-[10px] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] text-[#6b7589] transition-colors"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0EA5A4] to-[#14B8A6] flex items-center justify-center text-white font-bold shadow-md overflow-hidden">
-              {user.avatar ? (
-                <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                user.full_name?.charAt(0) || 'P'
-              )}
-            </div>
-            <div className="flex-1 overflow-hidden">
-              <p className="font-bold text-sm text-slate-800 dark:text-white truncate">{user.full_name}</p>
-              <p className="text-xs text-[#0EA5A4] font-bold uppercase tracking-wider">Parent</p>
+            <Menu size={20} />
+          </button>
+          <div className="hidden sm:flex items-center gap-1.5 text-sm">
+            <span className="text-[#6b7589] font-medium">Parent</span>
+            <ChevronRight size={14} className="text-[#d8e0ea]" />
+            <span className="text-[#111827] dark:text-white font-semibold">{currentLabel}</span>
+          </div>
+          <div className="flex-1" />
+          <button onClick={() => navigate('/')} className="p-2 rounded-[10px] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] text-[#6b7589] transition-colors" title="Home">
+            <Home size={18} />
+          </button>
+          <button onClick={() => setIsDarkMode(v => !v)} className="p-2 rounded-[10px] hover:bg-[#f1f5f9] dark:hover:bg-[#334155] text-[#6b7589] transition-colors">
+            {isDarkMode ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} />}
+          </button>
+          <button
+            onClick={handleLogout}
+            className="p-2 rounded-[10px] text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+            title="Logout"
+          >
+            <LogOut size={18} />
+          </button>
+          <button
+            onClick={() => { setActiveTab('profile'); }}
+            className="flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-[12px] border border-[#d8e0ea] dark:border-[#334155] hover:border-[#c2410c] bg-white dark:bg-[#1E293B] transition-all"
+          >
+            <Avatar src={user.avatar} name={user.full_name} size="sm" />
+            <div className="hidden md:block text-left">
+              <p className="text-xs font-semibold text-[#111827] dark:text-white leading-none">{user.full_name}</p>
+              <p className="text-[10px] text-[#6b7589] mt-0.5">Parent</p>
             </div>
           </button>
-        </div>
-      </motion.aside>
-
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-screen w-full lg:w-[calc(100%-280px)]">
-        
-        {/* Top Header Area */}
-        <header className="h-20 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-700 flex items-center justify-between px-4 sm:px-8 shrink-0 z-30 sticky top-0">
-          <div className="flex items-center gap-4">
-            <button onClick={() => setIsSidebarOpen(true)} className="p-2 lg:hidden text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-lg transition-colors">
-              <Menu size={24} />
-            </button>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2">
-                Hello, Parent <span className="animate-wave inline-block origin-bottom-right">👋</span>
-              </h1>
-              <div className="flex items-center text-xs font-bold text-slate-500 mt-0.5 gap-2">
-                <span>Dashboard</span>
-                <ChevronRight size={12} />
-                <span className="text-[#0EA5A4]">{currentTabLabel}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-4">
-            <button 
-              onClick={() => navigate('/')}
-              className="p-2.5 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-[#0EA5A4] dark:hover:text-[#0EA5A4] rounded-xl transition-colors shadow-inner"
-              title="Home"
-            >
-              <Home size={20} />
-            </button>
-            <button 
-              onClick={toggleDarkMode}
-              className="p-2.5 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-[#0EA5A4] dark:hover:text-[#0EA5A4] rounded-xl transition-colors shadow-inner"
-            >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button 
-              onClick={logout}
-              className="p-2.5 bg-rose-50 text-rose-500 hover:bg-rose-100 hover:text-rose-600 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 rounded-xl transition-colors"
-              title="Logout"
-            >
-              <LogOut size={20} />
-            </button>
-          </div>
         </header>
 
-        {/* Scrollable Main Content */}
-        <div className="flex-1 overflow-hidden relative">
-          <div className="absolute inset-0 overflow-y-auto p-4 sm:p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-4 sm:p-6 lg:p-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="h-full"
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18 }}
               >
-                {renderActiveTab()}
+                {renderTab()}
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
-
-      </main>
+      </div>
     </div>
   );
 }

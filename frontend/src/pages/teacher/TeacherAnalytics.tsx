@@ -37,7 +37,7 @@ export function TeacherAnalytics() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <TrendingUp className="text-[#0EA5A4]" /> Performance Analytics
+            <TrendingUp className="text-[#862fe7]" /> Performance Analytics
           </h2>
           <p className="text-slate-500 text-sm mt-1">Track class averages, identify struggling students, and monitor trends.</p>
         </div>
@@ -45,7 +45,7 @@ export function TeacherAnalytics() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-48">
-          <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#0EA5A4] animate-spin"></div>
+          <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#862fe7] animate-spin"></div>
         </div>
       ) : (
         <div className="space-y-6">
@@ -80,7 +80,7 @@ export function TeacherAnalytics() {
                         {item.score}% Avg
                       </div>
                       <div 
-                        className="w-full rounded-t-xl bg-gradient-to-t from-[#14B8A6] to-[#0EA5A4] group-hover:from-[#0EA5A4] group-hover:to-[#0D9488] transition-all shadow-lg"
+                        className="w-full rounded-t-xl bg-gradient-to-t from-[#ad6df4] to-[#862fe7] group-hover:from-[#862fe7] group-hover:to-[#0D9488] transition-all shadow-lg"
                         style={{ height: `${Math.max(5, item.score)}%` }}
                       ></div>
                     </div>

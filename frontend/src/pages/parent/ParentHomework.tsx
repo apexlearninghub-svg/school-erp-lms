@@ -25,7 +25,7 @@ export function ParentHomework() {
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <BookOpen className="text-[#0EA5A4]" /> Homework Tracker
+            <BookOpen className="text-[#862fe7]" /> Homework Tracker
           </h2>
           <p className="text-slate-500 text-sm mt-1">Review assignments, due dates, and completion status</p>
         </div>
@@ -50,7 +50,7 @@ export function ParentHomework() {
                 </div>
                 <h4 className="font-bold text-slate-800 dark:text-white mb-3">{hw.title}</h4>
                 <div className="flex gap-2">
-                  <button className="flex-1 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#0EA5A4] transition-colors">
+                  <button className="flex-1 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#862fe7] transition-colors">
                     View Details
                   </button>
                   <button className="py-2 px-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors" title="Download Attachment">
@@ -81,7 +81,7 @@ export function ParentHomework() {
                 <h4 className="font-bold text-slate-800 dark:text-white mb-2">{hw.title}</h4>
                 <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
                   <span className="text-xs font-bold text-slate-400">Score</span>
-                  <span className="font-black text-[#0EA5A4]">{hw.marks}</span>
+                  <span className="font-black text-[#862fe7]">{hw.marks}</span>
                 </div>
               </div>
             ))}
