@@ -324,6 +324,15 @@ export default function AdminDashboard() {
             {isDarkMode ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} />}
           </button>
 
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="p-2 rounded-[10px] text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+            title="Logout"
+          >
+            <LogOut size={18} />
+          </button>
+
           {/* Profile */}
           <button
             onClick={() => setActiveTab('profile')}

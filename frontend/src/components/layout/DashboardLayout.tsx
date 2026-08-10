@@ -185,6 +185,15 @@ export function DashboardLayout({ children, title, subtitle }: DashboardLayoutPr
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#862fe7] rounded-full" />
           </motion.button>
 
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="p-2 rounded-[10px] text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+            title="Logout"
+          >
+            <LogOut size={18} />
+          </button>
+
           {/* Profile Dropdown */}
           <div className="relative">
             <motion.button

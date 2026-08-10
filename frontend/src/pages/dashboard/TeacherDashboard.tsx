@@ -231,6 +231,13 @@ export default function TeacherDashboard() {
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#862fe7] rounded-full" />
           </button>
           <button
+            onClick={handleLogout}
+            className="p-2 rounded-[10px] text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+            title="Logout"
+          >
+            <LogOut size={18} />
+          </button>
+          <button
             onClick={() => setActiveTab('profile')}
             className="flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-[12px] border border-[#d8e0ea] dark:border-[#334155] hover:border-[#2563eb] bg-white dark:bg-[#1E293B] transition-all"
           >
