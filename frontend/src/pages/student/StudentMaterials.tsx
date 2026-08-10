@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Card, Button, SearchInput, SkeletonCard, EmptyState, Badge } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { FileText, Video, Book, Archive, Download, Search, Filter, Loader2, PlayCircle } from 'lucide-react';
 import api from '@/services/api';
@@ -65,20 +66,17 @@ export function StudentMaterials() {
   return (
     <div className="space-y-6 h-[calc(100vh-140px)] flex flex-col">
       {/* Header & Search */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm shrink-0">
+      <Card className="shrink-0">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Study Materials</h2>
             <p className="text-slate-500 text-sm mt-1">Access notes, previous papers, and video lectures</p>
           </div>
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input 
-              type="text" 
+          <div className="w-full md:w-64">
+            <SearchInput 
               placeholder="Search subject or topic..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#862fe7]/50 focus:border-[#862fe7] transition-all outline-none text-sm dark:text-white"
             />
           </div>
         </div>
@@ -86,66 +84,72 @@ export function StudentMaterials() {
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-2">
           <Filter className="w-4 h-4 text-slate-400 mr-2 shrink-0" />
           {['All', 'Notes', 'PDFs', 'Video', 'Paper', 'PPT'].map(f => (
-            <button
+            <Button
               key={f}
+              variant={filter === f ? 'primary' : 'outline'}
+              size="sm"
               onClick={() => setFilter(f)}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${filter === f ? 'bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white shadow-md' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'}`}
+              className="rounded-full whitespace-nowrap"
             >
               {f}
-            </button>
+            </Button>
           ))}
         </div>
-      </div>
+      </Card>
 
       {/* Grid */}
       <div className="flex-1 overflow-y-auto pb-6">
         {isLoading ? (
-          <div className="flex justify-center items-center h-48"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({length: 3}).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
         ) : filtered.length > 0 ? (
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(mat => (
-              <motion.div variants={itemVariants} key={mat.id} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all group flex flex-col">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-xl ${getBadgeColor(mat.material_type)} bg-opacity-50 dark:bg-opacity-20`}>
-                    {getIcon(mat.material_type)}
+              <motion.div variants={itemVariants} key={mat.id}>
+                <Card className="hover:shadow-lg hover:-translate-y-1 transition-all group flex flex-col h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`p-3 rounded-xl ${getBadgeColor(mat.material_type)} bg-opacity-50 dark:bg-opacity-20`}>
+                      {getIcon(mat.material_type)}
+                    </div>
+                    <span className={`px-2 py-1 text-xs font-bold uppercase rounded-md ${getBadgeColor(mat.material_type)}`}>
+                      {mat.material_type}
+                    </span>
                   </div>
-                  <span className={`px-2 py-1 text-xs font-bold uppercase rounded-md ${getBadgeColor(mat.material_type)}`}>
-                    {mat.material_type}
-                  </span>
-                </div>
-                <h3 className="font-bold text-slate-800 dark:text-white text-lg leading-tight mb-1 group-hover:text-[#862fe7] transition-colors line-clamp-2">{mat.title}</h3>
-                <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-4">
-                  <span className="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">{mat.subject}</span>
-                  <span>•</span>
-                  <span>{new Date(mat.created_at).toLocaleDateString()}</span>
-                </div>
-                {mat.description && <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 line-clamp-2">{mat.description}</p>}
-                
-                <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">{mat.download_count} Downloads</span>
-                  <button 
-                    onClick={async () => {
-                      try {
-                        await api.post(`/study-materials/${mat.id}/download`);
-                        setMaterials(prev => prev.map(m => m.id === mat.id ? { ...m, download_count: m.download_count + 1 } : m));
-                        window.open(mat.file_url || '#', '_blank');
-                      } catch (err) {
-                        toast.error('Download failed');
-                      }
-                    }}
-                    className="flex items-center gap-1.5 text-sm font-bold text-[#862fe7] hover:text-[#ad6df4] bg-[#862fe7]/10 hover:bg-[#862fe7]/20 px-3 py-1.5 rounded-lg transition-colors"
-                  >
-                    <Download className="w-4 h-4" /> Download
-                  </button>
-                </div>
+                  <h3 className="font-bold text-slate-800 dark:text-white text-lg leading-tight mb-1 group-hover:text-[#862fe7] transition-colors line-clamp-2">{mat.title}</h3>
+                  <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-4">
+                    <span className="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">{mat.subject}</span>
+                    <span>•</span>
+                    <span>{new Date(mat.created_at).toLocaleDateString()}</span>
+                  </div>
+                  {mat.description && <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 line-clamp-2">{mat.description}</p>}
+                  
+                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                    <span className="text-xs text-slate-400">{mat.download_count} Downloads</span>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={async () => {
+                        try {
+                          await api.post(`/study-materials/${mat.id}/download`);
+                          setMaterials(prev => prev.map(m => m.id === mat.id ? { ...m, download_count: m.download_count + 1 } : m));
+                          window.open(mat.file_url || '#', '_blank');
+                        } catch (err) {
+                          toast.error('Download failed');
+                        }
+                      }}
+                      className="flex items-center gap-1.5"
+                    >
+                      <Download className="w-4 h-4" /> Download
+                    </Button>
+                  </div>
+                </Card>
               </motion.div>
             ))}
           </motion.div>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-center opacity-70">
-            <Archive size={64} className="text-slate-300 dark:text-slate-600 mb-4" />
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">No materials found</h3>
-            <p className="text-slate-500 text-sm">Try adjusting your filters or check back later.</p>
+          <div className="h-full flex items-center justify-center">
+            <EmptyState icon={<Archive size={64} />} title="No materials found" message="Try adjusting your filters or check back later." />
           </div>
         )}
       </div>

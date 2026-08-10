@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, TrendingUp, CreditCard, DownloadCloud, AlertCircle, Loader2 } from 'lucide-react';
+import { DollarSign, TrendingUp, CreditCard, Download, DownloadCloud, AlertCircle } from 'lucide-react';
 import api from '@/services/api';
+import { Card, Button, EmptyState, SkeletonDashboard } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -26,54 +27,59 @@ export function AdminFinance() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <DollarSign className="text-[#862fe7]" /> Finance & Fees
           </h2>
           <p className="text-slate-500 text-sm mt-1">Track revenue, fee collections, and outstanding payments</p>
         </div>
-        <button className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold px-4 py-2 rounded-xl transition-colors hover:bg-slate-200 dark:hover:bg-slate-800">
-          <DownloadCloud size={18} /> Export Financial Report
-        </button>
-      </div>
+        <Button variant="outline" className="flex items-center gap-2">
+          <Download size={16} /> Export
+        </Button>
+      </Card>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
-        </div>
+        <SkeletonDashboard />
       ) : (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div variants={itemVariants} className="bg-gradient-to-br from-[#862fe7] to-[#ad6df4] rounded-3xl p-6 shadow-lg shadow-violet-500/20 text-white relative overflow-hidden">
-              <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
-              <p className="text-teal-100 font-bold text-sm uppercase tracking-wider mb-2 relative z-10">Total Collected</p>
-              <h3 className="text-4xl font-black mb-1 relative z-10">${data?.total_collected?.toLocaleString() || 0}</h3>
-              <p className="text-sm font-medium text-teal-50 relative z-10">Live Revenue Data</p>
+            <motion.div variants={itemVariants}>
+              <Card className="bg-gradient-to-br from-[#862fe7] to-[#ad6df4] text-white relative overflow-hidden border-0 h-full">
+                <div className="absolute right-0 top-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                <p className="text-teal-100 font-bold text-sm uppercase tracking-wider mb-2 relative z-10">Total Collected</p>
+                <h3 className="text-4xl font-black mb-1 relative z-10">${data?.total_collected?.toLocaleString() || 0}</h3>
+                <p className="text-sm font-medium text-teal-50 relative z-10">Live Revenue Data</p>
+              </Card>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <div className="flex justify-between items-start mb-2">
-                <p className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-wider">Outstanding Dues</p>
-                <div className="p-2 bg-rose-50 dark:bg-rose-900/20 text-rose-500 rounded-lg"><AlertCircle size={18} /></div>
-              </div>
-              <h3 className="text-3xl font-black text-slate-800 dark:text-white mb-1">${data?.total_outstanding?.toLocaleString() || 0}</h3>
-              <p className="text-sm font-medium text-rose-500">Requires follow-up</p>
+            <motion.div variants={itemVariants}>
+              <Card className="h-full">
+                <div className="flex justify-between items-start mb-2">
+                  <p className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-wider">Outstanding Dues</p>
+                  <div className="p-2 bg-rose-50 dark:bg-rose-900/20 text-rose-500 rounded-lg"><AlertCircle size={18} /></div>
+                </div>
+                <h3 className="text-3xl font-black text-slate-800 dark:text-white mb-1">${data?.total_outstanding?.toLocaleString() || 0}</h3>
+                <p className="text-sm font-medium text-rose-500">Requires follow-up</p>
+              </Card>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <div className="flex justify-between items-start mb-2">
-                <p className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-wider">Collection Rate</p>
-                <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-lg"><TrendingUp size={18} /></div>
-              </div>
-              <h3 className="text-3xl font-black text-slate-800 dark:text-white mb-1">{data?.collection_rate || 0}%</h3>
-              <p className="text-sm font-medium text-slate-400">Target: 95%</p>
+            <motion.div variants={itemVariants}>
+              <Card className="h-full">
+                <div className="flex justify-between items-start mb-2">
+                  <p className="text-slate-500 dark:text-slate-400 font-bold text-sm uppercase tracking-wider">Collection Rate</p>
+                  <div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-lg"><TrendingUp size={18} /></div>
+                </div>
+                <h3 className="text-3xl font-black text-slate-800 dark:text-white mb-1">{data?.collection_rate || 0}%</h3>
+                <p className="text-sm font-medium text-slate-400">Target: 95%</p>
+              </Card>
             </motion.div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Revenue Trend (Last 6 Months)</h3>
+            <motion.div variants={itemVariants}>
+              <Card>
+                <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Revenue Trend (Last 6 Months)</h3>
               
               <div className="h-64 flex items-end gap-2 sm:gap-4 relative pt-10">
                 <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between text-xs font-bold text-slate-400 w-12 text-right pr-2">
@@ -100,20 +106,21 @@ export function AdminFinance() {
                     )
                   })}
                 </div>
-              </div>
+                </div>
+              </Card>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm flex flex-col">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-bold text-lg text-slate-800 dark:text-white">Recent Transactions</h3>
-                <button className="text-sm font-bold text-[#862fe7] hover:underline">View All</button>
-              </div>
-              
-              <div className="flex-1 flex flex-col justify-center text-center p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl bg-slate-50/50 dark:bg-slate-900/30">
-                <CreditCard size={48} className="text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-                <h4 className="font-bold text-slate-700 dark:text-slate-300">Transaction log empty</h4>
-                <p className="text-sm text-slate-500 mt-1">New fee payments will appear here as they are processed.</p>
-              </div>
+            <motion.div variants={itemVariants}>
+              <Card className="flex flex-col h-full">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="font-bold text-lg text-slate-800 dark:text-white">Recent Transactions</h3>
+                  <button className="text-sm font-bold text-[#862fe7] hover:underline">View All</button>
+                </div>
+                
+                <div className="flex-1 flex flex-col justify-center text-center">
+                  <EmptyState icon={<CreditCard />} title="Transaction log empty" message="New fee payments will appear here as they are processed." />
+                </div>
+              </Card>
             </motion.div>
           </div>
         </div>

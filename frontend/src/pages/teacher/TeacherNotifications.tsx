@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, CheckCircle2, Clock, Inbox } from 'lucide-react';
 import api from '@/services/api';
+import { Card, SkeletonList, EmptyState } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -15,7 +16,7 @@ const itemVariants = {
 
 export function TeacherNotifications() {
   const [notifications, setNotifications] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNotis = async () => {
@@ -43,24 +44,18 @@ export function TeacherNotifications() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0">
+      <Card className="shrink-0">
         <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2 mb-2">
           <Bell className="text-[#862fe7]" /> Notifications Panel
         </h2>
         <p className="text-slate-500 text-sm">Stay updated on student submissions, system alerts, and administrative messages.</p>
-      </div>
+      </Card>
 
-      <div className="flex-1 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm p-4 md:p-6 lg:p-8">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-48">
-            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#862fe7] animate-spin"></div>
-          </div>
+      <Card className="flex-1">
+        {loading ? (
+          <SkeletonList rows={5} />
         ) : notifications.length === 0 ? (
-          <div className="h-64 flex flex-col items-center justify-center text-center opacity-70">
-            <Inbox size={64} className="text-slate-300 dark:text-slate-600 mb-4" />
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">All caught up!</h3>
-            <p className="text-slate-500 text-sm">You have no new notifications.</p>
-          </div>
+          <EmptyState title="All caught up!" message="You have no new notifications." icon={<Inbox />} />
         ) : (
           <div className="max-w-4xl mx-auto space-y-4">
             <AnimatePresence>
@@ -104,7 +99,7 @@ export function TeacherNotifications() {
             </AnimatePresence>
           </div>
         )}
-      </div>
+      </Card>
     </motion.div>
   );
 }

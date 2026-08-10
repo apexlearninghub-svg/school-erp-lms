@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MessageSquare, Megaphone, Send, Users, Loader2 } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, Button, SkeletonList, EmptyState, Badge } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,7 +18,7 @@ const itemVariants = {
 export function TeacherCommunication() {
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [classes, setClasses] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Form State
@@ -68,17 +69,18 @@ export function TeacherCommunication() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0">
+      <Card className="shrink-0">
         <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2 mb-2">
           <MessageSquare className="text-[#862fe7]" /> Communication Center
         </h2>
         <p className="text-slate-500 text-sm">Broadcast announcements and communicate with students or parents.</p>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Create Announcement Form */}
-        <motion.div variants={itemVariants} className="lg:col-span-1 bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm h-fit sticky top-0">
+        <motion.div variants={itemVariants} className="lg:col-span-1 h-fit sticky top-0">
+          <Card>
           <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-700">
             <Megaphone className="text-[#862fe7]" size={20} />
             <h3 className="font-bold text-lg text-slate-800 dark:text-white">New Broadcast</h3>
@@ -114,37 +116,34 @@ export function TeacherCommunication() {
               <textarea required rows={5} value={content} onChange={e => setContent(e.target.value)} placeholder="Type your announcement here..." className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white resize-none" />
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="w-full py-3 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] hover:opacity-90 text-white font-bold rounded-xl flex justify-center items-center gap-2 disabled:opacity-50 shadow-md shadow-[#862fe7]/20 transition-all">
-              {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />} Broadcast Now
-            </button>
+            <Button type="submit" disabled={isSubmitting} className="w-full" loading={isSubmitting}>
+              {!isSubmitting && <Send size={18} className="mr-2" />} Broadcast Now
+            </Button>
           </form>
+          </Card>
         </motion.div>
 
         {/* History List */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-48 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700">
-              <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
-            </div>
+          {loading ? (
+            <SkeletonList rows={3} />
           ) : announcements.length === 0 ? (
-            <div className="h-64 flex flex-col items-center justify-center text-center opacity-70 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700">
-              <Megaphone size={48} className="text-slate-300 dark:text-slate-600 mb-3" />
-              <h3 className="font-bold text-slate-800 dark:text-white">No announcements sent</h3>
-              <p className="text-slate-500 text-sm mt-1">Your broadcast history will appear here.</p>
-            </div>
+            <Card>
+              <EmptyState title="No announcements sent" message="Your broadcast history will appear here." icon={<Megaphone />} />
+            </Card>
           ) : (
             <div className="space-y-4">
               {announcements.map(ann => (
-                <div key={ann.id} className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm transition-all hover:shadow-md">
+                <Card key={ann.id} className="transition-all hover:shadow-md">
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h4 className="font-bold text-lg text-slate-800 dark:text-white">{ann.title}</h4>
                       <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
                         <span className="font-medium">{new Date(ann.created_at).toLocaleString()}</span>
                         <span>•</span>
-                        <span className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900/50 px-2 py-0.5 rounded uppercase font-bold tracking-wider">
+                        <Badge variant="neutral" className="flex items-center gap-1 uppercase tracking-wider">
                           <Users size={12} /> {ann.target_audience === 'class' ? ann.class_name : ann.target_audience}
-                        </span>
+                        </Badge>
                       </div>
                     </div>
                   </div>
@@ -152,7 +151,7 @@ export function TeacherCommunication() {
                   <div className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap">
                     {ann.content}
                   </div>
-                </div>
+                </Card>
               ))}
             </div>
           )}

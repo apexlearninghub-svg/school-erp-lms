@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Layers, Book, Plus, MoreVertical, Loader2 } from 'lucide-react';
+import { GraduationCap, Layers, Book, Plus, MoreVertical } from 'lucide-react';
 import api from '@/services/api';
+import { Card, Button, Badge, EmptyState, SkeletonCard } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,7 +28,7 @@ export function AdminAcademics() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <GraduationCap className="text-[#862fe7]" /> Academic Management
@@ -36,15 +37,17 @@ export function AdminAcademics() {
         </div>
         
         <div className="flex gap-2">
-          <button onClick={() => setActiveTab('classes')} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'classes' ? 'bg-slate-800 text-white dark:bg-white dark:text-slate-800 shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'}`}>Classes & Sections</button>
-          <button onClick={() => setActiveTab('subjects')} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'subjects' ? 'bg-slate-800 text-white dark:bg-white dark:text-slate-800 shadow-md' : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'}`}>Subjects</button>
+          <Button onClick={() => setActiveTab('classes')} variant={activeTab === 'classes' ? 'primary' : 'outline'} size="sm">Classes & Sections</Button>
+          <Button onClick={() => setActiveTab('subjects')} variant={activeTab === 'subjects' ? 'primary' : 'outline'} size="sm">Subjects</Button>
         </div>
-      </div>
+      </Card>
 
       <div className="flex-1 overflow-y-auto pb-6 pr-2">
         {isLoading ? (
-          <div className="flex justify-center items-center h-48">
-            <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
           </div>
         ) : activeTab === 'classes' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -56,34 +59,42 @@ export function AdminAcademics() {
               <p className="text-xs text-slate-500 mt-1">Create a new academic class</p>
             </div>
             
-            {data.classes.map((cls: any) => (
-              <motion.div variants={itemVariants} key={cls.id} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-xl">
-                      <Layers size={20} />
+            {data.classes.length === 0 ? (
+              <div className="col-span-full">
+                <EmptyState icon={<Layers />} title="No classes found" message="Get started by adding a new class." />
+              </div>
+            ) : (
+              data.classes.map((cls: any) => (
+              <motion.div variants={itemVariants} key={cls.id}>
+                <Card className="h-full flex flex-col">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-xl">
+                        <Layers size={20} />
+                      </div>
+                      <h3 className="text-xl font-black text-slate-800 dark:text-white">{cls.name}</h3>
                     </div>
-                    <h3 className="text-xl font-black text-slate-800 dark:text-white">{cls.name}</h3>
+                    <button className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg">
+                      <MoreVertical size={16} />
+                    </button>
                   </div>
-                  <button className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg">
-                    <MoreVertical size={16} />
-                  </button>
-                </div>
-                
-                <div className="mt-auto space-y-3">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-500 font-medium">Sections</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-300">
-                      {data.sections.filter((s: any) => s.class_id === cls.id).length || 0}
-                    </span>
+                  
+                  <div className="mt-auto space-y-3">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-slate-500 font-medium">Sections</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-300">
+                        {data.sections.filter((s: any) => s.class_id === cls.id).length || 0}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-slate-500 font-medium">Students</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-300">-</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-500 font-medium">Students</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-300">-</span>
-                  </div>
-                </div>
+                </Card>
               </motion.div>
-            ))}
+              ))
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -94,22 +105,30 @@ export function AdminAcademics() {
               <h3 className="font-bold text-sm text-slate-800 dark:text-white group-hover:text-[#862fe7] transition-colors">Add Subject</h3>
             </div>
             
-            {data.subjects.map((sub: any) => (
-              <motion.div variants={itemVariants} key={sub.id} className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col group hover:border-[#862fe7]/30 transition-colors">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-500 rounded-lg">
-                    <Book size={18} />
+            {data.subjects.length === 0 ? (
+              <div className="col-span-full">
+                <EmptyState icon={<Book />} title="No subjects found" message="Get started by adding a new subject." />
+              </div>
+            ) : (
+              data.subjects.map((sub: any) => (
+              <motion.div variants={itemVariants} key={sub.id} className="group h-full">
+                <Card className="h-full flex flex-col hover:border-[#862fe7]/30 transition-colors">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-500 rounded-lg">
+                      <Book size={18} />
+                    </div>
+                    <Badge variant="neutral">
+                      {sub.code || 'N/A'}
+                    </Badge>
                   </div>
-                  <span className="text-xs font-bold font-mono text-slate-400 bg-slate-50 dark:bg-slate-900 px-2 py-1 rounded">
-                    {sub.code || 'N/A'}
-                  </span>
-                </div>
-                <h3 className="font-bold text-slate-800 dark:text-white text-lg">{sub.name}</h3>
-                <button className="mt-4 text-xs font-bold text-[#862fe7] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                  Manage Syllabus →
-                </button>
+                  <h3 className="font-bold text-slate-800 dark:text-white text-lg">{sub.name}</h3>
+                  <button className="mt-4 text-xs font-bold text-[#862fe7] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                    Manage Syllabus →
+                  </button>
+                </Card>
               </motion.div>
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>

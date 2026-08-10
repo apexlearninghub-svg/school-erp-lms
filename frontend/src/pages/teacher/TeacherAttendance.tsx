@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar as CalendarIcon, CheckCircle2, XCircle, Clock, Save, Loader2 } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, Button, SkeletonList, EmptyState, Avatar } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,7 +21,7 @@ export function TeacherAttendance() {
   const [students, setStudents] = useState<any[]>([]);
   const [attendance, setAttendance] = useState<Record<string, string>>({});
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export function TeacherAttendance() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <CalendarIcon className="text-[#862fe7]" /> Attendance Registry
@@ -102,35 +103,31 @@ export function TeacherAttendance() {
             className="px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none dark:text-white"
           />
         </div>
-      </div>
+      </Card>
 
-      <div className="flex-1 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col">
+      <Card noPadding className="flex-1 overflow-hidden flex flex-col">
         <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
           <h3 className="font-bold text-slate-800 dark:text-white">Class List</h3>
-          <button 
+          <Button 
             onClick={handleSaveAll}
             disabled={isSaving || students.length === 0}
-            className="flex items-center gap-2 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors shadow-md shadow-[#862fe7]/20 disabled:opacity-50"
+            loading={isSaving}
           >
-            {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Save Register
-          </button>
+            {!isSaving && <Save className="w-4 h-4 mr-2" />} Save Register
+          </Button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-full">
-              <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
-            </div>
+          {loading ? (
+            <SkeletonList rows={5} />
           ) : students.length === 0 ? (
-            <div className="text-center text-slate-500 mt-10">No students found for this class.</div>
+            <EmptyState title="No students found" message="No students found for this class." />
           ) : (
             <div className="space-y-2 pr-2">
               {students.map((student, i) => (
                 <div key={student.id} className="flex flex-col sm:flex-row justify-between items-center p-3 rounded-2xl border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors gap-4">
                   <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex justify-center items-center font-bold text-xs text-slate-600 dark:text-slate-300">
-                      {i + 1}
-                    </div>
+                    <Avatar name={student.full_name} size="sm" />
                     <div>
                       <p className="font-bold text-sm text-slate-800 dark:text-white">{student.full_name}</p>
                       <p className="text-xs text-slate-500">Roll: {student.roll_number}</p>
@@ -174,7 +171,7 @@ export function TeacherAttendance() {
             </div>
           )}
         </div>
-      </div>
+      </Card>
     </motion.div>
   );
 }

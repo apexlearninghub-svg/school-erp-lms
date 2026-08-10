@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Shield, LogOut, Key, Edit, Settings, Loader2 } from 'lucide-react';
+import { User, Shield, LogOut, Key, Edit, Settings } from 'lucide-react';
+import { Card, Button, Badge, Avatar } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
@@ -45,29 +46,24 @@ export function ParentProfile({ user }: { user: any }) {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <User className="text-[#862fe7]" /> Parent Profile
           </h2>
           <p className="text-slate-500 text-sm mt-1">Manage your account, contact details, and notification preferences</p>
         </div>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
-        <motion.div variants={itemVariants} className="md:col-span-1 bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-sm text-center relative overflow-hidden">
+        <motion.div variants={itemVariants} className="md:col-span-1">
+          <Card className="text-center relative overflow-hidden flex flex-col items-center">
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] opacity-10"></div>
           
-          <div className="relative mx-auto w-28 h-28 rounded-full border-4 border-white dark:border-slate-800 shadow-lg bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center mb-4 mt-4">
-            {user?.avatar ? (
-              <img src={user.avatar} alt="Profile" className="w-full h-full rounded-full object-cover" />
-            ) : (
-              <span className="text-4xl font-black text-slate-400 dark:text-slate-500">
-                {user?.full_name?.charAt(0) || 'P'}
-              </span>
-            )}
-            <button className="absolute bottom-0 right-0 p-2 bg-[#862fe7] text-white rounded-full hover:bg-[#ad6df4] transition-colors shadow-md">
+          <div className="relative mb-4 mt-4">
+            <Avatar src={user?.avatar} name={user?.full_name || 'Parent Name'} size="xl" className="w-28 h-28 text-4xl border-4 border-white dark:border-slate-800 shadow-lg" />
+            <button className="absolute bottom-0 right-0 p-2 bg-[#862fe7] text-white rounded-full hover:bg-[#ad6df4] transition-colors shadow-md z-10">
               <Edit size={14} />
             </button>
           </div>
@@ -75,26 +71,23 @@ export function ParentProfile({ user }: { user: any }) {
           <h3 className="text-2xl font-black text-slate-800 dark:text-white mb-1">{user?.full_name || 'Parent Name'}</h3>
           <p className="text-slate-500 mb-4">{user?.email || 'parent@apexhub.edu'}</p>
           
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-bold uppercase tracking-wider mb-8">
+          <Badge variant="info" className="mb-8 uppercase">
             <Shield size={14} /> Parent Account
-          </div>
+          </Badge>
           
-          <button 
+          <Button 
+            variant="destructive"
             onClick={logout}
-            className="w-full flex items-center justify-center gap-2 py-3 bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/20 dark:hover:bg-rose-900/40 text-rose-600 font-bold rounded-xl transition-colors"
+            className="w-full flex items-center justify-center gap-2"
           >
             <LogOut size={18} /> Sign Out
-          </button>
+          </Button>
+          </Card>
         </motion.div>
 
         {/* Security & Settings */}
         <motion.div variants={itemVariants} className="md:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100 dark:border-slate-700">
-              <Key className="text-[#862fe7]" size={24} />
-              <h3 className="text-xl font-bold text-slate-800 dark:text-white">Security Settings</h3>
-            </div>
-            
+          <Card title="Security Settings" icon={<Key size={24} />}>
             <div className="space-y-4 max-w-md">
               <div className="space-y-1">
                 <label className="text-xs font-bold text-slate-500 uppercase">Current Password</label>
@@ -116,23 +109,18 @@ export function ParentProfile({ user }: { user: any }) {
                   className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white" 
                 />
               </div>
-              <button 
+              <Button 
                 onClick={handlePasswordUpdate}
                 disabled={isUpdating}
-                className="py-2.5 px-6 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold rounded-xl transition-colors shadow-md shadow-[#862fe7]/20 flex items-center gap-2"
+                loading={isUpdating}
+                className="w-auto"
               >
-                {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
                 Update Password
-              </button>
+              </Button>
             </div>
-          </div>
+          </Card>
 
-          <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-100 dark:border-slate-700 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100 dark:border-slate-700">
-              <Settings className="text-slate-500" size={24} />
-              <h3 className="text-xl font-bold text-slate-800 dark:text-white">Notification Preferences</h3>
-            </div>
-            
+          <Card title="Notification Preferences" icon={<Settings size={24} />}>
             <div className="space-y-3">
               {[
                 { label: 'Exam Results Alerts', desc: 'Get notified when new results are published' },
@@ -152,7 +140,7 @@ export function ParentProfile({ user }: { user: any }) {
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         </motion.div>
       </div>
     </motion.div>

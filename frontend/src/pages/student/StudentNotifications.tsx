@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Card, Button, EmptyState } from '@/components/ui';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, BookOpen, Award, ClipboardList, CheckCircle2, Trash2 } from 'lucide-react';
 
@@ -50,7 +51,7 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col h-[calc(100vh-140px)]">
+    <Card className="flex flex-col h-[calc(100vh-140px)] overflow-hidden" noPadding>
       {/* Header */}
       <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/20">
         <div className="flex items-center gap-3">
@@ -62,12 +63,14 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
             <p className="text-sm text-slate-500">You have {notifications.filter(n => !n.is_read).length} unread alerts</p>
           </div>
         </div>
-        <button 
+        <Button 
+          variant="outline"
+          size="sm"
           onClick={onMarkRead}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-[#862fe7]/10 hover:text-[#862fe7] text-slate-600 dark:text-slate-300 rounded-xl text-sm font-semibold transition-colors"
+          className="flex items-center gap-2"
         >
           <CheckCircle2 size={16} /> Mark all read
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
@@ -124,25 +127,25 @@ export function StudentNotifications({ notifications, onMarkRead, onDelete }: No
                       </p>
                     </div>
                     
-                    <button 
+                    <Button 
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onDelete(notif.id)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100"
                     >
                       <Trash2 size={18} />
-                    </button>
+                    </Button>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-center opacity-70">
-            <Bell size={64} className="text-slate-300 dark:text-slate-600 mb-4" />
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">All caught up!</h3>
-            <p className="text-slate-500 text-sm">You don't have any {filter !== 'all' ? filter : ''} notifications.</p>
+          <div className="h-full flex items-center justify-center">
+            <EmptyState icon={<Bell size={64} />} title="All caught up!" message={`You don't have any ${filter !== 'all' ? filter : ''} notifications.`} />
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

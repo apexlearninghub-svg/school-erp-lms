@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, CheckCircle2, AlertCircle, DownloadCloud, FileText, Loader2, CreditCard } from 'lucide-react';
+import { DollarSign, CheckCircle2, AlertCircle, DownloadCloud, FileText, CreditCard } from 'lucide-react';
+import { Card, Button, Badge, SkeletonTable } from '@/components/ui';
 import api from '@/services/api';
 
 const containerVariants = {
@@ -26,19 +27,17 @@ export function ParentFees() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <DollarSign className="text-[#862fe7]" /> Fee Management
           </h2>
           <p className="text-slate-500 text-sm mt-1">View fee structures, outstanding dues, and payment history</p>
         </div>
-      </div>
+      </Card>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
-        </div>
+        <SkeletonTable rows={3} cols={3} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 space-y-6">
@@ -48,13 +47,16 @@ export function ParentFees() {
               <h3 className="text-4xl font-black mb-1 relative z-10">${data?.total_pending?.toLocaleString() || 0}</h3>
               <p className="text-sm font-medium text-teal-50 relative z-10">Due by: {data?.due_date}</p>
               
-              <button className="w-full mt-6 py-3 bg-white text-[#862fe7] font-black rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all flex justify-center items-center gap-2 relative z-10">
-                <CreditCard size={20} /> Pay Now
-              </button>
+              <Button 
+                className="w-full mt-6 bg-white text-[#862fe7] hover:bg-slate-50 shadow-md hover:shadow-lg transition-all relative z-10" 
+                icon={<CreditCard size={20} />}
+              >
+                Pay Now
+              </Button>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <h3 className="font-bold text-slate-800 dark:text-white mb-4">Fee Summary</h3>
+            <motion.div variants={itemVariants}>
+              <Card title="Fee Summary">
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
                   <span className="text-slate-500 font-bold">Total Fees</span>
@@ -69,11 +71,12 @@ export function ParentFees() {
                   <span className="text-rose-600 font-black">${data?.total_pending?.toLocaleString() || 0}</span>
                 </div>
               </div>
+              </Card>
             </motion.div>
           </div>
 
-          <motion.div variants={itemVariants} className="lg:col-span-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm flex flex-col">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Transaction History</h3>
+          <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col">
+            <Card title="Transaction History" className="flex-1 flex flex-col">
             
             <div className="flex-1 overflow-y-auto pr-2 space-y-4">
               {data?.transactions?.map((txn: any) => (
@@ -94,15 +97,18 @@ export function ParentFees() {
                   <div className="text-right flex items-center gap-4">
                     <div>
                       <p className="font-black text-slate-800 dark:text-white">${txn.amount.toLocaleString()}</p>
-                      <p className={`text-xs font-bold uppercase tracking-wider ${txn.status === 'completed' ? 'text-emerald-500' : 'text-orange-500'}`}>{txn.status}</p>
+                      <Badge variant={txn.status === 'completed' ? 'success' : 'warning'} className="uppercase">
+                        {txn.status}
+                      </Badge>
                     </div>
-                    <button disabled={txn.status !== 'completed'} className="p-2 text-slate-400 hover:text-[#862fe7] disabled:opacity-30 disabled:hover:text-slate-400 transition-colors">
+                    <Button variant="ghost" disabled={txn.status !== 'completed'} className="p-2">
                       <DownloadCloud size={20} />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
             </div>
+            </Card>
           </motion.div>
         </div>
       )}

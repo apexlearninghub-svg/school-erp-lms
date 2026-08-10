@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ClipboardCheck, Search, Filter, Loader2, CheckCircle2 } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, Button, Badge, SkeletonList, EmptyState, SearchInput, Avatar } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,7 +17,7 @@ const itemVariants = {
 
 export function TeacherReviews() {
   const [reviews, setReviews] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [gradingId, setGradingId] = useState<string | null>(null);
   const [gradeInput, setGradeInput] = useState('');
@@ -61,7 +62,7 @@ export function TeacherReviews() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <ClipboardCheck className="text-[#862fe7]" /> Pending Reviews
@@ -71,42 +72,36 @@ export function TeacherReviews() {
         
         <div className="flex gap-3 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input 
-              type="text" 
+            <SearchInput 
               placeholder="Search student or title..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm focus:outline-none focus:border-[#862fe7] transition-colors dark:text-white"
             />
           </div>
-          <button className="p-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-slate-500 hover:text-[#862fe7] transition-colors">
+          <Button variant="outline" className="px-3">
             <Filter size={18} />
-          </button>
+          </Button>
         </div>
-      </div>
+      </Card>
 
       <div className="flex-1 overflow-y-auto pb-6">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-48">
-            <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
-          </div>
+        {loading ? (
+          <SkeletonList rows={3} />
         ) : filteredReviews.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center opacity-70">
-            <CheckCircle2 size={64} className="text-emerald-400 mb-4" />
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white">All Caught Up!</h3>
-            <p className="text-slate-500 mt-2">There are no pending submissions to review right now.</p>
-          </div>
+          <Card>
+            <EmptyState title="All Caught Up!" message="There are no pending submissions to review right now." icon={<CheckCircle2 />} />
+          </Card>
         ) : (
           <div className="space-y-4 pr-2">
             {filteredReviews.map(review => (
-              <motion.div variants={itemVariants} key={review.id} className="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col lg:flex-row gap-6">
+              <motion.div variants={itemVariants} key={review.id}>
+                <Card className="flex flex-col lg:flex-row gap-6">
                 
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-3">
-                    <span className="px-3 py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase rounded-md tracking-wider">
+                    <Badge variant="violet" className="uppercase tracking-wider">
                       {review.type}
-                    </span>
+                    </Badge>
                     <span className="text-xs text-slate-400 font-medium">
                       Submitted: {new Date(review.submitted_at).toLocaleDateString()}
                     </span>
@@ -114,9 +109,7 @@ export function TeacherReviews() {
                   
                   <h3 className="text-lg font-bold text-slate-800 dark:text-white">{review.title}</h3>
                   <div className="flex items-center gap-2 mt-2 mb-4">
-                    <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-300">
-                      {review.student_name.charAt(0)}
-                    </div>
+                    <Avatar name={review.student_name} size="sm" />
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{review.student_name}</span>
                   </div>
                   
@@ -141,21 +134,21 @@ export function TeacherReviews() {
                           />
                           <span className="text-slate-400 text-sm">/ {review.max_marks}</span>
                         </div>
-                        <div className="flex gap-2">
-                          <button onClick={() => setGradingId(null)} className="flex-1 py-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+                        <div className="flex gap-2 mt-3">
+                          <Button variant="dark" size="sm" onClick={() => setGradingId(null)} className="flex-1">
                             Cancel
-                          </button>
-                          <button onClick={() => handleGrade(review.id, review.max_marks)} className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition-colors shadow-lg shadow-emerald-500/20">
+                          </Button>
+                          <Button variant="primary" size="sm" onClick={() => handleGrade(review.id, review.max_marks)} className="flex-1 bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20 border-none">
                             Save
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     ) : (
                       <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl text-center">
                         <p className="text-sm text-slate-500 mb-3">Pending Grade</p>
-                        <button onClick={() => setGradingId(review.id)} className="w-full py-2 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold text-sm rounded-lg transition-colors shadow-md shadow-[#862fe7]/20">
+                        <Button variant="primary" onClick={() => setGradingId(review.id)} className="w-full">
                           Grade Now
-                        </button>
+                        </Button>
                       </div>
                     )}
                   </div>
@@ -164,7 +157,7 @@ export function TeacherReviews() {
                     View Attached Files
                   </button>
                 </div>
-                
+                </Card>
               </motion.div>
             ))}
           </div>

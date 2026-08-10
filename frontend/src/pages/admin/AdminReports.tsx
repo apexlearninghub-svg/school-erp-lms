@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, DownloadCloud, FileText, CheckCircle2, AlertTriangle, BookOpen, Loader2 } from 'lucide-react';
+import { BarChart3, DownloadCloud, FileText, CheckCircle2 } from 'lucide-react';
 import { 
-  LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, 
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, 
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
 import api from '@/services/api';
+import { Card, Button, SkeletonDashboard } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -47,15 +48,15 @@ export function AdminReports() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <Loader2 className="w-10 h-10 text-[#862fe7] animate-spin" />
+      <div className="p-6 h-[calc(100vh-140px)]">
+        <SkeletonDashboard />
       </div>
     );
   }
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <BarChart3 className="text-[#862fe7]" /> Interactive Analytics
@@ -63,16 +64,17 @@ export function AdminReports() {
           <p className="text-slate-500 text-sm mt-1">Real-time charts and system metrics</p>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center gap-2 py-2 px-4 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 transition-colors">
+          <Button variant="outline" className="flex items-center gap-2">
             <DownloadCloud size={16} /> Export PDF
-          </button>
+          </Button>
         </div>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Student Enrollment Trend */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+        <motion.div variants={itemVariants}>
+          <Card>
           <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Student & Teacher Enrollment</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -97,10 +99,12 @@ export function AdminReports() {
               </AreaChart>
             </ResponsiveContainer>
           </div>
+          </Card>
         </motion.div>
 
         {/* Exam Performance Analytics */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+        <motion.div variants={itemVariants}>
+          <Card>
           <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Average Performance by Subject</h3>
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -117,10 +121,12 @@ export function AdminReports() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          </Card>
         </motion.div>
 
         {/* Attendance Analytics (Donut) */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+        <motion.div variants={itemVariants}>
+          <Card>
           <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Today's Attendance Breakdown</h3>
           <div className="h-72 w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
@@ -143,10 +149,12 @@ export function AdminReports() {
               </PieChart>
             </ResponsiveContainer>
           </div>
+          </Card>
         </motion.div>
 
         {/* Quick Report Generation */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+        <motion.div variants={itemVariants}>
+          <Card className="flex flex-col h-full">
           <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Custom Reports Generation</h3>
           <div className="space-y-4 flex-1">
             <div className="p-4 border border-slate-100 dark:border-slate-700 rounded-2xl flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
@@ -182,6 +190,7 @@ export function AdminReports() {
               <button className="text-sm font-bold text-purple-600 dark:text-purple-400 hover:underline">Generate</button>
             </div>
           </div>
+          </Card>
         </motion.div>
 
       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Card, Button, Badge } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Shield, Loader2 } from 'lucide-react';
 import api from '@/services/api';
@@ -55,7 +56,8 @@ export function StudentProfile({ user }: ProfileProps) {
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="max-w-4xl mx-auto space-y-6 pb-6">
       
       {/* Header Card */}
-      <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <motion.div variants={itemVariants}>
+        <Card noPadding className="overflow-hidden">
         <div className="h-32 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mt-20 -mr-20"></div>
         </div>
@@ -76,19 +78,20 @@ export function StudentProfile({ user }: ProfileProps) {
             </div>
             
             <div className="pb-2">
-              <span className="px-4 py-2 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 rounded-full text-sm font-bold flex items-center gap-2">
+              <Badge variant="success" className="px-4 py-2 text-sm font-bold flex items-center gap-2 rounded-full">
                 <Shield size={16} /> Active Status
-              </span>
+              </Badge>
             </div>
           </div>
         </div>
+        </Card>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* Left Col */}
         <motion.div variants={itemVariants} className="md:col-span-1 space-y-6">
-          <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
+          <Card>
             <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">Contact Info</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-slate-600 dark:text-slate-300">
@@ -113,12 +116,12 @@ export function StudentProfile({ user }: ProfileProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         </motion.div>
 
         {/* Right Col */}
         <motion.div variants={itemVariants} className="md:col-span-2 space-y-6">
-          <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
+          <Card>
             <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">Academic Details</h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -162,12 +165,12 @@ export function StudentProfile({ user }: ProfileProps) {
                 <p className="font-semibold text-slate-800 dark:text-white pl-6">{user?.student_profile?.parent_phone || 'N/A'}</p>
               </div>
             </div>
-          </div>
+          </Card>
         </motion.div>
 
         {/* Change Password */}
         <motion.div variants={itemVariants} className="md:col-span-3 space-y-6">
-          <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
+          <Card>
             <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">Security</h3>
             <form onSubmit={handlePasswordChange} className="space-y-4 max-w-sm">
               <div>
@@ -200,16 +203,17 @@ export function StudentProfile({ user }: ProfileProps) {
                   required 
                 />
               </div>
-              <button 
+              <Button 
                 type="submit" 
+                variant="primary"
                 disabled={isSubmitting}
-                className="px-4 py-2 bg-[#862fe7] text-white font-bold rounded-xl hover:bg-[#ad6df4] transition-colors disabled:opacity-50 flex items-center gap-2"
+                className="flex items-center gap-2"
               >
                 {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                 Change Password
-              </button>
+              </Button>
             </form>
-          </div>
+          </Card>
         </motion.div>
 
       </div>

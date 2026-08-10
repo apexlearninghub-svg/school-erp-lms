@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Card, Badge, Avatar, SkeletonDashboard } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Star, TrendingUp, Loader2, Lock, Flame, CheckCircle2 } from 'lucide-react';
 import api from '@/services/api';
@@ -40,7 +41,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
   }, []);
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>;
+    return <div className="p-6"><SkeletonDashboard /></div>;
   }
 
   // Define badges logic
@@ -87,8 +88,9 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
         </motion.div>
 
         {/* Badges */}
-        <motion.div variants={itemVariants} className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <Card>
+            <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-lg text-slate-800 dark:text-white">Achievements & Badges</h3>
             <span className="bg-[#862fe7]/10 text-[#862fe7] font-bold px-3 py-1 rounded-full text-sm">
               {badges.filter(b => b.earned).length} / {badges.length} Unlocked
@@ -106,11 +108,12 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
               </div>
             ))}
           </div>
+          </Card>
         </motion.div>
       </div>
 
       {/* Podium and Table Section */}
-      <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 md:p-8 shadow-sm">
+      <Card>
         
         {/* Podium (Top 3) */}
         {leaderboard.length > 0 && (
@@ -176,9 +179,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-xs font-bold">
-                        {student.student_name.charAt(0)}
-                      </div>
+                      <Avatar name={student.student_name} size="sm" />
                       <div>
                         <p className={`font-semibold ${student.student_id === currentUserId ? 'text-[#862fe7]' : 'text-slate-800 dark:text-white'}`}>
                           {student.student_name} {student.student_id === currentUserId && '(You)'}
@@ -189,12 +190,9 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
                   </td>
                   <td className="p-4 text-slate-600 dark:text-slate-300 font-medium">{student.completed_tests}</td>
                   <td className="p-4">
-                    <span className={`px-2 py-1 rounded text-xs font-bold text-white bg-slate-800 dark:bg-slate-600
-                      ${student.best_grade === 'A+' ? 'bg-emerald-500 dark:bg-emerald-500' : 
-                        student.best_grade === 'A' ? 'bg-teal-500 dark:bg-teal-500' : ''}
-                    `}>
+                    <Badge variant={student.best_grade === 'A+' || student.best_grade === 'A' ? 'success' : 'neutral'}>
                       {student.best_grade}
-                    </span>
+                    </Badge>
                   </td>
                   <td className="p-4 text-right">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-lg">
@@ -207,7 +205,7 @@ export function StudentLeaderboard({ currentUserId }: LeaderboardProps) {
             </tbody>
           </table>
         </div>
-      </div>
+      </Card>
     </motion.div>
   );
 }

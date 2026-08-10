@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card, Button, Badge } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, TrendingUp, Award, CheckSquare, BarChart3, 
@@ -101,100 +102,99 @@ export function StudentOverview({ user, stats, tests, resultsList, notifications
       {/* Stats Grid */}
       <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {statCards.map((stat, i) => (
-          <div 
-            key={i} 
-            onClick={stat.action}
-            className="cursor-pointer bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group hover:-translate-y-1"
-          >
-            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
-              <stat.icon className="w-5 h-5" />
-            </div>
-            <p className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">{stat.label}</p>
-            <h3 className="text-2xl font-black text-slate-800 dark:text-white mt-1">{stat.value}</h3>
+          <div key={i} onClick={stat.action} className="cursor-pointer group">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl hover:shadow-md transition-all hover:-translate-y-1 h-full">
+              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-white mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
+                <stat.icon className="w-5 h-5" />
+              </div>
+              <p className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">{stat.label}</p>
+              <h3 className="text-2xl font-black text-slate-800 dark:text-white mt-1">{stat.value}</h3>
+            </Card>
           </div>
         ))}
       </motion.div>
 
       {/* Quick Actions */}
       <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <button onClick={() => onTabChange('available')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        <Button variant="outline" onClick={() => onTabChange('available')} className="flex items-center justify-center gap-2 py-4">
           <PlayCircle className="w-5 h-5 text-[#862fe7]" /> Start Test
-        </button>
-        <button onClick={() => onTabChange('results')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        </Button>
+        <Button variant="outline" onClick={() => onTabChange('results')} className="flex items-center justify-center gap-2 py-4">
           <BarChart3 className="w-5 h-5 text-purple-500" /> View Results
-        </button>
-        <button onClick={() => onTabChange('ai')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        </Button>
+        <Button variant="outline" onClick={() => onTabChange('ai')} className="flex items-center justify-center gap-2 py-4">
           <BookOpen className="w-5 h-5 text-amber-500" /> AI Assistant
-        </button>
-        <button onClick={() => onTabChange('notifications')} className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center justify-center gap-2 hover:border-[#862fe7] transition-colors text-slate-700 dark:text-slate-200 font-semibold shadow-sm">
+        </Button>
+        <Button variant="outline" onClick={() => onTabChange('notifications')} className="flex items-center justify-center gap-2 py-4">
           <Bell className="w-5 h-5 text-rose-500" /> Notifications
-        </button>
+        </Button>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Recent Results */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white">Recent Results</h3>
-            <button onClick={() => onTabChange('results')} className="text-sm font-semibold text-[#862fe7] hover:underline flex items-center">
-              View All <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="space-y-3">
-            {recentResults.length > 0 ? recentResults.map(res => (
-              <div key={res.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
-                <div>
-                  <h4 className="font-semibold text-slate-800 dark:text-white text-sm">{res.test_title || res.test_subject}</h4>
-                  <p className="text-xs text-slate-500">{new Date(res.completed_at).toLocaleDateString()}</p>
+        <motion.div variants={itemVariants}>
+          <Card className="h-full">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">Recent Results</h3>
+              <button onClick={() => onTabChange('results')} className="text-sm font-semibold text-[#862fe7] hover:underline flex items-center">
+                View All <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              {recentResults.length > 0 ? recentResults.map(res => (
+                <div key={res.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                  <div>
+                    <h4 className="font-semibold text-slate-800 dark:text-white text-sm">{res.test_title || res.test_subject}</h4>
+                    <p className="text-xs text-slate-500">{new Date(res.completed_at).toLocaleDateString()}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-black text-[#862fe7]">{res.percentage}%</span>
+                    <Badge variant={res.grade.startsWith('A') ? 'success' : res.grade.startsWith('B') ? 'info' : res.grade.startsWith('C') ? 'warning' : 'danger'}>
+                      {res.grade}
+                    </Badge>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="font-black text-[#862fe7]">{res.percentage}%</span>
-                  <span className={`px-2 py-1 rounded text-xs font-bold text-white
-                    ${res.grade === 'A+' ? 'bg-emerald-500' : 
-                      res.grade === 'A' ? 'bg-teal-500' : 
-                      res.grade === 'B' ? 'bg-blue-500' : 
-                      res.grade === 'C' ? 'bg-yellow-500' : 
-                      res.grade === 'D' ? 'bg-orange-500' : 'bg-red-500'}`}>
-                    {res.grade}
-                  </span>
-                </div>
-              </div>
-            )) : (
-              <p className="text-sm text-slate-500 text-center py-4">No results yet.</p>
-            )}
-          </div>
+              )) : (
+                <p className="text-sm text-slate-500 text-center py-4">No results yet.</p>
+              )}
+            </div>
+          </Card>
         </motion.div>
 
         {/* Upcoming Tests */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white">Upcoming Tests</h3>
-            <button onClick={() => onTabChange('available')} className="text-sm font-semibold text-[#862fe7] hover:underline flex items-center">
-              View All <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="space-y-3">
-            {upcomingTests.length > 0 ? upcomingTests.map(test => (
-              <div key={test.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
-                <div>
-                  <h4 className="font-semibold text-slate-800 dark:text-white text-sm">{test.title}</h4>
-                  <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
-                    <span className="bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300">{test.subject}</span>
-                    <span>• {test.total_questions} Qs</span>
-                    <span>• {test.duration}m</span>
+        <motion.div variants={itemVariants}>
+          <Card className="h-full">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">Upcoming Tests</h3>
+              <button onClick={() => onTabChange('available')} className="text-sm font-semibold text-[#862fe7] hover:underline flex items-center">
+                View All <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              {upcomingTests.length > 0 ? upcomingTests.map(test => (
+                <div key={test.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                  <div>
+                    <h4 className="font-semibold text-slate-800 dark:text-white text-sm">{test.title}</h4>
+                    <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
+                      <span className="bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300">{test.subject}</span>
+                      <span>• {test.total_questions} Qs</span>
+                      <span>• {test.duration}m</span>
+                    </div>
                   </div>
+                  <Button 
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onStartExam(test)}
+                    className="p-2 text-[#862fe7]"
+                  >
+                    <PlayCircle className="w-5 h-5" />
+                  </Button>
                 </div>
-                <button 
-                  onClick={() => onStartExam(test)}
-                  className="p-2 bg-[#862fe7]/10 text-[#862fe7] rounded-lg hover:bg-[#862fe7] hover:text-white transition-colors"
-                >
-                  <PlayCircle className="w-5 h-5" />
-                </button>
-              </div>
-            )) : (
-              <p className="text-sm text-slate-500 text-center py-4">No pending tests.</p>
-            )}
-          </div>
+              )) : (
+                <p className="text-sm text-slate-500 text-center py-4">No pending tests.</p>
+              )}
+            </div>
+          </Card>
         </motion.div>
       </div>
     </motion.div>

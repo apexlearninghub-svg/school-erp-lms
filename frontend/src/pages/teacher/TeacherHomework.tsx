@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { BookOpen, Plus, Loader2, Calendar as CalendarIcon, CheckSquare } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, Button, Badge, SkeletonCard, EmptyState } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,7 +18,7 @@ const itemVariants = {
 export function TeacherHomework() {
   const [homework, setHomework] = useState<any[]>([]);
   const [classes, setClasses] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
   
   // Form State
   const [showForm, setShowForm] = useState(false);
@@ -72,7 +73,7 @@ export function TeacherHomework() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <BookOpen className="text-[#862fe7]" /> Homework Management
@@ -80,20 +81,17 @@ export function TeacherHomework() {
           <p className="text-slate-500 text-sm mt-1">Assign, manage, and track class homework</p>
         </div>
         
-        <button 
+        <Button 
           onClick={() => setShowForm(!showForm)}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all shadow-md ${
-            showForm 
-              ? 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-none' 
-              : 'bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white shadow-[#862fe7]/20 hover:opacity-95'
-          }`}
+          variant={showForm ? 'dark' : 'primary'}
         >
-          {showForm ? 'Cancel' : <><Plus size={18} /> Assign New Homework</>}
-        </button>
-      </div>
+          {showForm ? 'Cancel' : <><Plus size={18} className="mr-2" /> Assign New Homework</>}
+        </Button>
+      </Card>
 
       {showForm && (
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+        <motion.div variants={itemVariants}>
+          <Card>
           <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4 border-b border-slate-100 dark:border-slate-700 pb-3">New Assignment</h3>
           <form onSubmit={handleCreate} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -129,35 +127,33 @@ export function TeacherHomework() {
               <textarea required rows={3} value={description} onChange={e => setDescription(e.target.value)} placeholder="Provide detailed instructions for the homework..." className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:border-[#862fe7] dark:text-white resize-none" />
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="w-full py-3 bg-[#862fe7] text-white font-bold rounded-xl flex justify-center items-center gap-2 disabled:opacity-50">
-              {isSubmitting ? <Loader2 className="animate-spin" /> : <CheckSquare />} Create Assignment
-            </button>
+            <Button type="submit" disabled={isSubmitting} className="w-full" loading={isSubmitting}>
+              {!isSubmitting && <CheckSquare className="mr-2" />} Create Assignment
+            </Button>
           </form>
+          </Card>
         </motion.div>
       )}
 
-      {isLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
-        </div>
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{[1,2,3].map(i => <SkeletonCard key={i} />)}</div>
       ) : homework.length === 0 ? (
-        <div className="h-48 flex flex-col items-center justify-center text-center opacity-70 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700">
-          <BookOpen size={48} className="text-slate-300 dark:text-slate-600 mb-3" />
-          <h3 className="font-bold text-slate-800 dark:text-white">No active homework</h3>
-          <p className="text-slate-500 text-sm mt-1">Assignments you create will appear here.</p>
-        </div>
+        <Card>
+          <EmptyState title="No active homework" message="Assignments you create will appear here." icon={<BookOpen />} />
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {homework.map(hw => (
-            <motion.div variants={itemVariants} key={hw.id} className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+            <motion.div variants={itemVariants} key={hw.id} className="h-full">
+              <Card className="h-full flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start mb-3">
-                  <span className="px-2.5 py-1 bg-[#862fe7]/10 text-[#862fe7] text-xs font-bold uppercase rounded-md">
+                  <Badge variant="violet" className="uppercase">
                     {hw.subject}
-                  </span>
-                  <span className="text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded">
+                  </Badge>
+                  <Badge variant="neutral">
                     {hw.class_name}
-                  </span>
+                  </Badge>
                 </div>
                 
                 <h3 className="font-bold text-slate-800 dark:text-white text-lg mb-2">{hw.title}</h3>
@@ -172,6 +168,7 @@ export function TeacherHomework() {
                   <div className="text-slate-500 font-medium">{hw.max_marks} Marks</div>
                 </div>
               </div>
+              </Card>
             </motion.div>
           ))}
         </div>

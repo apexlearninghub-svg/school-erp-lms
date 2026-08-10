@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Bell, Mail, Send, CheckCircle2 } from 'lucide-react';
+import { Card, Button, Badge } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,7 +29,7 @@ export function ParentCommunication() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <MessageSquare className="text-[#862fe7]" /> Communication Center
@@ -50,14 +51,14 @@ export function ParentCommunication() {
             Announcements
           </button>
         </div>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
         {activeTab === 'messages' ? (
           <>
-            <motion.div variants={itemVariants} className="lg:col-span-1 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col overflow-hidden h-[500px]">
-              <div className="p-4 border-b border-slate-100 dark:border-slate-700">
-                <h3 className="font-bold text-slate-800 dark:text-white">Conversations</h3>
+            <motion.div variants={itemVariants} className="lg:col-span-1 h-[500px]">
+              <Card title="Conversations" className="flex flex-col h-full overflow-hidden" noPadding>
+              <div className="p-4 border-b border-slate-100 dark:border-slate-700 hidden">
               </div>
               <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2">
                 {messages.map((msg) => (
@@ -70,9 +71,11 @@ export function ParentCommunication() {
                   </div>
                 ))}
               </div>
+              </Card>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col h-[500px]">
+            <motion.div variants={itemVariants} className="lg:col-span-2 h-[500px]">
+              <Card className="flex flex-col h-full overflow-hidden" noPadding>
               <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-slate-700 flex items-center gap-4">
                 <div className="w-10 h-10 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-[#862fe7] font-black">
                   M
@@ -112,17 +115,18 @@ export function ParentCommunication() {
                   placeholder="Type a message..." 
                   className="flex-1 px-4 py-2.5 bg-slate-100 dark:bg-slate-900 border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#862fe7]/20 dark:text-white"
                 />
-                <button className="p-3 bg-[#862fe7] text-white rounded-xl hover:bg-[#ad6df4] transition-colors shadow-md flex items-center justify-center">
+                <Button>
                   <Send size={18} />
-                </button>
+                </Button>
               </div>
+              </Card>
             </motion.div>
           </>
         ) : (
           <motion.div variants={itemVariants} className="lg:col-span-3">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {announcements.map((ann) => (
-                <div key={ann.id} className="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                <Card key={ann.id} className="hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-2">
                       <div className={`p-2 rounded-lg ${ann.isNew ? 'bg-blue-50 text-blue-500' : 'bg-slate-50 text-slate-400'}`}>
@@ -131,12 +135,12 @@ export function ParentCommunication() {
                       <h4 className="font-bold text-slate-800 dark:text-white">{ann.title}</h4>
                     </div>
                     {ann.isNew && (
-                      <span className="px-2 py-0.5 bg-rose-100 text-rose-600 text-[10px] font-black uppercase tracking-wider rounded">New</span>
+                      <Badge variant="danger">New</Badge>
                     )}
                   </div>
                   <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{ann.content}</p>
                   <div className="text-xs font-bold text-slate-400">Posted: {ann.date}</div>
-                </div>
+                </Card>
               ))}
             </div>
           </motion.div>

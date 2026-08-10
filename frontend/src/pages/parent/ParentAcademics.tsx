@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, BookOpen, Clock, Calendar, DownloadCloud, Trophy, ChevronRight, Loader2 } from 'lucide-react';
+import { Card, Button, Badge, EmptyState, SkeletonCard } from '@/components/ui';
 import api from '@/services/api';
 
 const containerVariants = {
@@ -26,28 +27,30 @@ export function ParentAcademics() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <GraduationCap className="text-[#862fe7]" /> Academic Progress
           </h2>
           <p className="text-slate-500 text-sm mt-1">Track exam performance, upcoming schedules, and class ranking</p>
         </div>
-        <button className="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold px-4 py-2 rounded-xl transition-colors hover:bg-slate-200 dark:hover:bg-slate-800">
+        <Button variant="outline" className="flex items-center gap-2">
           <DownloadCloud size={18} /> Download Full Report
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
         </div>
       ) : (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Subject Performance */}
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Subject Performance</h3>
+            <motion.div variants={itemVariants}>
+              <Card title="Subject Performance">
               
               <div className="space-y-5">
                 {data?.subject_scores?.map((subject: any, i: number) => (
@@ -71,16 +74,16 @@ export function ParentAcademics() {
                   </div>
                 ))}
               </div>
+              </Card>
             </motion.div>
 
             {/* Performance Trend */}
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm flex flex-col">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-bold text-lg text-slate-800 dark:text-white">Monthly Trend</h3>
-                <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-lg text-xs font-bold flex items-center gap-1">
-                  <Trophy size={14} /> Top 5% in Class
-                </span>
-              </div>
+            <motion.div variants={itemVariants} className="flex flex-col h-full">
+              <Card 
+                title="Monthly Trend" 
+                action={<Badge variant="success" className="flex items-center gap-1"><Trophy size={14} /> Top 5% in Class</Badge>}
+                className="flex-1 flex flex-col"
+              >
               
               <div className="flex-1 flex items-end gap-2 sm:gap-6 relative pt-10 px-2 sm:px-6">
                 <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between text-xs font-bold text-slate-400 w-8 text-right pr-2">
@@ -109,13 +112,14 @@ export function ParentAcademics() {
                   })}
                 </div>
               </div>
+              </Card>
             </motion.div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Recent Exam Results */}
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Recent Exam Results</h3>
+            <motion.div variants={itemVariants}>
+              <Card title="Recent Exam Results">
               <div className="space-y-4">
                 {data?.recent_results?.map((result: any, i: number) => (
                   <div key={i} className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/30 hover:border-[#862fe7]/30 transition-all group">
@@ -139,17 +143,15 @@ export function ParentAcademics() {
                   </div>
                 ))}
               </div>
+              </Card>
             </motion.div>
 
             {/* Upcoming Exams */}
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl p-6 shadow-sm">
-              <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Upcoming Exams</h3>
+            <motion.div variants={itemVariants}>
+              <Card title="Upcoming Exams">
               
               {data?.upcoming_exams?.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-10 text-slate-500">
-                  <Calendar size={48} className="text-slate-300 dark:text-slate-600 mb-4" />
-                  <p>No upcoming exams scheduled.</p>
-                </div>
+                <EmptyState icon={<Calendar size={48} />} title="No Upcoming Exams" message="No upcoming exams scheduled." />
               ) : (
                 <div className="space-y-4">
                   {data?.upcoming_exams?.map((exam: any, i: number) => (
@@ -170,6 +172,7 @@ export function ParentAcademics() {
                   ))}
                 </div>
               )}
+              </Card>
             </motion.div>
           </div>
         </>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { User, CheckCircle2, AlertCircle, FileText, BarChart3, Clock, DollarSign, Calendar } from 'lucide-react';
+import { Card, Button, Badge, EmptyState } from '@/components/ui';
 import api from '@/services/api';
 
 const containerVariants = {
@@ -50,22 +51,21 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
         {/* Left Card: Student Overview */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col h-full lg:col-span-1">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-xl">
-              <User size={22} />
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Student Overview</h3>
-          </div>
+        <motion.div variants={itemVariants} className="lg:col-span-1 flex flex-col h-full">
+          <Card 
+            title="Student Overview" 
+            icon={<User size={22} />}
+            className="flex-1 flex flex-col"
+          >
           
           <div className="flex flex-col items-center mb-6">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40 border-4 border-white dark:border-slate-800 shadow-lg flex items-center justify-center text-3xl font-black text-[#862fe7] mb-3">
               {stats?.child_name?.charAt(0) || 'S'}
             </div>
             <h4 className="font-black text-xl text-slate-800 dark:text-white">{stats?.child_name || 'Loading...'}</h4>
-            <span className="px-3 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded-full text-xs font-bold mt-2">
+            <Badge variant="neutral" className="mt-2">
               {stats?.child_class || 'Class'}
-            </span>
+            </Badge>
           </div>
           
           <div className="space-y-3 flex-1 w-full">
@@ -83,21 +83,19 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
             </div>
           </div>
           
-          <button onClick={() => onTabChange('academics')} className="w-full mt-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-transparent dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl transition-colors">
+          <Button variant="outline" onClick={() => onTabChange('academics')} className="w-full mt-6">
             View Academic Progress
-          </button>
+          </Button>
+          </Card>
         </motion.div>
 
         {/* Right Card: Academic Performance & Quick Actions */}
-        <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col h-full lg:col-span-2">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 rounded-xl">
-                <BarChart3 size={22} />
-              </div>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-white">Quick Actions & Alerts</h3>
-            </div>
-          </div>
+        <motion.div variants={itemVariants} className="lg:col-span-2 flex flex-col h-full">
+          <Card 
+            title="Quick Actions & Alerts" 
+            icon={<BarChart3 size={22} />}
+            className="flex-1 flex flex-col"
+          >
           
           <div className="grid grid-cols-2 gap-4 mb-6">
             {[
@@ -138,11 +136,10 @@ export function ParentOverview({ onTabChange }: { onTabChange: (tab: string) => 
             )}
 
             {(!stats?.pending_fees && !stats?.pending_homework && !stats?.upcoming_exams) && (
-              <div className="text-center text-slate-500 text-sm font-medium py-4">
-                You're all caught up! No recent alerts.
-              </div>
+              <EmptyState title="All Caught Up!" message="No recent alerts." icon={<CheckCircle2 size={48} />} />
             )}
           </div>
+          </Card>
         </motion.div>
       </div>
     </motion.div>

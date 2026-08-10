@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Users, ArrowUpRight, ArrowDownRight, Award, AlertTriangle } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, EmptyState, SkeletonDashboard, SkeletonList } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,7 +17,7 @@ const itemVariants = {
 
 export function TeacherAnalytics() {
   const [data, setData] = useState<any>({ top_students: [], weak_students: [], performance_history: [] });
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -34,24 +35,23 @@ export function TeacherAnalytics() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <TrendingUp className="text-[#862fe7]" /> Performance Analytics
           </h2>
           <p className="text-slate-500 text-sm mt-1">Track class averages, identify struggling students, and monitor trends.</p>
         </div>
-      </div>
+      </Card>
 
-      {isLoading ? (
-        <div className="flex justify-center items-center h-48">
-          <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#862fe7] animate-spin"></div>
-        </div>
+      {loading ? (
+        <SkeletonDashboard />
       ) : (
         <div className="space-y-6">
           {/* Chart Section */}
-          <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Class Performance Trend (Last 5 Months)</h3>
+          <motion.div variants={itemVariants}>
+            <Card>
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-6">Class Performance Trend (Last 5 Months)</h3>
             
             <div className="h-64 flex items-end gap-2 sm:gap-4 relative pt-10">
               {/* Y-axis labels */}
@@ -94,11 +94,13 @@ export function TeacherAnalytics() {
                 )}
               </div>
             </div>
+            </Card>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Top Performers */}
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+            <motion.div variants={itemVariants}>
+              <Card>
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 rounded-lg">
@@ -126,13 +128,15 @@ export function TeacherAnalytics() {
                     </div>
                   </div>
                 )) : (
-                  <p className="text-center text-slate-500 text-sm py-8">No data available</p>
+                  <EmptyState title="No data available" message="Not enough data to determine top performers" icon={<Award />} />
                 )}
               </div>
+              </Card>
             </motion.div>
 
             {/* Needs Attention */}
-            <motion.div variants={itemVariants} className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+            <motion.div variants={itemVariants}>
+              <Card>
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-rose-50 dark:bg-rose-900/20 text-rose-500 rounded-lg">
@@ -160,9 +164,10 @@ export function TeacherAnalytics() {
                     </div>
                   </div>
                 )) : (
-                  <p className="text-center text-slate-500 text-sm py-8">No students below passing criteria</p>
+                  <EmptyState title="No students below passing criteria" message="All students are currently performing well." icon={<AlertTriangle />} />
                 )}
               </div>
+              </Card>
             </motion.div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { User, Mail, Briefcase, Calendar, Shield, Save, Camera, MapPin, Loader2 } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, Button, Badge } from '@/components/ui';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -37,7 +38,8 @@ export function TeacherProfile({ user }: { user: any }) {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="max-w-5xl mx-auto space-y-6 h-[calc(100vh-140px)] flex flex-col overflow-y-auto pb-6 pr-2">
-      <motion.div variants={itemVariants} className="relative bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+      <motion.div variants={itemVariants}>
+        <Card noPadding className="overflow-hidden">
         {/* Banner */}
         <div className="h-48 bg-gradient-to-r from-slate-900 to-[#862fe7] relative overflow-hidden">
           <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
@@ -62,9 +64,9 @@ export function TeacherProfile({ user }: { user: any }) {
               <div className="pb-2">
                 <h1 className="text-3xl font-black text-slate-800 dark:text-white mb-1">{formData.full_name}</h1>
                 <div className="flex items-center gap-3 text-sm font-semibold text-slate-500">
-                  <span className="flex items-center gap-1.5 px-3 py-1 bg-[#862fe7]/10 text-[#862fe7] rounded-lg uppercase tracking-wider">
+                  <Badge variant="violet" className="flex items-center gap-1.5 uppercase tracking-wider">
                     <Shield size={14} /> Teacher Account
-                  </span>
+                  </Badge>
                   <span>{user?.teacher_profile?.employee_id || 'TCH-001'}</span>
                 </div>
               </div>
@@ -73,17 +75,17 @@ export function TeacherProfile({ user }: { user: any }) {
             <div className="mt-6 md:mt-0">
               {isEditing ? (
                 <div className="flex gap-3">
-                  <button onClick={() => setIsEditing(false)} className="px-5 py-2.5 rounded-xl font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+                  <Button variant="dark" onClick={() => setIsEditing(false)}>
                     Cancel
-                  </button>
-                  <button onClick={handleSave} disabled={isSaving} className="px-5 py-2.5 rounded-xl font-bold bg-[#862fe7] text-white hover:opacity-95 shadow-lg shadow-[#862fe7]/20 transition-all flex items-center gap-2">
-                    {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />} Save Changes
-                  </button>
+                  </Button>
+                  <Button onClick={handleSave} disabled={isSaving} loading={isSaving}>
+                    {!isSaving && <Save size={18} className="mr-2" />} Save Changes
+                  </Button>
                 </div>
               ) : (
-                <button onClick={() => setIsEditing(true)} className="px-5 py-2.5 rounded-xl font-bold bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 shadow-lg shadow-slate-900/20 dark:shadow-white/10 transition-all">
+                <Button variant="primary" onClick={() => setIsEditing(true)}>
                   Edit Profile
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -170,15 +172,16 @@ export function TeacherProfile({ user }: { user: any }) {
                 <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Core Competencies</h3>
                 <div className="flex flex-wrap gap-2">
                   {['Curriculum Design', 'Student Assessment', 'EdTech Integration', 'STEM', 'Mentoring'].map((skill, i) => (
-                    <span key={i} className="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-bold">
+                    <Badge key={i} variant="neutral">
                       {skill}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </Card>
       </motion.div>
     </motion.div>
   );

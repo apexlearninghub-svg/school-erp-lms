@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Search, Filter, UserPlus, MoreVertical, Loader2, X, Clipboard, Check } from 'lucide-react';
+import { Users, Search, Filter, UserPlus, MoreVertical, X, Clipboard, Check } from 'lucide-react';
 import api from '@/services/api';
+import { Card, Button, Badge, SkeletonTable, SearchInput } from '@/components/ui';
 import { toast } from 'react-hot-toast';
 
 const containerVariants = {
@@ -144,7 +145,7 @@ export function AdminUsers() {
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 h-[calc(100vh-140px)] flex flex-col">
-      <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
+      <Card className="shrink-0 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <Users className="text-[#862fe7]" /> User Management
@@ -153,14 +154,11 @@ export function AdminUsers() {
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          <div className="relative flex-1 sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input 
-              type="text" 
+          <div className="w-full sm:w-64">
+            <SearchInput 
               placeholder="Search users..." 
               value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm focus:outline-none focus:border-[#862fe7] transition-colors dark:text-white"
+              onChange={(e: any) => setSearch(e.target.value)}
             />
           </div>
           <select 
@@ -175,100 +173,88 @@ export function AdminUsers() {
             <option value="staff">Staff</option>
             <option value="admin">Admins</option>
           </select>
-          <button 
+          <Button 
+            variant="primary"
             onClick={() => { resetForm(); setIsModalOpen(true); }}
-            className="flex justify-center items-center gap-2 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white px-4 py-2 rounded-xl font-bold text-sm transition-colors shadow-md shadow-[#862fe7]/20"
+            className="flex items-center gap-2"
           >
             <UserPlus size={18} /> Add User
-          </button>
+          </Button>
         </div>
-      </div>
+      </Card>
 
-      <div className="flex-1 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col">
-        <div className="overflow-x-auto flex-1">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-700 text-xs uppercase tracking-wider text-slate-500 font-bold">
-                <th className="p-4 pl-6">User</th>
-                <th className="p-4">Role</th>
-                <th className="p-4">Contact</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Joined</th>
-                <th className="p-4 pr-6 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr>
-                  <td colSpan={6} className="p-8 text-center">
-                    <Loader2 className="w-8 h-8 animate-spin text-[#862fe7] mx-auto" />
-                  </td>
+      <Card noPadding className="flex-1 overflow-hidden flex flex-col">
+        {isLoading ? (
+          <SkeletonTable rows={6} cols={6} />
+        ) : (
+          <div className="overflow-x-auto flex-1">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-700 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                  <th className="p-4 pl-6">User</th>
+                  <th className="p-4">Role</th>
+                  <th className="p-4">Contact</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Joined</th>
+                  <th className="p-4 pr-6 text-right">Actions</th>
                 </tr>
-              ) : filteredUsers.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="p-8 text-center text-slate-500">No users found.</td>
-                </tr>
-              ) : (
-                filteredUsers.map(user => (
-                  <tr key={user.id} className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="p-4 pl-6">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center text-slate-600 dark:text-white font-bold text-sm">
-                          {user.full_name?.charAt(0) || 'U'}
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm text-slate-800 dark:text-white">{user.full_name}</p>
-                          <p className="text-xs text-slate-500">@{user.username}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${
-                        user.role === 'admin' ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30' :
-                        user.role === 'teacher' ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/30' :
-                        user.role === 'student' ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30' :
-                        'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
-                      }`}>
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <p className="text-sm text-slate-600 dark:text-slate-300">{user.email}</p>
-                    </td>
-                    <td className="p-4">
-                      {user.is_active ? (
-                        <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-500">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Active
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1.5 text-xs font-bold text-slate-400">
-                          <span className="w-2 h-2 rounded-full bg-slate-400"></span> Inactive
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-4 text-sm text-slate-500">
-                      {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
-                    </td>
-                    <td className="p-4 pr-6 text-right">
-                      <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
-                        <MoreVertical size={18} />
-                      </button>
-                    </td>
+              </thead>
+              <tbody>
+                {filteredUsers.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="p-8 text-center text-slate-500">No users found.</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                ) : (
+                  filteredUsers.map(user => (
+                    <tr key={user.id} className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                      <td className="p-4 pl-6">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center text-slate-600 dark:text-white font-bold text-sm">
+                            {user.full_name?.charAt(0) || 'U'}
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm text-slate-800 dark:text-white">{user.full_name}</p>
+                            <p className="text-xs text-slate-500">@{user.username}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant={user.role === 'admin' ? 'violet' : user.role === 'teacher' ? 'info' : user.role === 'student' ? 'success' : 'neutral'}>
+                          {user.role}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <p className="text-sm text-slate-600 dark:text-slate-300">{user.email}</p>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant={user.is_active ? 'success' : 'neutral'}>
+                          {user.is_active ? 'Active' : 'Inactive'}
+                        </Badge>
+                      </td>
+                      <td className="p-4 text-sm text-slate-500">
+                        {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
+                      </td>
+                      <td className="p-4 pr-6 text-right">
+                        <button className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+                          <MoreVertical size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
         
         <div className="p-4 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900/30">
           <p className="text-xs font-semibold text-slate-500">Showing {filteredUsers.length} users</p>
           <div className="flex gap-2">
-            <button className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800">Prev</button>
-            <button className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800">Next</button>
+            <Button variant="outline" size="sm">Prev</Button>
+            <Button variant="outline" size="sm">Next</Button>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Creation Modal */}
       <AnimatePresence>
@@ -330,32 +316,33 @@ export function AdminUsers() {
                     </div>
                   </div>
                   
-                  <button 
+                  <Button 
                     onClick={() => setIsModalOpen(false)}
-                    className="w-full max-w-xs bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-[#862fe7]/25"
+                    variant="primary"
+                    className="w-full max-w-xs mx-auto"
                   >
                     Done
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 /* Interactive Form Screen */
                 <form onSubmit={handleCreateUser} className="flex-1 overflow-y-auto p-6 space-y-4">
                   {/* Account Type Tabs */}
-                  <div className="grid grid-cols-2 p-1.5 bg-slate-100 dark:bg-slate-900/60 rounded-2xl">
-                    <button 
+                  <div className="grid grid-cols-2 p-1.5 bg-slate-100 dark:bg-slate-900/60 rounded-2xl gap-2">
+                    <Button 
                       type="button"
                       onClick={() => setModalType('student')}
-                      className={`py-2 rounded-xl text-sm font-bold transition-all ${modalType === 'student' ? 'bg-white dark:bg-slate-800 text-[#862fe7] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                      variant={modalType === 'student' ? 'primary' : 'ghost'}
                     >
                       Student Account
-                    </button>
-                    <button 
+                    </Button>
+                    <Button 
                       type="button"
                       onClick={() => setModalType('parent')}
-                      className={`py-2 rounded-xl text-sm font-bold transition-all ${modalType === 'parent' ? 'bg-white dark:bg-slate-800 text-[#862fe7] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
+                      variant={modalType === 'parent' ? 'primary' : 'ghost'}
                     >
                       Parent Account
-                    </button>
+                    </Button>
                   </div>
 
                   {/* Common Fields */}
@@ -502,21 +489,20 @@ export function AdminUsers() {
                   )}
 
                   <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-end gap-3">
-                    <button 
+                    <Button 
                       type="button" 
+                      variant="outline"
                       onClick={() => setIsModalOpen(false)}
-                      className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-sm rounded-xl transition-all"
                     >
                       Cancel
-                    </button>
-                    <button 
+                    </Button>
+                    <Button 
                       type="submit" 
-                      disabled={isSubmitting}
-                      className="px-6 py-2.5 bg-[#862fe7] hover:bg-[#862fe7]/90 text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-[#862fe7]/20 flex items-center gap-2"
+                      variant="primary"
+                      loading={isSubmitting}
                     >
-                      {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                       Create Account
-                    </button>
+                    </Button>
                   </div>
                 </form>
               )}

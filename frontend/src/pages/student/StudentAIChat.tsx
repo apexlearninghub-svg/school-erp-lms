@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
 import api from '@/services/api';
 import { toast } from 'react-hot-toast';
+import { Card, Button } from '@/components/ui';
 
 interface Message {
   id: string;
@@ -82,7 +83,7 @@ export function StudentAIChat() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-140px)] bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden">
+    <Card className="flex flex-col h-[calc(100vh-140px)] overflow-hidden" noPadding>
       
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
@@ -105,13 +106,15 @@ export function StudentAIChat() {
         <div className="flex items-center gap-2 overflow-x-auto p-4 scrollbar-hide border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
           <Sparkles className="text-amber-500 w-4 h-4 shrink-0 ml-1" />
           {PRESET_PROMPTS.map((prompt, i) => (
-            <button
+            <Button
               key={i}
+              variant="outline"
+              size="sm"
               onClick={() => handleSend(prompt)}
-              className="whitespace-nowrap px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-[#862fe7]/10 hover:text-[#862fe7] dark:hover:bg-[#862fe7]/20 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium transition-colors border border-transparent hover:border-[#862fe7]/30"
+              className="whitespace-nowrap rounded-full"
             >
               {prompt}
-            </button>
+            </Button>
           ))}
         </div>
       )}
@@ -173,16 +176,17 @@ export function StudentAIChat() {
             className="flex-1 max-h-32 min-h-[44px] bg-transparent border-none focus:ring-0 resize-none py-3 px-4 text-slate-700 dark:text-slate-200"
             rows={input.split('\n').length > 3 ? 3 : input.split('\n').length}
           />
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={!input.trim() || isLoading}
-            className="p-3 bg-gradient-to-br from-[#862fe7] to-[#ad6df4] text-white rounded-xl shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all mb-1 shrink-0"
+            className="mb-1 shrink-0 px-3 py-3"
           >
             {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-          </button>
+          </Button>
         </form>
         <p className="text-center text-[10px] text-slate-400 mt-2 font-medium">AI can make mistakes. Verify important information.</p>
       </div>
-    </div>
+    </Card>
   );
 }

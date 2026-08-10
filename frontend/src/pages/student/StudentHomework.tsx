@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Card, Button, SkeletonCard, EmptyState } from '@/components/ui';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ClipboardList, Clock, CheckCircle2, AlertCircle, FileText, Send, X, Loader2 } from 'lucide-react';
 import api from '@/services/api';
@@ -71,27 +72,29 @@ export function StudentHomework() {
       
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 shrink-0">
-        <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-4">
+        <Card className="flex items-center gap-4">
           <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl"><ClipboardList size={24} /></div>
           <div><p className="text-xs text-slate-500 uppercase font-bold">Total</p><p className="text-xl font-black dark:text-white">{total}</p></div>
-        </div>
-        <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-4">
+        </Card>
+        <Card className="flex items-center gap-4">
           <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl"><CheckCircle2 size={24} /></div>
           <div><p className="text-xs text-slate-500 uppercase font-bold">Submitted</p><p className="text-xl font-black dark:text-white">{submittedCount}</p></div>
-        </div>
-        <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-4">
+        </Card>
+        <Card className="flex items-center gap-4">
           <div className="p-3 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-xl"><Clock size={24} /></div>
           <div><p className="text-xs text-slate-500 uppercase font-bold">Pending</p><p className="text-xl font-black dark:text-white">{pendingCount}</p></div>
-        </div>
-        <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-4">
+        </Card>
+        <Card className="flex items-center gap-4">
           <div className="p-3 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl"><AlertCircle size={24} /></div>
           <div><p className="text-xs text-slate-500 uppercase font-bold">Overdue</p><p className="text-xl font-black dark:text-white">{overdueCount}</p></div>
-        </div>
+        </Card>
       </div>
 
       <div className="flex-1 overflow-y-auto pb-6">
         {isLoading ? (
-          <div className="flex justify-center items-center h-48"><Loader2 className="w-8 h-8 text-[#862fe7] animate-spin" /></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {Array.from({length: 3}).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
         ) : homework.length > 0 ? (
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {homework.map(hw => {
@@ -99,61 +102,62 @@ export function StudentHomework() {
               const overdue = !sub && isOverdue(hw.due_date);
               
               return (
-                <motion.div variants={itemVariants} key={hw.id} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm flex flex-col hover:shadow-md transition-shadow relative overflow-hidden">
-                  {/* Accent Border */}
-                  <div className={`absolute left-0 top-0 bottom-0 w-1 ${sub ? 'bg-emerald-500' : overdue ? 'bg-red-500' : 'bg-orange-500'}`}></div>
-                  
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="px-2.5 py-1 text-xs font-bold uppercase rounded-md bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
-                      {hw.subject}
-                    </span>
-                    <span className={`flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md ${
-                      sub ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 
-                      overdue ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 
-                      'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
-                    }`}>
-                      {sub ? <><CheckCircle2 size={14} /> Submitted</> : 
-                       overdue ? <><AlertCircle size={14} /> Overdue</> : 
-                       <><Clock size={14} /> Pending</>}
-                    </span>
-                  </div>
-                  
-                  <h3 className="font-bold text-slate-800 dark:text-white text-lg leading-tight mb-2">{hw.title}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 line-clamp-3 flex-1">{hw.description}</p>
-                  
-                  <div className="pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto flex items-center justify-between">
-                    <div className="text-xs font-medium">
-                      <span className="text-slate-400 block mb-0.5">Due Date</span>
-                      <span className={`${overdue && !sub ? 'text-red-500 font-bold' : 'text-slate-700 dark:text-slate-300'}`}>
-                        {new Date(hw.due_date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
+                <motion.div variants={itemVariants} key={hw.id}>
+                  <Card className="flex flex-col hover:shadow-md transition-shadow relative overflow-hidden h-full">
+                    {/* Accent Border */}
+                    <div className={`absolute left-0 top-0 bottom-0 w-1 ${sub ? 'bg-emerald-500' : overdue ? 'bg-red-500' : 'bg-orange-500'}`}></div>
+                    
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="px-2.5 py-1 text-xs font-bold uppercase rounded-md bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                        {hw.subject}
+                      </span>
+                      <span className={`flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md ${
+                        sub ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 
+                        overdue ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 
+                        'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
+                      }`}>
+                        {sub ? <><CheckCircle2 size={14} /> Submitted</> : 
+                         overdue ? <><AlertCircle size={14} /> Overdue</> : 
+                         <><Clock size={14} /> Pending</>}
                       </span>
                     </div>
                     
-                    {!sub ? (
-                      <button 
-                        onClick={() => setActiveModal(hw)}
-                        className="px-4 py-2 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white rounded-lg text-sm font-bold shadow-md hover:shadow-lg transition-all"
-                      >
-                        Submit Now
-                      </button>
-                    ) : (
-                      <div className="text-right text-xs">
-                        <span className="text-slate-400 block mb-0.5">Marks</span>
-                        <span className="font-bold text-slate-700 dark:text-slate-300">
-                          {sub.marks_obtained !== null ? `${sub.marks_obtained}/${hw.max_marks}` : 'Grading...'}
+                    <h3 className="font-bold text-slate-800 dark:text-white text-lg leading-tight mb-2">{hw.title}</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 line-clamp-3 flex-1">{hw.description}</p>
+                    
+                    <div className="pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto flex items-center justify-between">
+                      <div className="text-xs font-medium">
+                        <span className="text-slate-400 block mb-0.5">Due Date</span>
+                        <span className={`${overdue && !sub ? 'text-red-500 font-bold' : 'text-slate-700 dark:text-slate-300'}`}>
+                          {new Date(hw.due_date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                         </span>
                       </div>
-                    )}
-                  </div>
+                      
+                      {!sub ? (
+                        <Button 
+                          variant="primary" 
+                          size="sm"
+                          onClick={() => setActiveModal(hw)}
+                        >
+                          Submit Now
+                        </Button>
+                      ) : (
+                        <div className="text-right text-xs">
+                          <span className="text-slate-400 block mb-0.5">Marks</span>
+                          <span className="font-bold text-slate-700 dark:text-slate-300">
+                            {sub.marks_obtained !== null ? `${sub.marks_obtained}/${hw.max_marks}` : 'Grading...'}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </Card>
                 </motion.div>
               );
             })}
           </motion.div>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-center opacity-70">
-            <ClipboardList size={64} className="text-slate-300 dark:text-slate-600 mb-4" />
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white">No homework assigned</h3>
-            <p className="text-slate-500 text-sm">You're all caught up! Enjoy your free time.</p>
+          <div className="h-full flex items-center justify-center">
+            <EmptyState icon={<ClipboardList size={64} />} title="No homework assigned" message="You're all caught up! Enjoy your free time." />
           </div>
         )}
       </div>
@@ -205,20 +209,22 @@ export function StudentHomework() {
                 </div>
                 
                 <div className="mt-8 flex gap-3">
-                  <button 
+                  <Button 
                     type="button" 
+                    variant="outline"
                     onClick={() => setActiveModal(null)}
-                    className="flex-1 py-3 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                    className="flex-1"
                   >
                     Cancel
-                  </button>
-                  <button 
+                  </Button>
+                  <Button 
                     type="submit" 
+                    variant="primary"
                     disabled={isSubmitting || !notes.trim()}
-                    className="flex-1 py-3 bg-gradient-to-r from-[#862fe7] to-[#ad6df4] text-white font-bold rounded-xl shadow-lg shadow-[#862fe7]/20 hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><CheckCircle2 className="w-5 h-5" /> Submit Work</>}
-                  </button>
+                  </Button>
                 </div>
               </form>
             </motion.div>
