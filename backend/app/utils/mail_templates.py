@@ -1,7 +1,24 @@
 import os
+import base64
 from flask_mail import Message
 from app import mail
 from flask import current_app
+
+def _get_logo_base64() -> str:
+    """Load logo.png and return as base64 data URI for inline email embedding."""
+    try:
+        # Try relative path from backend root
+        logo_path = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'frontend', 'public', 'logo.png')
+        logo_path = os.path.normpath(logo_path)
+        if os.path.exists(logo_path):
+            with open(logo_path, 'rb') as f:
+                b64 = base64.b64encode(f.read()).decode('utf-8')
+                return f"data:image/png;base64,{b64}"
+    except Exception:
+        pass
+    return ""  # fallback: empty string → img src will be blank
+
+_LOGO_DATA_URI = _get_logo_base64()
 
 def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_verification") -> str:
     """Professional Apex Learning Hub themed HTML email template for OTP validation."""
@@ -61,18 +78,22 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
                 letter-spacing: -0.5px;
             }}
             .logo {{
-                width: 50px;
-                height: 50px;
-                background-color: rgba(255, 255, 255, 0.2);
-                border-radius: 12px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                color: #ffffff;
-                font-size: 24px;
-                font-weight: 900;
+                width: 60px;
+                height: 60px;
+                background-color: rgba(255, 255, 255, 0.15);
+                border-radius: 14px;
+                display: inline-block;
                 margin-bottom: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.4);
+                border: 2px solid rgba(255, 255, 255, 0.35);
+                overflow: hidden;
+                vertical-align: middle;
+            }}
+            .logo img {{
+                width: 60px;
+                height: 60px;
+                object-fit: contain;
+                display: block;
+                border-radius: 12px;
             }}
             .content {{
                 padding: 40px 30px;
@@ -133,7 +154,7 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
         <div class="wrapper">
             <div class="container">
                 <div class="header">
-                    <div class="logo"><img src="{current_app.config.get('FRONTEND_URL', 'http://localhost:5173')}/logo.png" alt="ALH" style="width:100%;height:100%;object-fit:contain;border-radius:12px;"/></div>
+                    <div class="logo"><img src="{_LOGO_DATA_URI}" alt="Apex Learning Hub" /></div>
                     <h1>Apex Learning Hub</h1>
                 </div>
                 <div class="content">

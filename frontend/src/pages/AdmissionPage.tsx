@@ -372,12 +372,7 @@ export default function AdmissionPage() {
       {/* Header bar */}
       <div className="max-w-4xl mx-auto flex items-center justify-between mb-10 mt-2">
         <div className="flex items-center gap-2">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #0EA5A4, #14B8A6)' }}
-          >
-            <GraduationCap className="w-5.5 h-5.5 text-white" />
-          </div>
+          <img src="/logo.png" alt="Apex Learning Hub" className="w-10 h-10 rounded-xl object-contain shadow-lg shrink-0" />
           <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-[#862fe7] to-[#ad6df4] bg-clip-text text-transparent">
             Apex Learning Hub
           </span>
@@ -400,7 +395,7 @@ export default function AdmissionPage() {
           
           <div className="text-center mb-8">
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-              {isTeacher ? 'Teacher Onboarding File' : 'Student Admission Form'} 📝
+              {isTeacher ? 'Teacher Onboarding File' : 'Student Admission Form'}
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
               Welcome, <span className="font-bold text-[#862fe7]">{user?.full_name}</span>. Please complete your registration file to unlock your portal access.
@@ -532,6 +527,7 @@ export default function AdmissionPage() {
                             {...register('phone')}
                             type="tel"
                             placeholder="10-digit phone number"
+                            maxLength={10}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
                               errors.phone ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
@@ -1021,6 +1017,7 @@ export default function AdmissionPage() {
                             {...register('emergency_phone')}
                             type="tel"
                             placeholder="10-digit phone number"
+                            maxLength={10}
                             className={`form-input-glass w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none bg-slate-50/50 dark:bg-slate-950/20 placeholder-slate-400 transition-all focus:bg-white dark:focus:bg-[#0F172A] ${
                               errors.emergency_phone ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200 dark:border-slate-800 focus:border-[#862fe7] focus:ring-4 focus:ring-[#862fe7]/10'
                             }`}
