@@ -102,58 +102,6 @@ export default function LoginPage() {
         <ThemeToggle />
       </div>
 
-      {/* ── Left Panel — Brand ── */}
-      <div className="hidden lg:flex flex-col justify-between w-[48%] min-h-screen bg-gradient-to-br from-[#862fe7] via-[#6d22c4] to-[#3d0a8f] p-12 relative overflow-hidden">
-
-        {/* Gradient Orbs */}
-        <div className="absolute top-[-80px] left-[-60px] w-96 h-96 rounded-full opacity-30"
-          style={{ background: 'radial-gradient(circle, #ff5fe4, transparent)' }} />
-        <div className="absolute bottom-[-60px] right-[-40px] w-80 h-80 rounded-full opacity-20"
-          style={{ background: 'radial-gradient(circle, #dc5f05, transparent)' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.5), transparent)' }} />
-
-        {/* Logo */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-12">
-            <div className="w-10 h-10 rounded-[14px] bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <img src="/logo.png" alt="Apex Learning Hub" className="w-7 h-7 object-contain" />
-            </div>
-            <span className="font-bold text-white text-lg">Apex Learning Hub</span>
-          </div>
-
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-3 py-1.5 rounded-full">
-              <Sparkles size={14} className="text-white/80" />
-              <span className="text-xs font-semibold text-white/80 uppercase tracking-wider">Premium ERP Platform</span>
-            </div>
-            <h1 className="text-4xl font-bold text-white leading-tight">
-              Modern School<br />Management,<br />Simplified.
-            </h1>
-            <p className="text-white/70 text-base leading-relaxed max-w-xs">
-              Everything your school needs — admissions, exams, attendance, fees, and AI-powered learning — all in one place.
-            </p>
-          </div>
-        </div>
-
-        {/* Features */}
-        <div className="relative z-10 space-y-3">
-          {FEATURES.map((f, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-[10px] bg-white/15 backdrop-blur-sm flex items-center justify-center text-base">
-                {f.icon}
-              </div>
-              <span className="text-white/80 text-sm font-medium">{f.text}</span>
-            </div>
-          ))}
-          <div className="pt-6 border-t border-white/20">
-            <p className="text-white/50 text-xs">
-              © {new Date().getFullYear()} Apex Learning Hub · Trusted by thousands of schools
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* ── Right Panel — Login Form ── */}
       <div className={`flex-1 flex items-center justify-center p-6 lg:p-12 ${isDark ? 'bg-[#0F172A]' : 'bg-[#f8faff]'} relative overflow-hidden`}>
 
