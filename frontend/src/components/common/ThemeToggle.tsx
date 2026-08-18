@@ -33,7 +33,7 @@ function AnimatedIcon({ isDark }: { isDark: boolean }) {
       transition={{ duration: 0.2 }}
     >
       {isDark ? (
-        <Moon className="w-4 h-4 text-[#94A3B8]" />
+        <Moon className="w-4 h-4 text-[#e7e7e8]" />
       ) : (
         <Sun className="w-4 h-4 text-[#F59E0B]" />
       )}
