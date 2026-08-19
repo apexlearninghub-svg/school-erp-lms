@@ -7,7 +7,7 @@ from app import db, bcrypt
 from app.models import (
     User, UserRole, Admission, Student, Teacher, Class,
     Test, Question, PublishedTest, StudentAnswer, Result, Notification,
-    Attendance, Homework, HomeworkSubmission, StudyMaterial
+    Attendance, Homework, HomeworkSubmission, StudyMaterial, Announcement
 )
 from app.utils.validators import sanitize_string, is_valid_email, is_valid_username
 from app.services.gemini_service import generate_mcq_test
@@ -46,105 +46,15 @@ def save_base64_doc(base64_str, folder, prefix):
         return None
 
 
-# ─── Authentication Endpoints ───────────────────────────────────────────────
-
-@api_bp.route("/signup", methods=["POST"])
-def signup():
-    data = request.get_json(silent=True) or {}
-    full_name = sanitize_string(data.get("full_name", ""), 255)
-    email = sanitize_string(data.get("email", ""), 255).lower()
-    username = sanitize_string(data.get("username", ""), 100).lower()
-    password = data.get("password", "")
-    role = sanitize_string(data.get("role", UserRole.STUDENT), 50).lower()
-
-    if not full_name or not email or not username or not password:
-        return jsonify({"error": "Missing required fields"}), 400
-
-    if not is_valid_email(email):
-        return jsonify({"error": "Invalid email address"}), 400
-
-    if User.query.filter_by(email=email).first():
-        return jsonify({"error": "An account with this email already exists"}), 409
-
-    if User.query.filter_by(username=username).first():
-        return jsonify({"error": "Username is already taken"}), 409
-
-    # Create User
-    password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
-    user = User(
-        full_name=full_name,
-        email=email,
-        username=username,
-        password_hash=password_hash,
-        role=role,
-        is_verified=True,
-        is_active=True
-    )
-    db.session.add(user)
-    db.session.commit()
-
-    # Automatically create Student/Teacher Profiles
-    if role == UserRole.STUDENT:
-        # Assign a default class if available, or create it
-        cls = Class.query.filter_by(name="Class 10").first()
-        if not cls:
-            cls = Class(name="Class 10")
-            db.session.add(cls)
-            db.session.commit()
-        
-        student = Student(user_id=user.id, class_id=cls.id)
-        db.session.add(student)
-        db.session.commit()
-    elif role == UserRole.TEACHER:
-        teacher = Teacher(user_id=user.id, employee_id=f"TCH{user.username.upper()}")
-        db.session.add(teacher)
-        db.session.commit()
-
-    return jsonify({
-        "message": "User registered successfully",
-        "user": user.to_dict()
-    }), 201
-
-
-@api_bp.route("/login", methods=["POST"])
-def login():
-    data = request.get_json(silent=True) or {}
-    identifier = sanitize_string(data.get("identifier", data.get("username", "")), 255)
-    password = data.get("password", "")
-
-    if not identifier or not password:
-        return jsonify({"error": "Username/email and password are required"}), 400
-
-    if is_valid_email(identifier):
-        user = User.query.filter_by(email=identifier.lower()).first()
-    else:
-        user = User.query.filter_by(username=identifier.lower()).first()
-
-    if not user or not user.password_hash or not bcrypt.check_password_hash(user.password_hash, password):
-        return jsonify({"error": "Invalid credentials"}), 401
-
-    if not user.is_active:
-        return jsonify({"error": "Your account is deactivated"}), 403
-
-    from flask_jwt_extended import create_access_token, create_refresh_token
-    access_token = create_access_token(identity=user.id, additional_claims={"role": user.role})
-    refresh_token = create_refresh_token(identity=user.id)
-
-    # Return
-    return jsonify({
-        "message": "Login successful",
-        "access_token": access_token,
-        "refresh_token": refresh_token,
-        "user": user.to_dict(),
-        "redirect_url": user.get_dashboard_url()
-    }), 200
+# ─── Profile (via API blueprint — proxies to /auth/profile) ─────────────────
+# NOTE: /signup and /login duplicates were removed. Use /api/auth/register and /api/auth/login.
 
 
 @api_bp.route("/profile", methods=["GET"])
 @jwt_required()
 def get_profile():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     
@@ -172,7 +82,7 @@ def get_profile():
 @jwt_required()
 def submit_admission():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -227,7 +137,7 @@ def submit_admission():
 @jwt_required()
 def get_admissions():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role != UserRole.ADMIN:
         # Return only current user's admission if student
         admissions = Admission.query.filter_by(user_id=user_id).all()
@@ -241,7 +151,7 @@ def get_admissions():
 @jwt_required()
 def update_admission_status(admission_id):
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role != UserRole.ADMIN:
         return jsonify({"error": "Unauthorized"}), 403
 
@@ -250,7 +160,7 @@ def update_admission_status(admission_id):
     if new_status not in ["pending", "approved", "rejected"]:
         return jsonify({"error": "Invalid status"}), 400
 
-    admission = Admission.query.get(admission_id)
+    admission = db.session.get(Admission, admission_id)
     if not admission:
         return jsonify({"error": "Admission record not found"}), 404
 
@@ -278,7 +188,7 @@ def update_admission_status(admission_id):
 @jwt_required()
 def generate_test():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role != UserRole.TEACHER:
         return jsonify({"error": "Unauthorized. Only teachers can generate tests."}), 403
 
@@ -395,7 +305,7 @@ def delete_test(test_id):
 @jwt_required()
 def publish_test():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role != UserRole.TEACHER:
         return jsonify({"error": "Unauthorized"}), 403
 
@@ -440,7 +350,7 @@ def publish_test():
 @jwt_required()
 def get_tests():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -486,7 +396,7 @@ def start_test():
     data = request.get_json(silent=True) or {}
     test_id = data.get("test_id")
 
-    test = Test.query.get(test_id)
+    test = db.session.get(Test, test_id)
     if not test:
         return jsonify({"error": "Test not found"}), 404
 
@@ -569,7 +479,7 @@ def submit_test():
     if result.status == "completed":
         return jsonify({"error": "Test already submitted"}), 400
 
-    test = Test.query.get(result.test_id)
+    test = db.session.get(Test, result.test_id)
     questions = Question.query.filter_by(test_id=test.id).all()
     q_map = {q.id: q for q in questions}
 
@@ -626,7 +536,7 @@ def submit_test():
         r.school_rank = idx + 1
         
         # Calculate class rank
-        student_user = User.query.get(r.student_id)
+        student_user = db.session.get(User, r.student_id)
         if student_user and student_user.student_profile:
             class_id = student_user.student_profile.class_id
             # Get other results from the same class
@@ -648,7 +558,7 @@ def submit_test():
 @jwt_required()
 def get_result():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -656,7 +566,7 @@ def get_result():
     result_id = request.args.get("result_id")
 
     if result_id:
-        result = Result.query.get(result_id)
+        result = db.session.get(Result, result_id)
         if not result:
             return jsonify({"error": "Result not found"}), 404
         # Return full details including explanations for completed exams
@@ -682,7 +592,7 @@ def get_result():
         results_data = []
         for r in results:
             rd = r.to_dict()
-            student_user = User.query.get(r.student_id)
+            student_user = db.session.get(User, r.student_id)
             rd["student_name"] = student_user.full_name if student_user else "Unknown student"
             rd["roll_number"] = student_user.student_profile.roll_number if student_user and student_user.student_profile else "N/A"
             results_data.append(rd)
@@ -700,7 +610,7 @@ def get_result():
 @jwt_required()
 def get_dashboard_stats():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -853,7 +763,7 @@ def get_attendance():
 @jwt_required()
 def mark_attendance():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role not in (UserRole.TEACHER, UserRole.ADMIN):
         return jsonify({"error": "Unauthorized"}), 403
     data = request.get_json(silent=True) or {}
@@ -880,7 +790,7 @@ def mark_attendance():
 @jwt_required()
 def get_homework():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     if user.role == UserRole.STUDENT:
@@ -902,7 +812,7 @@ def get_homework():
 @jwt_required()
 def create_homework():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role not in (UserRole.TEACHER, UserRole.ADMIN):
         return jsonify({"error": "Only teachers can assign homework"}), 403
     data = request.get_json(silent=True) or {}
@@ -932,19 +842,48 @@ def create_homework():
 @jwt_required()
 def submit_homework(hw_id):
     user_id = get_jwt_identity()
-    hw = Homework.query.get(hw_id)
+    hw = db.session.get(Homework, hw_id)
     if not hw:
         return jsonify({"error": "Homework not found"}), 404
+
     existing = HomeworkSubmission.query.filter_by(homework_id=hw_id, student_id=user_id).first()
-    data = request.get_json(silent=True) or {}
-    notes = data.get("notes", "")
+
+    # Handle both JSON and multipart/form-data
+    if request.content_type and 'multipart/form-data' in request.content_type:
+        notes = request.form.get("notes", "")
+        file_url = None
+        if "file" in request.files:
+            from werkzeug.utils import secure_filename
+            import uuid
+            file = request.files["file"]
+            if file and file.filename:
+                ext = file.filename.rsplit(".", 1)[-1].lower() if "." in file.filename else "bin"
+                filename = secure_filename(f"hw_{hw_id}_{uuid.uuid4().hex[:8]}.{ext}")
+                upload_folder = current_app.config["UPLOAD_FOLDER"]
+                os.makedirs(upload_folder, exist_ok=True)
+                file.save(os.path.join(upload_folder, filename))
+                file_url = f"/api/user/avatar/{filename}"
+    else:
+        data = request.get_json(silent=True) or {}
+        notes = data.get("notes", "")
+        file_url = data.get("file_url")
+
     if existing:
         existing.notes = notes
         existing.status = "submitted"
         existing.submitted_at = datetime.now(timezone.utc)
+        if file_url:
+            existing.file_url = file_url
         db.session.commit()
         return jsonify({"message": "Submission updated", "submission": existing.to_dict()}), 200
-    sub = HomeworkSubmission(homework_id=hw_id, student_id=user_id, notes=notes)
+
+    sub = HomeworkSubmission(
+        homework_id=hw_id,
+        student_id=user_id,
+        notes=notes,
+        file_url=file_url,
+        status="submitted"
+    )
     db.session.add(sub)
     db.session.commit()
     return jsonify({"message": "Homework submitted", "submission": sub.to_dict()}), 201
@@ -956,7 +895,7 @@ def submit_homework(hw_id):
 @jwt_required()
 def get_study_materials():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     if user.role == UserRole.STUDENT:
@@ -973,7 +912,7 @@ def get_study_materials():
 @jwt_required()
 def upload_study_material():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or user.role not in (UserRole.TEACHER, UserRole.ADMIN):
         return jsonify({"error": "Only teachers can upload materials"}), 403
     data = request.get_json(silent=True) or {}
@@ -999,7 +938,7 @@ def upload_study_material():
 @jwt_required()
 def get_leaderboard():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     class_name = None
@@ -1013,7 +952,7 @@ def get_leaderboard():
         student_ids = [user_id]
     leaderboard = []
     for sid in student_ids:
-        s_user = User.query.get(sid)
+        s_user = db.session.get(User, sid)
         if not s_user:
             continue
         results = Result.query.filter_by(student_id=sid, status="completed").all()
@@ -1050,7 +989,7 @@ def get_leaderboard():
 def student_ai_chat():
     import requests as req_lib
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     data = request.get_json(silent=True) or {}
@@ -1088,7 +1027,7 @@ def student_ai_chat():
 @jwt_required()
 def update_password():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     data = request.get_json(silent=True) or {}
@@ -1106,7 +1045,7 @@ def update_password():
 @jwt_required()
 def get_calendar_events():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
         
@@ -1145,7 +1084,7 @@ def get_calendar_events():
 @api_bp.route("/study-materials/<material_id>/download", methods=["POST"])
 @jwt_required()
 def download_material(material_id):
-    mat = StudyMaterial.query.get(material_id)
+    mat = db.session.get(StudyMaterial, material_id)
     if not mat:
         return jsonify({"error": "Material not found"}), 404
     mat.download_count += 1
@@ -1164,7 +1103,7 @@ def mark_all_notifications_read():
 @jwt_required()
 def get_dashboard_analytics():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
         
@@ -1196,3 +1135,51 @@ def get_dashboard_analytics():
         "performance_trend": performance_trend,
         "attendance_data": attendance_data
     }), 200
+
+
+# ─── Announcements (student/parent readable) ──────────────────────────────────
+
+@api_bp.route("/announcements", methods=["GET"])
+@jwt_required()
+def get_announcements():
+    """Return announcements relevant to the logged-in user."""
+    user_id = get_jwt_identity()
+    user = db.session.get(User, user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Determine class name for student/parent filtering
+    class_name = None
+    if user.role == UserRole.STUDENT and user.student_profile and user.student_profile.student_class:
+        class_name = user.student_profile.student_class.name
+    elif user.role == UserRole.PARENT:
+        from app.models import Parent
+        parent = Parent.query.filter_by(user_id=user_id).first()
+        if parent and parent.student_id:
+            from app.models import Student as StudentModel
+            sp = StudentModel.query.filter_by(user_id=parent.student_id).first()
+            if sp and sp.student_class:
+                class_name = sp.student_class.name
+
+    # Filter: announcements targeted at this user's role or "all"
+    role_map = {
+        UserRole.STUDENT: ["all", "students"],
+        UserRole.PARENT: ["all", "parents"],
+        UserRole.TEACHER: ["all", "teachers"],
+        UserRole.ADMIN: ["all", "students", "parents", "teachers"],
+    }
+    allowed_targets = role_map.get(user.role, ["all"])
+
+    query = Announcement.query.filter(
+        Announcement.target_audience.in_(allowed_targets)
+    )
+
+    # Also filter by class if applicable
+    if class_name:
+        query = query.filter(
+            (Announcement.class_name == class_name) | (Announcement.class_name == None)
+        )
+
+    announcements = query.order_by(Announcement.created_at.desc()).limit(50).all()
+    return jsonify({"announcements": [a.to_dict() for a in announcements]}), 200
+

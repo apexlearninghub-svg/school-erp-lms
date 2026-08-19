@@ -24,7 +24,7 @@ def allowed_file(filename: str) -> bool:
 @jwt_required()
 def get_profile():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     return jsonify({"user": user.to_dict()}), 200
@@ -36,7 +36,7 @@ def get_profile():
 @jwt_required()
 def update_profile():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -78,7 +78,7 @@ def update_profile():
 @jwt_required()
 def upload_avatar():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -201,7 +201,7 @@ def save_base64_file(base64_str, folder, prefix):
 @jwt_required()
 def submit_admission():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 

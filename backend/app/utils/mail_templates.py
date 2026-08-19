@@ -184,43 +184,35 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
     """
 
 def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification"):
-    """Send generated OTP code to recipient email address using Brevo API."""
-    import requests
-    import os
+    """Send OTP email using Flask-Mail (Gmail SMTP). Falls back to console print for development."""
     from flask import current_app
+    from flask_mail import Message as MailMessage
+    from app import mail
 
-    subject = "Verify Your Apex Learning Hub Email" if purpose == "email_verification" else "Reset Your Apex Learning Hub Password"
+    subject = (
+        "Verify Your Apex Learning Hub Email"
+        if purpose == "email_verification"
+        else "Reset Your Apex Learning Hub Password"
+    )
     html_content = get_otp_html_template(full_name, otp_code, purpose)
-    
-    # Brevo allows sending from the email you registered with
-    sender_email = current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com")
-    
-    brevo_api_key = current_app.config.get("BREVO_API_KEY") or os.environ.get("BREVO_API_KEY")
-    if not brevo_api_key:
-        print(f"SKIPPING EMAIL SEND to {recipient_email} (No BREVO_API_KEY set). OTP CODE IS: {otp_code}", flush=True)
-        return False, "BREVO_API_KEY is not set on the server"
-
-    url = "https://api.brevo.com/v3/smtp/email"
-    headers = {
-        "accept": "application/json",
-        "api-key": brevo_api_key,
-        "content-type": "application/json"
-    }
-    payload = {
-        "sender": {"name": "Apex Learning Hub", "email": sender_email},
-        "to": [{"email": recipient_email, "name": full_name}],
-        "subject": subject,
-        "htmlContent": html_content
-    }
 
     try:
-        response = requests.post(url, json=payload, headers=headers, timeout=10)
-        response.raise_for_status()
-        print(f"OTP email sent successfully to {recipient_email} via Brevo. Code: {otp_code}", flush=True)
+        msg = MailMessage(
+            subject=subject,
+            recipients=[recipient_email],
+            html=html_content,
+            sender=current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com"),
+        )
+        mail.send(msg)
+        print(f"✅ OTP email sent to {recipient_email} via SMTP. Code: {otp_code}", flush=True)
         return True, ""
     except Exception as e:
         error_msg = str(e)
-        if hasattr(e, 'response') and e.response is not None:
-            error_msg += f" - Response: {e.response.text}"
-        print(f"FAILED TO SEND EMAIL to {recipient_email} via Brevo: {error_msg}. DEVELOPMENT FALLBACK - OTP CODE IS: {otp_code}", flush=True)
-        return False, error_msg
+        # In development, print OTP to console so registration can still be tested
+        print(
+            f"⚠️  SMTP send failed to {recipient_email}: {error_msg}\n"
+            f"   DEVELOPMENT FALLBACK — OTP CODE IS: {otp_code}",
+            flush=True,
+        )
+        # Return success=False but include the OTP in the error so the caller can surface it
+        return False, f"Email delivery failed: {error_msg}"

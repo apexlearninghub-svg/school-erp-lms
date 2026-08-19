@@ -255,5 +255,165 @@ export const examService = {
   async changePassword(passwordData: any): Promise<any> {
     const { data } = await api.put('/user/password', passwordData);
     return data;
-  }
+  },
+
+  async getAnnouncements(): Promise<{ announcements: any[] }> {
+    const { data } = await api.get<{ announcements: any[] }>('/announcements');
+    return data;
+  },
 };
+
+// ─── Admin Service ────────────────────────────────────────────────────────────
+
+export const adminService = {
+  async getDashboardStats(): Promise<any> {
+    const { data } = await api.get('/admin/dashboard-stats');
+    return data;
+  },
+
+  async getUsers(role?: string): Promise<{ users: any[] }> {
+    const { data } = await api.get<{ users: any[] }>('/admin/users', { params: role ? { role } : {} });
+    return data;
+  },
+
+  async deleteUser(userId: string): Promise<{ message: string }> {
+    const { data } = await api.delete(`/admin/users/${userId}`);
+    return data;
+  },
+
+  async toggleUserStatus(userId: string): Promise<{ message: string; is_active: boolean }> {
+    const { data } = await api.put(`/admin/users/${userId}/toggle-status`);
+    return data;
+  },
+
+  async createStudent(studentData: any): Promise<any> {
+    const { data } = await api.post('/admin/student/create', studentData);
+    return data;
+  },
+
+  async createTeacher(teacherData: any): Promise<any> {
+    const { data } = await api.post('/admin/teacher/create', teacherData);
+    return data;
+  },
+
+  async createParent(parentData: any): Promise<any> {
+    const { data } = await api.post('/admin/parent/create', parentData);
+    return data;
+  },
+
+  async linkParentStudent(parentId: string, studentId: string): Promise<any> {
+    const { data } = await api.post('/admin/parent/link', { parent_id: parentId, student_id: studentId });
+    return data;
+  },
+
+  async getAdmissions(status?: string): Promise<{ admissions: any[] }> {
+    const { data } = await api.get<{ admissions: any[] }>('/admin/admissions', { params: status ? { status } : {} });
+    return data;
+  },
+
+  async updateAdmissionStatus(admissionId: string, status: 'approved' | 'rejected' | 'pending'): Promise<any> {
+    const { data } = await api.put(`/admin/admissions/${admissionId}/status`, { status });
+    return data;
+  },
+
+  async getAcademics(): Promise<any> {
+    const { data } = await api.get('/admin/academics');
+    return data;
+  },
+
+  async createClass(name: string): Promise<any> {
+    const { data } = await api.post('/admin/academics/class', { name });
+    return data;
+  },
+
+  async deleteClass(classId: string): Promise<any> {
+    const { data } = await api.delete(`/admin/academics/class/${classId}`);
+    return data;
+  },
+
+  async createSubject(subjectData: { name: string; code?: string; description?: string }): Promise<any> {
+    const { data } = await api.post('/admin/academics/subject', subjectData);
+    return data;
+  },
+
+  async deleteSubject(subjectId: string): Promise<any> {
+    const { data } = await api.delete(`/admin/academics/subject/${subjectId}`);
+    return data;
+  },
+
+  async recordPayment(paymentData: any): Promise<any> {
+    const { data } = await api.post('/admin/finance/payment', paymentData);
+    return data;
+  },
+
+  async getFinanceRevenue(): Promise<any> {
+    const { data } = await api.get('/admin/finance/revenue');
+    return data;
+  },
+
+  async getSystemHealth(): Promise<any> {
+    const { data } = await api.get('/admin/system/health');
+    return data;
+  },
+};
+
+// ─── Teacher Service ──────────────────────────────────────────────────────────
+
+export const teacherService = {
+  async getDashboardStats(): Promise<any> {
+    const { data } = await api.get('/teacher/dashboard-stats');
+    return data;
+  },
+
+  async getClasses(): Promise<{ classes: any[] }> {
+    const { data } = await api.get<{ classes: any[] }>('/teacher/classes');
+    return data;
+  },
+
+  async getStudents(className?: string): Promise<{ students: any[] }> {
+    const { data } = await api.get<{ students: any[] }>('/teacher/students', {
+      params: className ? { class_name: className } : {},
+    });
+    return data;
+  },
+
+  async getAnalytics(): Promise<any> {
+    const { data } = await api.get('/teacher/analytics');
+    return data;
+  },
+
+  async getAnnouncements(): Promise<{ announcements: any[] }> {
+    const { data } = await api.get<{ announcements: any[] }>('/teacher/announcements');
+    return data;
+  },
+
+  async createAnnouncement(announcementData: {
+    title: string;
+    content: string;
+    target_audience?: string;
+    class_name?: string;
+  }): Promise<any> {
+    const { data } = await api.post('/teacher/announcements', announcementData);
+    return data;
+  },
+
+  async markAttendance(records: any[], date?: string, subject?: string): Promise<any> {
+    const { data } = await api.post('/teacher/attendance/mark', { records, date, subject });
+    return data;
+  },
+
+  async getPendingReviews(): Promise<{ pending_reviews: any[] }> {
+    const { data } = await api.get<{ pending_reviews: any[] }>('/teacher/reviews/pending');
+    return data;
+  },
+
+  async gradeSubmission(submissionId: string, marks: number, feedback?: string): Promise<any> {
+    const { data } = await api.post('/teacher/reviews/grade', {
+      submission_id: submissionId,
+      marks,
+      feedback,
+    });
+    return data;
+  },
+};
+

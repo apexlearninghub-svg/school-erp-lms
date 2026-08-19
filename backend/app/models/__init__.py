@@ -555,7 +555,7 @@ class HomeworkSubmission(db.Model):
     file_url = db.Column(db.Text, nullable=True)
     notes = db.Column(db.Text, nullable=True)
     marks_obtained = db.Column(db.Float, nullable=True)
-    status = db.Column(db.String(50), nullable=False, default="submitted")  # submitted | graded | late
+    status = db.Column(db.String(50), nullable=False, default="pending")  # pending | submitted | graded | late
     submitted_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     homework = db.relationship("Homework", back_populates="submissions")

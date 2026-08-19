@@ -115,21 +115,24 @@ def register():
     db.session.add(ev)
     db.session.commit()
     
-    try:
-        success, err_msg = send_otp_email(user.email, otp, user.full_name, "email_verification")
-        if not success:
-            raise Exception(err_msg)
+    success, err_msg = send_otp_email(user.email, otp, user.full_name, "email_verification")
+    log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
 
-        log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
+    response_data = {
+        "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
+        "user_id": user.id,
+        "email": email
+    }
 
-        return jsonify({
-            "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
-            "user_id": user.id,
-            "email": email
-        }), 201
-    except Exception as e:
-        import traceback
-        return jsonify({"error": f"Email Delivery Failed: {str(e)}", "traceback": traceback.format_exc()}), 400
+    if not success:
+        # Email failed but registration succeeded — show OTP for development/fallback
+        response_data["message"] = (
+            "Registration successful. Email delivery failed — your OTP is shown below for testing."
+        )
+        response_data["dev_otp"] = otp
+        response_data["email_error"] = err_msg
+
+    return jsonify(response_data), 201
 
 
 # ─── Helper for OTP Generation ───────────────────────────────────────────────
@@ -190,7 +193,8 @@ def login():
         user = User.query.filter_by(username=identifier.lower()).first()
 
     if not user or not user.password_hash:
-        log_login_history(user.id if user else "unknown", success=False)
+        if user:
+            log_login_history(user.id, success=False)
         return jsonify({"error": "Invalid credentials"}), 401
 
     if not bcrypt.check_password_hash(user.password_hash, password):
@@ -338,7 +342,7 @@ def logout():
 @jwt_required(refresh=True)
 def refresh():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user or not user.is_active:
         return jsonify({"error": "User not found or inactive"}), 404
 
@@ -360,7 +364,7 @@ def refresh():
 @jwt_required()
 def get_profile():
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
     return jsonify({"user": user.to_dict()}), 200
@@ -425,7 +429,7 @@ def reset_password():
     if not password_valid:
         return jsonify({"error": password_msg}), 422
 
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -449,7 +453,7 @@ def change_password():
         return jsonify({"error": "Current password and new password are required."}), 400
 
     user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     if not user:
         return jsonify({"error": "User not found."}), 404
 

@@ -37,7 +37,7 @@ def get_dashboard_stats():
         fee_status = "Due" if pending_fees > 0 else "Paid"
         
         # Child details
-        child = User.query.get(student_id)
+        child = db.session.get(User, student_id)
         child_profile = Student.query.filter_by(user_id=student_id).first()
         class_name = child_profile.student_class.name if child_profile and child_profile.student_class else "Unknown"
         

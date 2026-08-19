@@ -1,13 +1,28 @@
 from flask import Blueprint, jsonify, request
-from app.models import User, UserRole, Class, Section, Subject, FeePayment, SystemSetting, Admission, Result, Test, Attendance
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.models import User, UserRole, Class, Section, Subject, FeePayment, SystemSetting, Admission, Result, Test, Attendance, Teacher, Student, Notification
 from app import db
 from datetime import datetime, timezone
 import uuid
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/api/admin")
 
+
+def _require_admin():
+    """Helper: returns (user, error_response). Call at start of every admin route."""
+    user_id = get_jwt_identity()
+    user = db.session.get(User, user_id)
+    if not user or user.role != UserRole.ADMIN:
+        return None, (jsonify({"error": "Unauthorized. Admin access required."}), 403)
+    return user, None
+
+
 @admin_bp.route("/dashboard-stats", methods=["GET"])
+@jwt_required()
 def get_dashboard_stats():
+    _, err = _require_admin()
+    if err:
+        return err
     try:
         total_students = User.query.filter_by(role=UserRole.STUDENT, is_active=True).count()
         total_teachers = User.query.filter_by(role=UserRole.TEACHER, is_active=True).count()
@@ -20,13 +35,11 @@ def get_dashboard_stats():
         fee_records = FeePayment.query.filter_by(status='completed').all()
         total_revenue = sum(fee.amount for fee in fee_records)
         
-        # Calculate monthly revenue (mock logic: just take 20% of total_revenue for current month)
         monthly_revenue = total_revenue * 0.2 if total_revenue > 0 else 0
             
         pending_approvals = Admission.query.filter_by(status='pending').count()
         active_users = User.query.filter_by(is_active=True).count()
         
-        # Real attendance rate if records exist
         attendance_records = Attendance.query.all()
         attendance_percentage = 95.0
         if attendance_records:
@@ -52,8 +65,13 @@ def get_dashboard_stats():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @admin_bp.route("/users", methods=["GET"])
+@jwt_required()
 def get_users():
+    _, err = _require_admin()
+    if err:
+        return err
     role = request.args.get("role")
     query = User.query
     if role:
@@ -61,8 +79,46 @@ def get_users():
     users = query.all()
     return jsonify({"users": [u.to_dict() for u in users]}), 200
 
+
+@admin_bp.route("/users/<user_id>", methods=["DELETE"])
+@jwt_required()
+def delete_user(user_id):
+    admin, err = _require_admin()
+    if err:
+        return err
+    user = db.session.get(User, user_id)
+    if not user:
+        return jsonify({"error": "User not found."}), 404
+    if user.id == admin.id:
+        return jsonify({"error": "Cannot delete your own account."}), 400
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({"message": f"User '{user.full_name}' deleted successfully."}), 200
+
+
+@admin_bp.route("/users/<user_id>/toggle-status", methods=["PUT"])
+@jwt_required()
+def toggle_user_status(user_id):
+    admin, err = _require_admin()
+    if err:
+        return err
+    user = db.session.get(User, user_id)
+    if not user:
+        return jsonify({"error": "User not found."}), 404
+    if user.id == admin.id:
+        return jsonify({"error": "Cannot deactivate your own account."}), 400
+    user.is_active = not user.is_active
+    db.session.commit()
+    status = "activated" if user.is_active else "deactivated"
+    return jsonify({"message": f"User '{user.full_name}' {status}.", "is_active": user.is_active}), 200
+
+
 @admin_bp.route("/finance/revenue", methods=["GET"])
+@jwt_required()
 def get_revenue_data():
+    _, err = _require_admin()
+    if err:
+        return err
     fee_records = FeePayment.query.filter_by(status='completed').all()
     total_revenue = sum(fee.amount for fee in fee_records)
     
@@ -79,8 +135,55 @@ def get_revenue_data():
         "collection_rate": round(collection_rate, 1)
     }), 200
 
+
+@admin_bp.route("/finance/payment", methods=["POST"])
+@jwt_required()
+def record_payment():
+    """Admin records a fee payment for a student."""
+    _, err = _require_admin()
+    if err:
+        return err
+    data = request.get_json() or {}
+    student_id = data.get("student_id")
+    amount = data.get("amount")
+    payment_method = data.get("payment_method", "cash")
+    description = data.get("description", "Fee Payment")
+    status = data.get("status", "completed")
+
+    if not student_id or not amount:
+        return jsonify({"error": "student_id and amount are required."}), 400
+
+    student = User.query.filter_by(id=student_id, role=UserRole.STUDENT).first()
+    if not student:
+        return jsonify({"error": "Student not found."}), 404
+
+    payment = FeePayment(
+        student_id=student_id,
+        amount=float(amount),
+        payment_method=payment_method,
+        description=description,
+        status=status
+    )
+    db.session.add(payment)
+
+    # Notify student
+    notif = Notification(
+        user_id=student_id,
+        title="Fee Payment Recorded",
+        message=f"A fee payment of ₹{amount} ({description}) has been recorded. Status: {status}."
+    )
+    db.session.add(notif)
+    db.session.commit()
+
+    return jsonify({"message": "Payment recorded successfully.", "payment": payment.to_dict()}), 201
+
+
 @admin_bp.route("/academics", methods=["GET"])
+@jwt_required()
 def get_academics():
+    _, err = _require_admin()
+    if err:
+        return err
     classes = Class.query.all()
     subjects = Subject.query.all()
     sections = Section.query.all()
@@ -91,8 +194,77 @@ def get_academics():
         "sections": [{"id": s.id, "name": s.name, "class_id": s.class_id} for s in sections]
     }), 200
 
+
+@admin_bp.route("/academics/class", methods=["POST"])
+@jwt_required()
+def create_class():
+    _, err = _require_admin()
+    if err:
+        return err
+    data = request.get_json() or {}
+    name = data.get("name", "").strip()
+    if not name:
+        return jsonify({"error": "Class name is required."}), 400
+    if Class.query.filter_by(name=name).first():
+        return jsonify({"error": "A class with this name already exists."}), 409
+    cls = Class(name=name)
+    db.session.add(cls)
+    db.session.commit()
+    return jsonify({"message": "Class created.", "class": {"id": cls.id, "name": cls.name}}), 201
+
+
+@admin_bp.route("/academics/class/<class_id>", methods=["DELETE"])
+@jwt_required()
+def delete_class(class_id):
+    _, err = _require_admin()
+    if err:
+        return err
+    cls = db.session.get(Class, class_id)
+    if not cls:
+        return jsonify({"error": "Class not found."}), 404
+    db.session.delete(cls)
+    db.session.commit()
+    return jsonify({"message": "Class deleted."}), 200
+
+
+@admin_bp.route("/academics/subject", methods=["POST"])
+@jwt_required()
+def create_subject():
+    _, err = _require_admin()
+    if err:
+        return err
+    data = request.get_json() or {}
+    name = data.get("name", "").strip()
+    code = data.get("code", "").strip() or None
+    description = data.get("description", "")
+    if not name:
+        return jsonify({"error": "Subject name is required."}), 400
+    subj = Subject(name=name, code=code, description=description)
+    db.session.add(subj)
+    db.session.commit()
+    return jsonify({"message": "Subject created.", "subject": {"id": subj.id, "name": subj.name, "code": subj.code}}), 201
+
+
+@admin_bp.route("/academics/subject/<subject_id>", methods=["DELETE"])
+@jwt_required()
+def delete_subject(subject_id):
+    _, err = _require_admin()
+    if err:
+        return err
+    subj = db.session.get(Subject, subject_id)
+    if not subj:
+        return jsonify({"error": "Subject not found."}), 404
+    db.session.delete(subj)
+    db.session.commit()
+    return jsonify({"message": "Subject deleted."}), 200
+
+
 @admin_bp.route("/system/health", methods=["GET"])
+@jwt_required()
 def get_system_health():
+    _, err = _require_admin()
+    if err:
+        return err
     return jsonify({
         "status": "Healthy",
         "cpu_usage": "34%",
@@ -102,8 +274,13 @@ def get_system_health():
         "storage": "45% Used"
     }), 200
 
+
 @admin_bp.route("/analytics/enrollment", methods=["GET"])
+@jwt_required()
 def get_enrollment_analytics():
+    _, err = _require_admin()
+    if err:
+        return err
     return jsonify({
         "data": [
             {"month": "Jan", "students": 1200, "teachers": 80},
@@ -115,8 +292,13 @@ def get_enrollment_analytics():
         ]
     }), 200
 
+
 @admin_bp.route("/analytics/attendance", methods=["GET"])
+@jwt_required()
 def get_attendance_analytics():
+    _, err = _require_admin()
+    if err:
+        return err
     return jsonify({
         "data": [
             {"name": "Present", "value": 85, "fill": "#10B981"},
@@ -125,8 +307,13 @@ def get_attendance_analytics():
         ]
     }), 200
 
+
 @admin_bp.route("/performance/trends", methods=["GET"])
+@jwt_required()
 def get_performance_trends():
+    _, err = _require_admin()
+    if err:
+        return err
     return jsonify({
         "trends": [
             {"subject": "Math", "score": 85},
@@ -137,13 +324,17 @@ def get_performance_trends():
         ]
     }), 200
 
-# ─── Parent/Student Creation & Linking Flow ───────────────────────────────────
+
+# ─── Student Creation ─────────────────────────────────────────────────────────
 
 @admin_bp.route("/student/create", methods=["POST"])
+@jwt_required()
 def create_student():
+    _, err = _require_admin()
+    if err:
+        return err
     try:
         from app import bcrypt
-        from app.models import Student, Notification
         import random
         
         data = request.get_json() or {}
@@ -161,7 +352,6 @@ def create_student():
         if User.query.filter_by(email=email).first() or User.query.filter_by(username=username).first():
             return jsonify({"error": "A user with this email or username already exists."}), 400
             
-        # Generate temporary password
         temp_password = f"Stud@{random.randint(1000, 9999)}"
         password_hash = bcrypt.generate_password_hash(temp_password).decode("utf-8")
         
@@ -195,34 +385,110 @@ def create_student():
         )
         db.session.add(student_profile)
         
-        # Save a notification representing system sending credentials
         notification = Notification(
             user_id=user.id,
             title="Account Created",
             message=f"Welcome {full_name}! Your student credentials are: Username: {username}, Password: {temp_password}"
         )
         db.session.add(notification)
-        
         db.session.commit()
         
         return jsonify({
             "message": "Student created successfully.",
             "user": user.to_dict(),
-            "credentials": {
-                "username": username,
-                "password": temp_password
-            }
+            "credentials": {"username": username, "password": temp_password}
         }), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
 
-@admin_bp.route("/parent/create", methods=["POST"])
-def create_parent():
+# ─── Teacher Creation ─────────────────────────────────────────────────────────
+
+@admin_bp.route("/teacher/create", methods=["POST"])
+@jwt_required()
+def create_teacher():
+    """Admin creates a teacher account with profile."""
+    _, err = _require_admin()
+    if err:
+        return err
     try:
         from app import bcrypt
-        from app.models import Student, Parent, Notification
+        import random
+
+        data = request.get_json() or {}
+        full_name = data.get("full_name")
+        email = data.get("email")
+        username = data.get("username")
+        designation = data.get("designation", "Teacher")
+        department = data.get("department", "General")
+        employee_id = data.get("employee_id")
+
+        if not full_name or not email or not username:
+            return jsonify({"error": "Full name, email, and username are required."}), 400
+
+        if User.query.filter_by(email=email).first() or User.query.filter_by(username=username).first():
+            return jsonify({"error": "A user with this email or username already exists."}), 400
+
+        temp_password = f"Teach@{random.randint(1000, 9999)}"
+        password_hash = bcrypt.generate_password_hash(temp_password).decode("utf-8")
+
+        user = User(
+            full_name=full_name,
+            email=email,
+            username=username,
+            password_hash=password_hash,
+            role=UserRole.TEACHER,
+            is_verified=True,
+            is_active=True
+        )
+        db.session.add(user)
+        db.session.flush()
+
+        if not employee_id:
+            employee_id = f"TCH{username.upper()}"
+
+        # Ensure employee_id is unique
+        if Teacher.query.filter_by(employee_id=employee_id).first():
+            employee_id = f"TCH{username.upper()}{random.randint(10, 99)}"
+
+        teacher_profile = Teacher(
+            user_id=user.id,
+            employee_id=employee_id,
+            designation=designation,
+            department=department
+        )
+        db.session.add(teacher_profile)
+
+        notification = Notification(
+            user_id=user.id,
+            title="Teacher Account Created",
+            message=f"Welcome {full_name}! Your teacher credentials: Username: {username}, Password: {temp_password}"
+        )
+        db.session.add(notification)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Teacher created successfully.",
+            "user": user.to_dict(),
+            "credentials": {"username": username, "password": temp_password}
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
+# ─── Parent Creation & Linking ────────────────────────────────────────────────
+
+@admin_bp.route("/parent/create", methods=["POST"])
+@jwt_required()
+def create_parent():
+    _, err = _require_admin()
+    if err:
+        return err
+    try:
+        from app import bcrypt
+        from app.models import Parent
         import random
         
         data = request.get_json() or {}
@@ -245,7 +511,6 @@ def create_parent():
             if not student_exists:
                 return jsonify({"error": "Linked student not found."}), 404
                 
-        # Generate temporary password
         temp_password = f"Parn@{random.randint(1000, 9999)}"
         password_hash = bcrypt.generate_password_hash(temp_password).decode("utf-8")
         
@@ -270,23 +535,18 @@ def create_parent():
         )
         db.session.add(parent_profile)
         
-        # Save a notification representing system sending credentials
         notification = Notification(
             user_id=user.id,
             title="Account Created",
-            message=f"Welcome {full_name}! Your parent credentials are: Username: {username}, Password: {temp_password}"
+            message=f"Welcome {full_name}! Your parent credentials: Username: {username}, Password: {temp_password}"
         )
         db.session.add(notification)
-        
         db.session.commit()
         
         return jsonify({
             "message": "Parent created successfully.",
             "user": user.to_dict(),
-            "credentials": {
-                "username": username,
-                "password": temp_password
-            }
+            "credentials": {"username": username, "password": temp_password}
         }), 201
     except Exception as e:
         db.session.rollback()
@@ -294,7 +554,11 @@ def create_parent():
 
 
 @admin_bp.route("/parent/link", methods=["POST"])
+@jwt_required()
 def link_parent_student():
+    _, err = _require_admin()
+    if err:
+        return err
     try:
         from app.models import Parent
         data = request.get_json() or {}
@@ -319,3 +583,45 @@ def link_parent_student():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+
+# ─── Admission Management ─────────────────────────────────────────────────────
+
+@admin_bp.route("/admissions", methods=["GET"])
+@jwt_required()
+def get_admissions():
+    _, err = _require_admin()
+    if err:
+        return err
+    status_filter = request.args.get("status")
+    query = Admission.query
+    if status_filter:
+        query = query.filter_by(status=status_filter)
+    admissions = query.order_by(Admission.created_at.desc()).all()
+    return jsonify({"admissions": [a.to_dict() for a in admissions]}), 200
+
+
+@admin_bp.route("/admissions/<admission_id>/status", methods=["PUT"])
+@jwt_required()
+def update_admission_status(admission_id):
+    _, err = _require_admin()
+    if err:
+        return err
+    data = request.get_json() or {}
+    new_status = data.get("status")
+    if new_status not in ["pending", "approved", "rejected"]:
+        return jsonify({"error": "Status must be: pending, approved, or rejected."}), 400
+
+    admission = db.session.get(Admission, admission_id)
+    if not admission:
+        return jsonify({"error": "Admission record not found."}), 404
+
+    admission.status = new_status
+    notif = Notification(
+        user_id=admission.user_id,
+        title=f"Admission {new_status.capitalize()}",
+        message=f"Your admission application has been {new_status}."
+    )
+    db.session.add(notif)
+    db.session.commit()
+    return jsonify({"message": f"Admission {new_status}.", "admission": admission.to_dict()}), 200
