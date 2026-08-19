@@ -271,14 +271,51 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="aspect-video w-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl relative bg-slate-900 flex items-center justify-center p-8">
-              <div className="absolute inset-0 bg-[#862fe7]/5 backdrop-blur-sm" />
-              <div className="relative z-10 text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-white/10 mx-auto flex items-center justify-center border border-white/20">
-                  <Award className="w-8 h-8 text-white" />
+            <div className="w-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl relative bg-[#2a2f3e] flex flex-col p-8 gap-5">
+              {/* Heading */}
+              <h3 className="text-white text-2xl font-extrabold leading-tight uppercase">
+                We here, try to<br />
+                <span className="text-[#0EA5A4]">motivate and push</span><br />
+                youth standard of<br />
+                study of your child.
+              </h3>
+
+              {/* Bullet Points */}
+              <ul className="space-y-2">
+                {[
+                  'We conduct all topics and chapters with demonstrative method of teaching.',
+                  'We also provide private tutor.',
+                  'Push yourself because no one else is going to do it for you.',
+                ].map((point, i) => (
+                  <li key={i} className="flex items-start gap-2 text-slate-300 text-sm">
+                    <span className="mt-1 w-2 h-2 rounded-full bg-[#0EA5A4] flex-shrink-0" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Get Started Button */}
+              <a
+                href="/register"
+                className="inline-block bg-[#0EA5A4] hover:bg-[#0d9190] text-white font-bold px-6 py-3 rounded-xl transition-colors w-fit text-sm"
+              >
+                Get Started →
+              </a>
+
+              {/* Contact Bar */}
+              <div className="mt-2 bg-[#0EA5A4]/90 rounded-xl px-5 py-3 flex flex-col gap-1">
+                <div className="flex items-center gap-2 text-white font-bold text-base">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9 21 3 15 3 7.5c0-.6.4-1 1-1H7.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                  </svg>
+                  +91 892 877 2435
                 </div>
-                <h4 className="text-white text-lg font-bold">Standard of Excellence</h4>
-                <p className="text-slate-300 text-xs max-w-sm">Combining traditional educational virtues with next-generation digital intelligence.</p>
+                <div className="flex items-start gap-2 text-white/90 text-xs">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                  </svg>
+                  2nd Floor, Guru Mauli Near HP Petrol Pump, Meri-Rasbihari Link Road - 422003
+                </div>
               </div>
             </div>
           </motion.div>
