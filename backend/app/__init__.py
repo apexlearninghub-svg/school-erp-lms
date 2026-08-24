@@ -65,6 +65,13 @@ def create_app(config_name: str = None):
         from flask import jsonify
         return jsonify({"error": "Authorization required", "code": "UNAUTHORIZED"}), 401
 
+    # Ensure all tables are created (handles missing migrations)
+    with app.app_context():
+        try:
+            db.create_all()
+        except Exception as e:
+            print(f"Warning: db.create_all() failed: {e}")
+
     # Register blueprints
     from app.routes.auth import auth_bp
     from app.routes.user import user_bp
