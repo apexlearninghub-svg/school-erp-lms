@@ -174,11 +174,13 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
     """
 
 def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification"):
-    """Send OTP email using Flask-Mail (Gmail SMTP). Falls back to console print for development."""
-    from flask import current_app
-    from flask_mail import Message as MailMessage
-    from app import mail
-
+    """Send OTP email using Resend API to bypass Render SMTP restrictions."""
+    import os
+    import resend
+    
+    # Try to get Resend API Key
+    resend.api_key = os.environ.get("RESEND_API_KEY")
+    
     subject = (
         "Verify Your Apex Learning Hub Email"
         if purpose == "email_verification"
@@ -187,29 +189,28 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
     html_content = get_otp_html_template(full_name, otp_code, purpose)
 
     try:
-        msg = MailMessage(
-            subject=subject,
-            recipients=[recipient_email],
-            html=html_content,
-            sender=current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com"),
-        )
-        import socket
-        old_timeout = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(3)
-        try:
-            mail.send(msg)
-        finally:
-            socket.setdefaulttimeout(old_timeout)
-
-        print(f"✅ OTP email sent to {recipient_email} via SMTP. Code: {otp_code}", flush=True)
+        if not resend.api_key:
+            raise ValueError("RESEND_API_KEY is missing. Emails cannot be sent.")
+            
+        # The sender email must be a verified domain in Resend, or onboarding@resend.dev for testing.
+        sender_email = os.environ.get("MAIL_DEFAULT_SENDER", "onboarding@resend.dev")
+        
+        params = {
+            "from": sender_email,
+            "to": [recipient_email],
+            "subject": subject,
+            "html": html_content,
+        }
+        
+        # Send via HTTP API
+        response = resend.Emails.send(params)
+        print(f"✅ OTP email sent to {recipient_email} via Resend API. ID: {response.get('id')}", flush=True)
         return True, ""
     except Exception as e:
         error_msg = str(e)
-        # In development, print OTP to console so registration can still be tested
         print(
-            f"⚠️  SMTP send failed to {recipient_email}: {error_msg}\n"
-            f"   DEVELOPMENT FALLBACK — OTP CODE IS: {otp_code}",
+            f"❌ Resend API failed to send to {recipient_email}: {error_msg}\n"
+            f"   DEVELOPMENT FALLBACK -> OTP CODE IS: {otp_code}",
             flush=True,
         )
-        # Return success=False but include the OTP in the error so the caller can surface it
         return False, f"Email delivery failed: {error_msg}"
