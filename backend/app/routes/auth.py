@@ -114,6 +114,7 @@ def register():
         
         # Commit the transaction safely
         db.session.commit()
+        new_user_id = user.id
     except Exception as e:
         db.session.rollback()
         import logging
@@ -125,12 +126,12 @@ def register():
 
     # Send OTP outside the main DB transaction
     from app.utils.mail_templates import send_otp_email
-    success, err_msg = send_otp_email(user.email, otp, user.full_name, "email_verification")
-    log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
+    success, err_msg = send_otp_email(email, otp, full_name, "email_verification")
+    log_audit(new_user_id, "USER_REGISTERED", {"email": email, "role": role})
 
     response_data = {
         "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
-        "user_id": user.id,
+        "user_id": new_user_id,
         "email": email
     }
 
