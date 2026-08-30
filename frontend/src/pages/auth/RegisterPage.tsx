@@ -84,8 +84,12 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterForm) => {
     setIsLoading(true);
     try {
-      await authService.register(data);
-      toast.success('Account created! Verification code sent to email.', { duration: 4000 });
+      const response = await authService.register(data) as any;
+      if (response.dev_otp) {
+        toast.success(`Account created! Since emails are blocked by Render Free, your OTP is: ${response.dev_otp}`, { duration: 10000 });
+      } else {
+        toast.success('Account created! Verification code sent to email.', { duration: 4000 });
+      }
       navigate(`/verify-email?email=${encodeURIComponent(data.email)}`);
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: string; details?: Record<string, string> } } };
