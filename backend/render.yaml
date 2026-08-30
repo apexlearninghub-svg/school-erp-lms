@@ -2,7 +2,7 @@ services:
   - type: web
     name: school-erp-backend
     env: python
-    buildCommand: pip install -r requirements.txt && flask db upgrade
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn run:app --workers 2 --threads 2 --bind 0.0.0.0:$PORT
     envVars:
       - key: FLASK_ENV
