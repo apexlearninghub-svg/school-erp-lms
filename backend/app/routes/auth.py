@@ -31,39 +31,39 @@ def make_tokens(user_id: str, additional_claims: dict = None):
 @auth_bp.route("/register", methods=["POST"])
 @limiter.limit("10 per hour")
 def register():
-    data = request.get_json(silent=True)
-    if not data:
-        return jsonify({"error": "Invalid JSON body"}), 400
-
-    full_name = sanitize_string(data.get("full_name", ""), 255)
-    email = sanitize_string(data.get("email", ""), 255).lower()
-    username = sanitize_string(data.get("username", ""), 100).lower()
-    password = data.get("password", "")
-    role = sanitize_string(data.get("role", UserRole.STUDENT), 50).lower()
-
-    # Validations
-    errors = {}
-    if not full_name:
-        errors["full_name"] = "Full name is required"
-    if not is_valid_email(email):
-        errors["email"] = "Invalid email address"
-    if not is_valid_username(username):
-        errors["username"] = "Username must be 3-30 characters (letters, numbers, _ or -)"
-    password_valid, password_msg = is_strong_password(password)
-    if not password_valid:
-        errors["password"] = password_msg
-    if not validate_role(role):
-        errors["role"] = f"Role must be one of: {', '.join(UserRole.ALL)}"
-    if errors:
-        return jsonify({"error": "Validation failed", "details": errors}), 422
-
-    # Check duplicates before starting transaction
-    if User.query.filter_by(email=email).first():
-        return jsonify({"error": "An account with this email already exists"}), 409
-    if User.query.filter_by(username=username).first():
-        return jsonify({"error": "Username is already taken"}), 409
-
     try:
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify({"error": "Invalid JSON body"}), 400
+
+        full_name = sanitize_string(data.get("full_name", ""), 255)
+        email = sanitize_string(data.get("email", ""), 255).lower()
+        username = sanitize_string(data.get("username", ""), 100).lower()
+        password = data.get("password", "")
+        role = sanitize_string(data.get("role", UserRole.STUDENT), 50).lower()
+
+        # Validations
+        errors = {}
+        if not full_name:
+            errors["full_name"] = "Full name is required"
+        if not is_valid_email(email):
+            errors["email"] = "Invalid email address"
+        if not is_valid_username(username):
+            errors["username"] = "Username must be 3-30 characters (letters, numbers, _ or -)"
+        password_valid, password_msg = is_strong_password(password)
+        if not password_valid:
+            errors["password"] = password_msg
+        if not validate_role(role):
+            errors["role"] = f"Role must be one of: {', '.join(UserRole.ALL)}"
+        if errors:
+            return jsonify({"error": "Validation failed", "details": errors}), 422
+
+        # Check duplicates before starting transaction
+        if User.query.filter_by(email=email).first():
+            return jsonify({"error": "An account with this email already exists"}), 409
+        if User.query.filter_by(username=username).first():
+            return jsonify({"error": "Username is already taken"}), 409
+
         # Create user
         password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
         user = User(
@@ -115,35 +115,30 @@ def register():
         # Commit the transaction safely
         db.session.commit()
         new_user_id = user.id
+
+        # Send OTP outside the main DB transaction
+        from app.utils.mail_templates import send_otp_email
+        success, err_msg = send_otp_email(email, otp, full_name, "email_verification")
+        log_audit(new_user_id, "USER_REGISTERED", {"email": email, "role": role})
+
+        response_data = {
+            "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
+            "user_id": new_user_id,
+            "email": email
+        }
+
+        if not success:
+            # Email failed but registration succeeded - show OTP for development/fallback
+            response_data["message"] = (
+                "Registration successful. Email delivery failed - your OTP is shown below for testing."
+            )
+            response_data["dev_otp"] = otp
+            response_data["email_error"] = err_msg
+
+        return jsonify(response_data), 201
     except Exception as e:
         db.session.rollback()
-        import logging
-        logging.error(f"Registration Error: {str(e)}")
-        # If it's an IntegrityError that wasn't caught by the pre-check
-        if "IntegrityError" in type(e).__name__:
-            return jsonify({"error": "A database conflict occurred during registration. This email or username may already be in use."}), 409
-        return jsonify({"error": "Unable to complete registration right now. Please try again later."}), 500
-
-    # Send OTP outside the main DB transaction
-    from app.utils.mail_templates import send_otp_email
-    success, err_msg = send_otp_email(email, otp, full_name, "email_verification")
-    log_audit(new_user_id, "USER_REGISTERED", {"email": email, "role": role})
-
-    response_data = {
-        "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
-        "user_id": new_user_id,
-        "email": email
-    }
-
-    if not success:
-        # Email failed but registration succeeded - show OTP for development/fallback
-        response_data["message"] = (
-            "Registration successful. Email delivery failed - your OTP is shown below for testing."
-        )
-        response_data["dev_otp"] = otp
-        response_data["email_error"] = err_msg
-
-    return jsonify(response_data), 201
+        return jsonify({"error": f"CRITICAL DEBUG ERROR: {str(e)}"}), 500
 
 
 # ─── Helper for OTP Generation ───────────────────────────────────────────────
