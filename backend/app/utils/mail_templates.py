@@ -193,7 +193,14 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
             html=html_content,
             sender=current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com"),
         )
-        mail.send(msg)
+        import socket
+        old_timeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(3)
+        try:
+            mail.send(msg)
+        finally:
+            socket.setdefaulttimeout(old_timeout)
+
         print(f"✅ OTP email sent to {recipient_email} via SMTP. Code: {otp_code}", flush=True)
         return True, ""
     except Exception as e:
