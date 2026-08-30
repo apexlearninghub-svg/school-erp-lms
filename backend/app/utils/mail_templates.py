@@ -174,43 +174,73 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
     """
 
 def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose: str = "email_verification"):
-    """Send OTP email using Resend API to bypass Render SMTP restrictions."""
-    import os
-    import resend
-    
-    # Try to get Resend API Key
-    resend.api_key = os.environ.get("RESEND_API_KEY")
-    
+    """Send OTP email using Brevo API (if available) to bypass Render SMTP block, or fallback to SMTP."""
+    from flask import current_app
+    from flask_mail import Message as MailMessage
+    from app import mail
+    import requests
+
     subject = (
         "Verify Your Apex Learning Hub Email"
         if purpose == "email_verification"
         else "Reset Your Apex Learning Hub Password"
     )
     html_content = get_otp_html_template(full_name, otp_code, purpose)
-
-    try:
-        if not resend.api_key:
-            raise ValueError("RESEND_API_KEY is missing. Emails cannot be sent.")
+    sender_email = current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com")
+    
+    # Try Brevo API first (Bypasses Render Free SMTP blocking)
+    brevo_api_key = current_app.config.get("BREVO_API_KEY") or __import__('os').environ.get("BREVO_API_KEY")
+    if brevo_api_key:
+        try:
+            headers = {
+                "accept": "application/json",
+                "api-key": brevo_api_key,
+                "content-type": "application/json"
+            }
+            payload = {
+                "sender": {"name": "Apex Learning Hub", "email": sender_email},
+                "to": [{"email": recipient_email, "name": full_name}],
+                "subject": subject,
+                "htmlContent": html_content
+            }
+            response = requests.post("https://api.brevo.com/v3/smtp/email", json=payload, headers=headers, timeout=5)
             
-        # The sender email must be a verified domain in Resend, or onboarding@resend.dev for testing.
-        sender_email = os.environ.get("MAIL_DEFAULT_SENDER", "onboarding@resend.dev")
-        
-        params = {
-            "from": sender_email,
-            "to": [recipient_email],
-            "subject": subject,
-            "html": html_content,
-        }
-        
-        # Send via HTTP API
-        response = resend.Emails.send(params)
-        print(f"✅ OTP email sent to {recipient_email} via Resend API. ID: {response.get('id')}", flush=True)
+            if response.status_code in [200, 201, 202]:
+                print(f"✅ OTP email sent to {recipient_email} via Brevo API. Code: {otp_code}", flush=True)
+                return True, ""
+            else:
+                error_msg = response.text
+                print(f"❌ Brevo API failed: {error_msg}", flush=True)
+                return False, f"Brevo API error: {response.status_code}"
+        except Exception as e:
+            print(f"❌ Brevo API exception: {str(e)}", flush=True)
+            return False, f"Brevo API failed: {str(e)}"
+            
+    # Fallback to standard SMTP (Flask-Mail)
+    try:
+        msg = MailMessage(
+            subject=subject,
+            recipients=[recipient_email],
+            html=html_content,
+            sender=sender_email,
+        )
+        import socket
+        old_timeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(3)
+        try:
+            mail.send(msg)
+        finally:
+            socket.setdefaulttimeout(old_timeout)
+
+        print(f"✅ OTP email sent to {recipient_email} via SMTP. Code: {otp_code}", flush=True)
         return True, ""
     except Exception as e:
         error_msg = str(e)
+        # In development, print OTP to console so registration can still be tested
         print(
-            f"❌ Resend API failed to send to {recipient_email}: {error_msg}\n"
+            f"❌ SMTP send failed to {recipient_email}: {error_msg}\n"
             f"   DEVELOPMENT FALLBACK -> OTP CODE IS: {otp_code}",
             flush=True,
         )
+        # Return success=False but include the OTP in the error so the caller can surface it
         return False, f"Email delivery failed: {error_msg}"
