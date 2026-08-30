@@ -14,9 +14,9 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: CORS_ORIGINS
-        value: https://your-app.vercel.app
+        value: https://school-erp-lms.vercel.app
       - key: FRONTEND_URL
-        value: https://your-app.vercel.app
+        value: https://school-erp-lms.vercel.app
       - key: MAIL_SERVER
         value: smtp.gmail.com
       - key: MAIL_PORT
