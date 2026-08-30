@@ -75,7 +75,7 @@ export function GoogleButton({ role = 'student' }: GoogleButtonProps) {
       whileTap={{ scale: 0.98 }}
       onClick={handleGoogleLogin}
       disabled={isLoading}
-      className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[#E2E8F0] dark:border-[#334155] bg-white dark:bg-[#1E293B] hover:border-[#0EA5A4] hover:shadow-md transition-all duration-200 group disabled:opacity-60 disabled:cursor-not-allowed"
+      className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[#E2E8F0] dark:border-[#4a5c75] bg-white dark:bg-[#1E293B] hover:border-[#0EA5A4] hover:shadow-md transition-all duration-200 group disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {isLoading ? (
         <div className="w-5 h-5 border-2 border-[#94A3B8] border-t-[#0EA5A4] rounded-full animate-spin" />

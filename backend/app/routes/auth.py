@@ -57,64 +57,74 @@ def register():
     if errors:
         return jsonify({"error": "Validation failed", "details": errors}), 422
 
-    # Check duplicates
+    # Check duplicates before starting transaction
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "An account with this email already exists"}), 409
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "Username is already taken"}), 409
 
-    # Create user
-    password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
-    user = User(
-        full_name=full_name,
-        email=email,
-        username=username,
-        password_hash=password_hash,
-        role=role,
-        is_verified=False,
-        is_active=True,
-    )
-    db.session.add(user)
-    db.session.commit()
+    try:
+        # Create user
+        password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
+        user = User(
+            full_name=full_name,
+            email=email,
+            username=username,
+            password_hash=password_hash,
+            role=role,
+            is_verified=False,
+            is_active=True,
+        )
+        db.session.add(user)
+        db.session.flush() # Flush to get user.id before creating related records
 
-    # Automatically create Student/Teacher Profiles
-    from app.models import Student, Teacher, Class
-    if role == UserRole.STUDENT:
-        # Assign a default class if available, or create it
-        cls = Class.query.filter_by(name="Class 10").first()
-        if not cls:
-            cls = Class(name="Class 10")
-            db.session.add(cls)
-            db.session.commit()
+        # Automatically create Student/Teacher Profiles
+        from app.models import Student, Teacher, Class
+        if role == UserRole.STUDENT:
+            # Assign a default class if available, or create it
+            cls = Class.query.filter_by(name="Class 10").first()
+            if not cls:
+                cls = Class(name="Class 10")
+                db.session.add(cls)
+                db.session.flush()
+            
+            student = Student(user_id=user.id, class_id=cls.id)
+            db.session.add(student)
+        elif role == UserRole.TEACHER:
+            teacher = Teacher(user_id=user.id, employee_id=f"TCH{user.username.upper()}")
+            db.session.add(teacher)
+
+        # Create verification OTP
+        import random
+        from app.models import EmailVerification
+        import datetime
+        from datetime import timezone
+
+        otp = f"{random.randint(100000, 999999)}"
+        expires_at = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=5)
         
-        student = Student(user_id=user.id, class_id=cls.id)
-        db.session.add(student)
+        ev = EmailVerification(
+            user_id=user.id,
+            otp=otp,
+            expires_at=expires_at,
+            attempts=0,
+            verified=False
+        )
+        db.session.add(ev)
+        
+        # Commit the transaction safely
         db.session.commit()
-    elif role == UserRole.TEACHER:
-        teacher = Teacher(user_id=user.id, employee_id=f"TCH{user.username.upper()}")
-        db.session.add(teacher)
-        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        import logging
+        logging.error(f"Registration Error: {str(e)}")
+        # If it's an IntegrityError that wasn't caught by the pre-check
+        if "IntegrityError" in type(e).__name__:
+            return jsonify({"error": "A database conflict occurred during registration. This email or username may already be in use."}), 409
+        return jsonify({"error": "Unable to complete registration right now. Please try again later."}), 500
 
-    # Create and send verification OTP
-    import random
+    # Send OTP outside the main DB transaction
     from app.utils.mail_templates import send_otp_email
-    from app.models import EmailVerification
-    import datetime
-    from datetime import timezone
-
-    otp = f"{random.randint(100000, 999999)}"
-    expires_at = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=5)
-    
-    ev = EmailVerification(
-        user_id=user.id,
-        otp=otp,
-        expires_at=expires_at,
-        attempts=0,
-        verified=False
-    )
-    db.session.add(ev)
-    db.session.commit()
-    
     success, err_msg = send_otp_email(user.email, otp, user.full_name, "email_verification")
     log_audit(user.id, "USER_REGISTERED", {"email": email, "role": role})
 
@@ -125,9 +135,9 @@ def register():
     }
 
     if not success:
-        # Email failed but registration succeeded — show OTP for development/fallback
+        # Email failed but registration succeeded ?" show OTP for development/fallback
         response_data["message"] = (
-            "Registration successful. Email delivery failed — your OTP is shown below for testing."
+            "Registration successful. Email delivery failed ?" your OTP is shown below for testing."
         )
         response_data["dev_otp"] = otp
         response_data["email_error"] = err_msg

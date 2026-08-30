@@ -5,18 +5,8 @@ from app import mail
 from flask import current_app
 
 def _get_logo_base64() -> str:
-    """Load logo.png and return as base64 data URI for inline email embedding."""
-    try:
-        # Try relative path from backend root
-        logo_path = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'frontend', 'public', 'logo.png')
-        logo_path = os.path.normpath(logo_path)
-        if os.path.exists(logo_path):
-            with open(logo_path, 'rb') as f:
-                b64 = base64.b64encode(f.read()).decode('utf-8')
-                return f"data:image/png;base64,{b64}"
-    except Exception:
-        pass
-    return ""  # fallback: empty string → img src will be blank
+    """Return empty string to avoid base64 data URI spam filtering."""
+    return ""
 
 _LOGO_DATA_URI = _get_logo_base64()
 
@@ -154,7 +144,7 @@ def get_otp_html_template(full_name: str, otp_code: str, purpose: str = "email_v
         <div class="wrapper">
             <div class="container">
                 <div class="header">
-                    <div class="logo"><img src="{_LOGO_DATA_URI}" alt="Apex Learning Hub" /></div>
+                    <div class="logo"><span style="font-size: 28px;">🎓</span></div>
                     <h1>Apex Learning Hub</h1>
                 </div>
                 <div class="content">
