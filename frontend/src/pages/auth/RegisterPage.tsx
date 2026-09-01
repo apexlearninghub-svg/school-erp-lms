@@ -86,7 +86,7 @@ export default function RegisterPage() {
     try {
       const response = await authService.register(data) as any;
       if (response.dev_otp) {
-        toast.success(`Account created! Since emails are blocked by Render Free, your OTP is: ${response.dev_otp}`, { duration: 10000 });
+        toast.success(response.message || `Account created! Your OTP is: ${response.dev_otp}`, { duration: 10000 });
       } else {
         toast.success('Account created! Verification code sent to email.', { duration: 4000 });
       }
