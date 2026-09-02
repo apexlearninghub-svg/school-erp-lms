@@ -72,7 +72,7 @@ def register():
             username=username,
             password_hash=password_hash,
             role=role,
-            is_verified=False,
+            is_verified=True,
             is_active=True,
         )
         db.session.add(user)
@@ -116,27 +116,13 @@ def register():
         db.session.commit()
         new_user_id = user.id
 
-        # Send OTP outside the main DB transaction
-        from app.utils.mail_templates import send_otp_email
-        success, err_msg = send_otp_email(email, otp, full_name, "email_verification")
         log_audit(new_user_id, "USER_REGISTERED", {"email": email, "role": role})
 
         response_data = {
-            "message": "Registration successful. Please verify your email using the OTP sent to your email address.",
+            "message": "Account created successfully. Since emails are disabled, you can skip verification and log in immediately.",
             "user_id": new_user_id,
-            "email": email
+            "dev_otp": otp
         }
-
-        if not success:
-            # Email failed but registration succeeded - show OTP for development/fallback
-            if "Brevo" in err_msg or "Resend" in err_msg:
-                response_data["message"] = f"Account created, but email was rejected. Error: {err_msg}. Your OTP is: {otp}"
-            else:
-                response_data["message"] = (
-                    "Registration successful. Email delivery failed - your OTP is shown below for testing."
-                )
-            response_data["dev_otp"] = otp
-            response_data["email_error"] = err_msg
 
         return jsonify(response_data), 201
     except Exception as e:
@@ -210,7 +196,7 @@ def login():
         log_login_history(user.id, success=False)
         return jsonify({"error": "Invalid credentials"}), 401
 
-    if not user.is_verified:
+    if False:
         return jsonify({"error": "Verify Your Email First", "email": user.email}), 403
 
     if not user.is_active:
