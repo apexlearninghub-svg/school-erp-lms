@@ -129,8 +129,8 @@ def register():
 
         if not success:
             # Email failed but registration succeeded - show OTP for development/fallback
-            if "Brevo" in err_msg:
-                response_data["message"] = f"Account created, but Brevo rejected the email. Error: {err_msg}. Your OTP is: {otp}"
+            if "Brevo" in err_msg or "Resend" in err_msg:
+                response_data["message"] = f"Account created, but email was rejected. Error: {err_msg}. Your OTP is: {otp}"
             else:
                 response_data["message"] = (
                     "Registration successful. Email delivery failed - your OTP is shown below for testing."

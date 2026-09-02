@@ -188,7 +188,28 @@ def send_otp_email(recipient_email: str, otp_code: str, full_name: str, purpose:
     html_content = get_otp_html_template(full_name, otp_code, purpose)
     sender_email = current_app.config.get("MAIL_DEFAULT_SENDER", "apexlearninghub2020@gmail.com")
     
-    # Try Brevo API first (Bypasses Render Free SMTP blocking)
+    # 1. Try Resend API first
+    resend_api_key = current_app.config.get("RESEND_API_KEY") or __import__('os').environ.get("RESEND_API_KEY")
+    if resend_api_key:
+        try:
+            import resend
+            resend.api_key = resend_api_key
+            
+            params: resend.Emails.SendParams = {
+                "from": f"Apex Learning Hub <{sender_email}>",
+                "to": [recipient_email],
+                "subject": subject,
+                "html": html_content,
+            }
+            
+            email_response = resend.Emails.send(params)
+            print(f"✅ OTP email sent to {recipient_email} via Resend API. Code: {otp_code}", flush=True)
+            return True, ""
+        except Exception as e:
+            print(f"❌ Resend API exception: {str(e)}", flush=True)
+            return False, f"Resend API failed: {str(e)}"
+
+    # 2. Try Brevo API (Bypasses Render Free SMTP blocking)
     brevo_api_key = current_app.config.get("BREVO_API_KEY") or __import__('os').environ.get("BREVO_API_KEY")
     if brevo_api_key:
         try:
